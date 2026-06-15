@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+  </head>
+  <body>
+    <form action="./list.html" method="get">
+      <label for="username">Tai khoan:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Nhap tai khoan"
+      /><br />
+      <label for="password">Mat khau:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Nhap mat khau"
+      /><br />
+      <input type="email" placeholder="Nhap email" /><br />
+      <input type="search" placeholder="nhap tu khoa tim kiem" /><br />
+
+      <label for="gender">Gioi tinh:</label><br />
+      <input type="radio" name="gender" id="gender" value="Nam" />Nam <br />
+      <input type="radio" name="gender" id="gender" value="Nu" />Nu <br />
+
+      <label for="hobby">Gioi tinh:</label><br />
+      <input type="checkbox" name="hobby" id="hobby" value="Choi dan" />Choi dan
+      <br />
+      <input type="checkbox" name="hobby" id="hobby" value="Choi trong" />Choi
+      trong <br />
+      <input type="checkbox" name="hobby" id="hobby" value="Thoi ken" />Thoi ken
+      <br />
+
+      <label for="phone">SDT:</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        placeholder="Nhap so dien thoai"
+        pattern="0[1-9][0-9]{8}"
+      /><br />
+
+      <label for="gender">Gioi tinh:</label><br />
+      <select name="gender" id="gender">
+        <option value="Nam">Nam</option>
+        <option value="Nu">Nu</option></select
+      ><br />
+
+      <label for="dob">Ngay sinh:</label>
+      <input type="date" id="dob" name="dob" /><br />
+
+      <label for="hob">Gio sinh:</label>
+      <input type="time" id="hob" name="hob" /><br />
+
+      <label for="text-area">Ghi chu:</label>
+      <textarea
+        name="text-area"
+        id="text-area"
+        cols="35"
+        rows="3"
+        placeholder="Nhap ghi chu"
+      ></textarea
+      ><br />
+
+      <label for="username">Tai khoan:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Nhap tai khoan"
+      /><br />
+
+      <input type="submit" value="Dang nhap" />
+      <input type="reset" value="Xoa du lieu nhap" />
+    </form>
+  </body>
+</html>
