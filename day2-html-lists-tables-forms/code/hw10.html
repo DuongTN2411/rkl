@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homework 10</title>
+  </head>
+  <body>
+    <h1>Chi tiết Hoá đơn Mua hàng</h1>
+    <table>
+      <caption>
+        Hoá đơn điện tử #HD-20260310
+      </caption>
+      <thead>
+        <tr>
+          <th>Tên sản phẩm</th>
+          <th>Chi tiết</th>
+          <th>Đơn giá</th>
+          <th>Thành tiền</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Áo thun lập trình viên</td>
+          <td>
+            <ul>
+              <li>Màu sắc: Đen</li>
+              <li>Kích cỡ: XL</li>
+              <li>Chất liệu: Cotton 100%</li>
+            </ul>
+          </td>
+          <td>250.000đ</td>
+          <td>250.000đ</td>
+        </tr>
+        <tr>
+          <td>Bàn phím cơ bản</td>
+          <td>
+            <ul>
+              <li>Switch: Red</li>
+              <li>Layout: TKL</li>
+            </ul>
+          </td>
+          <td>800.000đ</td>
+          <td>800.000đ</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th align="right" colspan="4">Tổng tiền thanh toán: 1.050.000đ</th>
+        </tr>
+      </tfoot>
+    </table>
+    <hr />
+    <h2>Đánh giá trải nghiệm mua hàng</h2>
+    <form action="./hw10.html">
+      <fieldset>
+        <legend>Phản hồi của bạn</legend>
+        <label for="rate">Mức độ hài lòng:</label>
+        <select name="rate" id="rate">
+          <option value="">--Vui lòng chọn số sao--</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <br />
+        <label for="note">Lời nhận xét chi tiết:</label>
+        <br />
+        <textarea
+          name="note"
+          id="note"
+          placeholder="Hãy chia sẻ trải nghiệm của bạn về sản phẩm và dịch vụ..."
+          cols="80"
+          rows="5"
+        ></textarea>
+      </fieldset>
+      <input type="submit" value="Gửi phản hồi" />
+    </form>
+  </body>
+</html>
