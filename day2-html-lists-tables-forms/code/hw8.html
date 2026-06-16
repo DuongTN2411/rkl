@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homework 8</title>
+  </head>
+  <body>
+    <h1>Đăng ký đặt vé sự kiện âm nhạc</h1>
+    <form action="./hw8.html">
+      <label for="name">Họ và tên:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Nhập họ và tên..."
+        required
+        minlength="3"
+        maxlength="50"
+      />
+      <br />
+      <label for="count">Số lượng vé:</label>
+      <input type="number" min="1" max="5" id="count" name="count" value="1" />
+      <br />
+      <label for="vip-code">Mã vé VIP (Đã cấp sẵn):</label>
+      <input
+        type="text"
+        id="vip-code"
+        name="vip-code"
+        value="MUSIC-VIP-2026"
+        readonly
+      />
+      <br />
+      <label for="private-code">Mã giảm giá nội bộ:</label>
+      <input
+        type="text"
+        id="private-code"
+        name="private-code"
+        value="NOT-ELIGIBLE"
+        disabled
+      />
+      <br />
+      <input type="submit" value="Xác nhận đặt vé" />
+    </form>
+  </body>
+</html>
