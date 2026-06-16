@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homework 5</title>
+  </head>
+  <body>
+    <h1>Khảo sát dịch vụ khách hàng</h1>
+    <form action="./hw5.html">
+      <label for="age">Độ tuổi của bạn:</label>
+      <input type="number" id="age" name="age" /><br />
+      <fieldset>
+        <legend>Giới tính của bạn là gì</legend>
+        <input type="radio" id="gender" name="gender" value="male" />Nam
+        <input type="radio" id="gender" name="gender" value="female" />Nữ
+        <input type="radio" id="gender" name="gender" value="others" />Khác
+      </fieldset>
+      <fieldset>
+        <legend>Dịch vụ bạn đang quan tâm (Có thể chọn nhiều)</legend>
+        <input
+          type="checkbox"
+          id="service"
+          name="service"
+          value="website"
+        />Website
+        <input
+          type="checkbox"
+          id="service"
+          name="service"
+          value="mobile-app"
+        />Mobile App
+        <input
+          type="checkbox"
+          id="service"
+          name="service"
+          value="marketing"
+        />Marketing
+      </fieldset>
+      <label for="country">Quốc gia đang sinh sống</label>
+      <select name="country" id="country">
+        <option value="">--Vui lòng chọn--</option>
+        <option value="VN">Việt Nam</option>
+        <option value="JP">Nhật Bản</option>
+        <option value="US">Hoa Kỳ</option>
+      </select>
+      <br />
+      <input type="submit" value="Gửi thông tin" />
+    </form>
+  </body>
+</html>
