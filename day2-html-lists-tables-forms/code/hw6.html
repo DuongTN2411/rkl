@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homework 6</title>
+  </head>
+  <body>
+    <main>
+      <form action="./hw6.html">
+        <fieldset>
+          <legend>Thông tin cá nhân</legend>
+          <label for="name">Tên:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Nhập họ và tên"
+          /><br />
+          <label for="dob">Ngày sinh:</label>
+          <input type="date" id="dob" name="dob" /><br />
+        </fieldset>
+
+        <fieldset>
+          <legend>Thông tin liên hệ</legend>
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="example@email.com"
+          /><br />
+          <label for="phone">Số điện thoại:</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            pattern="0[1-9][0-9]{8}"
+          /><br />
+        </fieldset>
+
+        <label for="note">Ghi chú bổ sung:</label><br />
+        <textarea
+          name="note"
+          id="note"
+          placeholder="Nhập ghi chú của bạn tại đây..."
+          cols="80"
+          rows="5"
+        ></textarea
+        ><br />
+
+        <input type="submit" value="Lưu hồ sơ" />
+      </form>
+    </main>
+  </body>
+</html>
