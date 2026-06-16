@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homework 9</title>
+  </head>
+  <body>
+    <h1>Nộp hồ sơ ứng tuyển</h1>
+    <form action="./hw9.html">
+      <fieldset>
+        <legend>Thông tin liên hệ</legend>
+        <label for="name">Họ và tên:</label>
+        <input type="text" id="name" name="name" />
+        <br />
+        <label for="phone">Số điện thoại:</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="0912345678"
+          pattern="0[1-9][0-9]{8}"
+        />
+        <br />
+      </fieldset>
+
+      <fieldset>
+        <legend>Hồ sơ đính kèm</legend>
+        <label for="file">Tải lên CV (Định dạng PDF/Word):</label>
+        <input type="file" name="file" id="file" accept=".pdf,.doc,.docx" />
+      </fieldset>
+
+      <input type="submit" value="Nộp hồ sơ" />
+    </form>
+  </body>
+</html>
