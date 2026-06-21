@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.banner {
+  width: 600px;
+  padding: 36px 32px;
+  border: 2px solid #cc7a2c;
+  border-radius: 14px;
+
+  background: #e9ddc4 url("./coffe.jpg") no-repeat top right;
+}
+
+.banner h2 {
+  color: yellow;
+  text-transform: uppercase;
+  font-size: 26px;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.banner p {
+  color: white;
+  font-size: 15px;
+  line-height: 1.8;
+  text-align: justify;
+}
