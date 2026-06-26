@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f3;
+}
+
+.pricing-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.pricing-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: #eef0f5;
+  border-radius: 16px;
+  padding: 40px 30px;
+  min-height: 500px;
+}
+
+.plan {
+  width: 200px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 24px 20px;
+  background-color: #ffffff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.plan-label {
+  font-size: 13px;
+  color: #888;
+}
+
+.plan h2 {
+  font-size: 22px;
+  color: #1a1a1a;
+}
+
+.plan ul {
+  list-style: none;
+  font-size: 13px;
+  color: #888;
+  line-height: 2;
+}
+
+.btn-dark {
+  background-color: #36455e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.plan.highlight {
+  background-color: #2f6fed;
+  border: none;
+  align-self: flex-start;
+}
+
+.plan.highlight .plan-label,
+.plan.highlight h2,
+.plan.highlight ul {
+  color: #ffffff;
+}
+
+.btn-white {
+  background-color: #ffffff;
+  color: #2f6fed;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
