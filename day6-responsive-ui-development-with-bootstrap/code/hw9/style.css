@@ -1,0 +1,22 @@
+.card {
+  border-top: 4px solid #c0392b;
+}
+
+.btn-primary {
+  --bs-btn-bg: #c0392b;
+  --bs-btn-border-color: #c0392b;
+  --bs-btn-hover-bg: #a93226;
+  --bs-btn-hover-border-color: #a93226;
+  --bs-btn-active-bg: #922b21;
+  --bs-btn-active-border-color: #922b21;
+}
+
+.btn-secondary {
+  --bs-btn-bg: #1a1a1a;
+  --bs-btn-border-color: #1a1a1a;
+  --bs-btn-color: #ffffff;
+  --bs-btn-hover-bg: #333333;
+  --bs-btn-hover-border-color: #333333;
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-active-bg: #000000;
+}
