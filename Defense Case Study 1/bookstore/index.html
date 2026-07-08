@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rikkei BookStore | Sách Hay Cho Mọi Nhà</title>
+    <meta
+      name="description"
+      content="Rikkei BookStore - cửa hàng sách online với hàng ngàn đầu sách hay, giá tốt nhất thị trường. Giao hàng toàn quốc."
+    />
+    <meta
+      name="keywords"
+      content="sách, bookstore, sách hay, đọc sách, mua sách online"
+    />
+    <meta name="author" content="Rikkei BookStore" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-white text-gray-800">
+    <!-- HEADER -->
+    <header class="border-b border-gray-200 bg-white sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between h-14">
+          <a href="#" class="flex items-center gap-1.5">
+            <span class="text-xl font-bold tracking-tight"
+              >RIKKEI<span class="text-blue-700">BOOKSTORE</span></span
+            >
+          </a>
+
+          <nav class="hidden md:flex items-center gap-6 text-sm">
+            <a href="#" class="text-blue-700 font-medium">Trang chủ</a>
+            <a href="#" class="text-gray-500 hover:text-gray-800">Danh mục</a>
+            <a href="#" class="text-gray-500 hover:text-gray-800">Bán chạy</a>
+            <a href="#" class="text-gray-500 hover:text-gray-800">Khuyến mãi</a>
+          </nav>
+
+          <div class="flex items-center gap-3">
+            <button class="relative text-gray-400 hover:text-gray-600">
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+                />
+              </svg>
+            </button>
+            <label for="menuToggle" class="md:hidden text-gray-400 hover:text-gray-600 cursor-pointer">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </label>
+          </div>
+        </div>
+
+        <div class="pb-3 max-w-md mx-auto">
+          <div class="flex">
+            <input
+              type="text"
+              placeholder="Tìm sách, tác giả..."
+              class="flex-1 px-3 py-2 text-sm border border-gray-300 border-r-0 rounded-l focus:outline-none focus:border-blue-500"
+            />
+            <button
+              class="bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-r hover:bg-blue-800"
+            >
+              Tìm kiếm
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <input type="checkbox" id="menuToggle" class="hidden peer" />
+
+      <nav
+        id="mobileMenu"
+        class="hidden peer-checked:block md:hidden border-t border-gray-100 px-4 pb-3 bg-white"
+      >
+        <a href="#" class="block py-2 text-sm text-blue-700 font-medium"
+          >Trang chủ</a
+        >
+        <a href="#" class="block py-2 text-sm text-gray-500">Danh mục</a>
+        <a href="#" class="block py-2 text-sm text-gray-500">Bán chạy</a>
+        <a href="#" class="block py-2 text-sm text-gray-500">Khuyến mãi</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section
+        class="relative bg-cover bg-center text-white"
+        style="background-image: url('./hero.jpeg')"
+      >
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="relative max-w-6xl mx-auto px-4 py-14 md:py-20">
+          <h1 class="text-3xl md:text-4xl font-bold leading-snug mb-3">
+            Khám Phá Tri Thức<br />Qua Từng Trang Sách
+          </h1>
+          <p class="text-blue-200 text-sm md:text-base mb-6">
+            Hàng ngàn đầu sách hay - Giảm đến 50% - Miễn phí giao hàng
+          </p>
+          <div class="flex gap-2">
+            <a
+              href="#"
+              class="bg-yellow-400 text-gray-900 font-medium px-5 py-2.5 rounded text-sm hover:bg-yellow-300"
+              >Mua ngay</a
+            >
+            <a
+              href="#"
+              class="border border-white text-white px-5 py-2.5 rounded text-sm hover:bg-white hover:text-blue-700"
+              >Tìm hiểu</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- FILTER -->
+      <section class="max-w-6xl mx-auto px-4 py-10">
+        <h2 class="text-lg font-bold mb-4">Bộ Lọc</h2>
+        <div class="flex flex-wrap gap-3">
+          <select
+            class="bg-gray-50 border border-gray-300 rounded px-3 py-2 text-sm text-gray-600 focus:outline-none focus:border-blue-500"
+          >
+            <option>Thể loại</option>
+            <option>Lãng mạn</option>
+            <option>Kinh dị</option>
+            <option>Tiểu thuyết</option>
+            <option>Tâm lý</option>
+            <option>Công nghệ</option>
+            <option>Thiếu nhi</option>
+          </select>
+          <select
+            class="bg-gray-50 border border-gray-300 rounded px-3 py-2 text-sm text-gray-600 focus:outline-none focus:border-blue-500"
+          >
+            <option>Năm phát hành</option>
+            <option>2026</option>
+            <option>2025</option>
+            <option>2024</option>
+            <option>2023</option>
+            <option>2022</option>
+            <option>2021</option>
+          </select>
+          <select
+            class="bg-gray-50 border border-gray-300 rounded px-3 py-2 text-sm text-gray-600 focus:outline-none focus:border-blue-500"
+          >
+            <option>Ngôn ngữ</option>
+            <option>Tiếng Việt</option>
+            <option>Tiếng Anh</option>
+            <option>Tiếng Pháp</option>
+            <option>Tiếng Nhật</option>
+          </select>
+          <button
+            class="bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded hover:bg-blue-800"
+          >
+            Lọc
+          </button>
+        </div>
+      </section>
+
+      <!-- SÁCH NỔI BẬT -->
+      <section class="max-w-6xl mx-auto px-4 pb-10">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-lg font-bold">Sách Nổi Bật</h2>
+          <a href="#" class="text-sm text-blue-700 hover:underline">Xem thêm</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="border border-gray-200 rounded overflow-hidden group">
+            <img
+              src="./1.jpg"
+              alt="On the Book Train to Paris"
+              class="w-full h-44 object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-200"
+            />
+            <div class="p-3">
+              <span
+                class="text-[11px] text-pink-700 bg-pink-50 px-1.5 py-0.5 rounded"
+                >Lãng mạn</span
+              >
+              <h3 class="font-semibold text-sm mt-1.5">
+                On the Book Train to Paris
+              </h3>
+              <p class="text-xs text-gray-400 mt-0.5">Norie Clarke</p>
+              <div class="text-yellow-400 text-xs mt-1">★★★★★</div>
+              <div class="flex items-center justify-between mt-2">
+                <span class="text-red-500 font-bold text-sm">189.000₫</span>
+                <span class="text-xs text-gray-400 line-through">320.000₫</span>
+                <button
+                  class="border border-blue-700 text-blue-700 text-xs font-medium px-2.5 py-1 rounded hover:bg-blue-700 hover:text-white"
+                >
+                  + Thêm
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded overflow-hidden group">
+            <img
+              src="./2.jpg"
+              alt="The Night of the Crash"
+              class="w-full h-44 object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-200"
+            />
+            <div class="p-3">
+              <span
+                class="text-[11px] text-red-700 bg-red-50 px-1.5 py-0.5 rounded"
+                >Kinh dị</span
+              >
+              <h3 class="font-semibold text-sm mt-1.5">
+                The Night of the Crash
+              </h3>
+              <p class="text-xs text-gray-400 mt-0.5">Jessica Irena Smith</p>
+              <div class="text-yellow-400 text-xs mt-1">★★★★☆</div>
+              <div class="flex items-center justify-between mt-2">
+                <span class="text-red-500 font-bold text-sm">165.000₫</span>
+                <span class="text-xs text-gray-400 line-through">280.000₫</span>
+                <button
+                  class="border border-blue-700 text-blue-700 text-xs font-medium px-2.5 py-1 rounded hover:bg-blue-700 hover:text-white"
+                >
+                  + Thêm
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded overflow-hidden group">
+            <img
+              src="./3.jpg"
+              alt="The Second Chance Book Club"
+              class="w-full h-44 object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-200"
+            />
+            <div class="p-3">
+              <span
+                class="text-[11px] text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded"
+                >Tiểu thuyết</span
+              >
+              <h3 class="font-semibold text-sm mt-1.5">
+                The Second Chance Book Club
+              </h3>
+              <p class="text-xs text-gray-400 mt-0.5">Stephanie Butland</p>
+              <div class="text-yellow-400 text-xs mt-1">★★★★★</div>
+              <div class="flex items-center justify-between mt-2">
+                <span class="text-red-500 font-bold text-sm">175.000₫</span>
+                <span class="text-xs text-gray-400 line-through">290.000₫</span>
+                <button
+                  class="border border-blue-700 text-blue-700 text-xs font-medium px-2.5 py-1 rounded hover:bg-blue-700 hover:text-white"
+                >
+                  + Thêm
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img
+                src="./4.jpg"
+                alt="In Her Eyes"
+                class="w-full h-44 object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-200"
+              />
+              <span
+                class="absolute top-1 right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded"
+                >Best Seller</span
+              >
+            </div>
+            <div class="p-3">
+              <span
+                class="text-[11px] text-orange-700 bg-orange-50 px-1.5 py-0.5 rounded"
+                >Tâm lý</span
+              >
+              <h3 class="font-semibold text-sm mt-1.5">In Her Eyes</h3>
+              <p class="text-xs text-gray-400 mt-0.5">Sarah Alderson</p>
+              <div class="text-yellow-400 text-xs mt-1">★★★★☆</div>
+              <div class="flex items-center justify-between mt-2">
+                <span class="text-red-500 font-bold text-sm">145.000₫</span>
+                <span class="text-xs text-gray-400 line-through">250.000₫</span>
+                <button
+                  class="border border-blue-700 text-blue-700 text-xs font-medium px-2.5 py-1 rounded hover:bg-blue-700 hover:text-white"
+                >
+                  + Thêm
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FLASH SALE -->
+      <section class="bg-red-600 text-white">
+        <div class="max-w-6xl mx-auto px-4 py-10 text-center">
+          <h2 class="text-xl font-bold mb-1">Flash Sale Cuối Tuần</h2>
+          <p class="text-red-200 text-sm mb-4">
+            Giảm đến 40% cho tất cả sách văn học - Duy nhất hôm nay!
+          </p>
+          <a
+            href="#"
+            class="inline-block bg-white text-red-600 font-medium px-6 py-2.5 rounded text-sm hover:bg-red-50"
+            >Mua ngay</a
+          >
+        </div>
+      </section>
+
+      <!-- SÁCH BÁN CHẠY -->
+      <section class="max-w-6xl mx-auto px-4 py-10">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-lg font-bold">Sách Bán Chạy</h2>
+          <a href="#" class="text-sm text-blue-700 hover:underline">Xem thêm</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="flex gap-3 border border-gray-200 rounded p-3 group">
+            <img
+              src="./1.jpg"
+              alt="On the Book Train to Paris"
+              class="w-14 h-18 object-cover rounded bg-gray-100 flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
+            />
+            <div>
+              <span
+                class="text-[11px] text-pink-600 bg-pink-50 px-1.5 py-0.5 rounded"
+                >#1</span
+              >
+              <h3 class="font-semibold text-sm mt-1">
+                On the Book Train to Paris
+              </h3>
+              <p class="text-xs text-gray-400">Norie Clarke</p>
+              <p class="text-red-500 font-bold text-sm mt-1">189.000₫</p>
+            </div>
+          </div>
+
+          <div class="flex gap-3 border border-gray-200 rounded p-3 group">
+            <img
+              src="./2.jpg"
+              alt="The Night of the Crash"
+              class="w-14 h-18 object-cover rounded bg-gray-100 flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
+            />
+            <div>
+              <span
+                class="text-[11px] text-red-600 bg-red-50 px-1.5 py-0.5 rounded"
+                >#2</span
+              >
+              <h3 class="font-semibold text-sm mt-1">The Night of the Crash</h3>
+              <p class="text-xs text-gray-400">Jessica Irena Smith</p>
+              <p class="text-red-500 font-bold text-sm mt-1">165.000₫</p>
+            </div>
+          </div>
+
+          <div class="flex gap-3 border border-gray-200 rounded p-3 group">
+            <img
+              src="./3.jpg"
+              alt="The Second Chance Book Club"
+              class="w-14 h-18 object-cover rounded bg-gray-100 flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
+            />
+            <div>
+              <span
+                class="text-[11px] text-teal-600 bg-teal-50 px-1.5 py-0.5 rounded"
+                >#3</span
+              >
+              <h3 class="font-semibold text-sm mt-1">
+                The Second Chance Book Club
+              </h3>
+              <p class="text-xs text-gray-400">Stephanie Butland</p>
+              <p class="text-red-500 font-bold text-sm mt-1">175.000₫</p>
+            </div>
+          </div>
+
+          <div
+            class="relative flex gap-3 border border-gray-200 rounded p-3 group"
+          >
+            <span
+              class="absolute top-1 right-1 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded"
+              >Best Seller</span
+            >
+            <div class="flex-shrink-0 w-14 h-18 overflow-hidden rounded">
+              <img
+                src="./4.jpg"
+                alt="In Her Eyes"
+                class="w-full h-full object-cover bg-gray-100 group-hover:scale-110 transition-transform duration-200"
+              />
+            </div>
+            <div>
+              <span
+                class="text-[11px] text-orange-600 bg-orange-50 px-1.5 py-0.5 rounded"
+                >#4</span
+              >
+              <h3 class="font-semibold text-sm mt-1">In Her Eyes</h3>
+              <p class="text-xs text-gray-400">Sarah Alderson</p>
+              <p class="text-red-500 font-bold text-sm mt-1">145.000₫</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEWSLETTER -->
+      <section class="bg-gray-100 border-t border-b border-gray-200">
+        <div class="max-w-lg mx-auto px-4 py-10 text-center">
+          <h2 class="font-bold text-lg mb-1">Đăng Ký Nhận Tin</h2>
+          <p class="text-sm text-gray-500 mb-4">
+            Nhận thông tin sách mới và khuyến mãi mỗi tuần
+          </p>
+          <form class="flex gap-2">
+            <input
+              type="email"
+              placeholder="Email của bạn"
+              class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+            />
+            <button
+              class="bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-800"
+            >
+              Đăng ký
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white">
+      <div class="max-w-6xl mx-auto px-4 py-8">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-sm"
+        >
+          <div>
+            <p class="font-bold tracking-tight mb-3">
+              RIKKEI<span class="text-blue-700">BOOKSTORE</span>
+            </p>
+            <p class="text-gray-500">
+              Cửa hàng sách online.<br />
+              Cam kết sách chính hãng 100%.
+            </p>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-3">Hỗ Trợ</h4>
+            <ul class="space-y-1.5 text-gray-500">
+              <li>
+                <a href="#" class="hover:text-gray-800">Trung tâm trợ giúp</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-gray-800">Chính sách đổi trả</a>
+              </li>
+              <li><a href="#" class="hover:text-gray-800">Vận chuyển</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-3">Liên Hệ</h4>
+            <ul class="space-y-1.5 text-gray-500">
+              <li>123 Tố Hữu, Hà Nội</li>
+              <li><a href="tel:0912345678">+84 912345678</a></li>
+              <li><a href="mailto:abc@gmail.com">abc@gmail.com</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        class="border-t border-gray-200 py-4 text-center text-xs text-gray-400"
+      >
+        2026 Rikkei BookStore
+      </div>
+    </footer>
+  </body>
+</html>
