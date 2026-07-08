@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bán Chạy | Rikkei BookStore</title>
+    <meta
+      name="description"
+      content="Sách bán chạy nhất tại Rikkei BookStore"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-white text-gray-800">
+    <!-- header -->
+    <header class="border-b border-gray-200 bg-white sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between h-14">
+          <a href="index.html" class="flex items-center gap-1.5">
+            <span class="text-xl font-bold tracking-tight"
+              >RIKKEI<span class="text-blue-700">BOOKSTORE</span></span
+            >
+          </a>
+          <nav class="hidden md:flex items-center gap-6 text-sm">
+            <a href="index.html" class="text-gray-500 hover:text-gray-800"
+              >Trang chủ</a
+            >
+            <a href="categories.html" class="text-gray-500 hover:text-gray-800"
+              >Danh mục</a
+            >
+            <a href="bestseller.html" class="text-blue-700 font-medium"
+              >Bán chạy</a
+            >
+          </nav>
+          <div class="flex items-center gap-3">
+            <a
+              href="cart.html"
+              class="relative text-gray-400 hover:text-gray-600"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+                />
+              </svg>
+            </a>
+            <label
+              for="menuToggle"
+              class="md:hidden text-gray-400 hover:text-gray-600 cursor-pointer"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <input type="checkbox" id="menuToggle" class="hidden peer" />
+      <nav
+        class="hidden peer-checked:block md:hidden border-t border-gray-100 px-4 pb-3 bg-white"
+      >
+        <a href="index.html" class="block py-2 text-sm text-gray-500"
+          >Trang chủ</a
+        >
+        <a href="categories.html" class="block py-2 text-sm text-gray-500"
+          >Danh mục</a
+        >
+        <a
+          href="bestseller.html"
+          class="block py-2 text-sm text-blue-700 font-medium"
+          >Bán chạy</a
+        >
+      </nav>
+    </header>
+
+    <main>
+      <!-- hero -->
+      <section class="bg-gradient-to-r from-red-600 to-orange-600 text-white">
+        <div class="max-w-6xl mx-auto px-4 py-12 md:py-16">
+          <h1 class="text-2xl md:text-4xl font-bold mb-2">Sách Bán Chạy</h1>
+          <p class="text-orange-200 text-sm md:text-base">
+            Top sách được yêu thích nhất tháng này
+          </p>
+        </div>
+      </section>
+
+      <!-- top 3 -->
+      <section class="max-w-6xl mx-auto px-4 -mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div
+            class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden text-center pt-8 pb-5 px-5 relative"
+          >
+            <span
+              class="absolute top-3 left-3 bg-yellow-400 text-gray-900 text-xs font-bold px-2 py-1 rounded-full"
+              >Hạng 1</span
+            >
+            <img
+              src="./1.jpg"
+              alt="On the Book Train to Paris"
+              class="w-28 h-36 object-contain bg-gray-100 rounded-lg mx-auto"
+            />
+            <h3 class="font-semibold mt-3">On the Book Train to Paris</h3>
+            <p class="text-xs text-gray-400">Norie Clarke</p>
+            <div class="text-yellow-400 text-xs mt-1">★★★★★</div>
+            <p class="text-red-500 font-bold mt-2">189.000₫</p>
+            <button
+              class="mt-3 bg-blue-700 text-white text-xs font-medium px-4 py-2 rounded-lg hover:bg-blue-800"
+            >
+              Mua ngay
+            </button>
+          </div>
+          <div
+            class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden text-center pt-8 pb-5 px-5 relative"
+          >
+            <span
+              class="absolute top-3 left-3 bg-gray-300 text-gray-700 text-xs font-bold px-2 py-1 rounded-full"
+              >Hạng 2</span
+            >
+            <img
+              src="./2.jpg"
+              alt="The Night of the Crash"
+              class="w-28 h-36 object-contain bg-gray-100 rounded-lg mx-auto"
+            />
+            <h3 class="font-semibold mt-3">The Night of the Crash</h3>
+            <p class="text-xs text-gray-400">Jessica Irena Smith</p>
+            <div class="text-yellow-400 text-xs mt-1">★★★★☆</div>
+            <p class="text-red-500 font-bold mt-2">165.000₫</p>
+            <button
+              class="mt-3 bg-blue-700 text-white text-xs font-medium px-4 py-2 rounded-lg hover:bg-blue-800"
+            >
+              Mua ngay
+            </button>
+          </div>
+          <div
+            class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden text-center pt-8 pb-5 px-5 relative"
+          >
+            <span
+              class="absolute top-3 left-3 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded-full"
+              >Hạng 3</span
+            >
+            <img
+              src="./3.jpg"
+              alt="The Second Chance Book Club"
+              class="w-28 h-36 object-contain bg-gray-100 rounded-lg mx-auto"
+            />
+            <h3 class="font-semibold mt-3">The Second Chance Book Club</h3>
+            <p class="text-xs text-gray-400">Stephanie Butland</p>
+            <div class="text-yellow-400 text-xs mt-1">★★★★★</div>
+            <p class="text-red-500 font-bold mt-2">175.000₫</p>
+            <button
+              class="mt-3 bg-blue-700 text-white text-xs font-medium px-4 py-2 rounded-lg hover:bg-blue-800"
+            >
+              Mua ngay
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- danh sách top -->
+      <section class="max-w-6xl mx-auto px-4 py-10">
+        <h2 class="text-lg font-bold mb-6">Top Bán Chạy</h2>
+        <div class="space-y-3">
+          <div
+            class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition"
+          >
+            <span
+              class="w-8 h-8 bg-yellow-400 text-gray-900 font-bold rounded-full flex items-center justify-center text-sm flex-shrink-0"
+              >4</span
+            >
+            <img
+              src="./4.jpg"
+              alt="In Her Eyes"
+              class="w-12 h-16 object-cover rounded bg-gray-100 flex-shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-sm">In Her Eyes</h3>
+              <p class="text-xs text-gray-400">Sarah Alderson</p>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <p class="text-red-500 font-bold text-sm">145.000₫</p>
+              <p class="text-xs text-gray-400 line-through">250.000₫</p>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition"
+          >
+            <span
+              class="w-8 h-8 bg-gray-300 text-gray-700 font-bold rounded-full flex items-center justify-center text-sm flex-shrink-0"
+              >5</span
+            >
+            <img
+              src="./1.jpg"
+              alt="On the Book Train to Paris"
+              class="w-12 h-16 object-cover rounded bg-gray-100 flex-shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-sm">On the Book Train to Paris</h3>
+              <p class="text-xs text-gray-400">Norie Clarke</p>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <p class="text-red-500 font-bold text-sm">189.000₫</p>
+              <p class="text-xs text-gray-400 line-through">320.000₫</p>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition"
+          >
+            <span
+              class="w-8 h-8 bg-gray-300 text-gray-700 font-bold rounded-full flex items-center justify-center text-sm flex-shrink-0"
+              >6</span
+            >
+            <img
+              src="./2.jpg"
+              alt="The Night of the Crash"
+              class="w-12 h-16 object-cover rounded bg-gray-100 flex-shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-sm">The Night of the Crash</h3>
+              <p class="text-xs text-gray-400">Jessica Irena Smith</p>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <p class="text-red-500 font-bold text-sm">165.000₫</p>
+              <p class="text-xs text-gray-400 line-through">280.000₫</p>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition"
+          >
+            <span
+              class="w-8 h-8 bg-gray-300 text-gray-700 font-bold rounded-full flex items-center justify-center text-sm flex-shrink-0"
+              >7</span
+            >
+            <img
+              src="./3.jpg"
+              alt="The Second Chance Book Club"
+              class="w-12 h-16 object-cover rounded bg-gray-100 flex-shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-sm">The Second Chance Book Club</h3>
+              <p class="text-xs text-gray-400">Stephanie Butland</p>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <p class="text-red-500 font-bold text-sm">175.000₫</p>
+              <p class="text-xs text-gray-400 line-through">290.000₫</p>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition"
+          >
+            <span
+              class="w-8 h-8 bg-gray-300 text-gray-700 font-bold rounded-full flex items-center justify-center text-sm flex-shrink-0"
+              >8</span
+            >
+            <img
+              src="./4.jpg"
+              alt="In Her Eyes"
+              class="w-12 h-16 object-cover rounded bg-gray-100 flex-shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-sm">In Her Eyes</h3>
+              <p class="text-xs text-gray-400">Sarah Alderson</p>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <p class="text-red-500 font-bold text-sm">145.000₫</p>
+              <p class="text-xs text-gray-400 line-through">250.000₫</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- cũng được yêu thích -->
+      <section class="bg-gray-50 border-t border-b border-gray-200 py-10">
+        <div class="max-w-6xl mx-auto px-4">
+          <h2 class="text-lg font-bold mb-6">Cũng Được Yêu Thích</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div
+              class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition group"
+            >
+              <img
+                src="./1.jpg"
+                alt="On the Book Train to Paris"
+                class="w-full h-44 object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-200"
+              />
+              <div class="p-3">
+                <span
+                  class="text-[11px] text-pink-700 bg-pink-50 px-1.5 py-0.5 rounded"
+                  >Lãng mạn</span
+                >
+                <h3 class="font-semibold text-sm mt-1.5">
+                  On the Book Train to Paris
+                </h3>
+                <p class="text-xs text-gray-400">Norie Clarke</p>
+                <div class="text-yellow-400 text-xs mt-1">★★★★★</div>
+                <p class="text-red-500 font-bold text-sm mt-2">189.000₫</p>
+              </div>
+            </div>
+            <div
+              class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition group"
+            >
+              <img
+                src="./2.jpg"
+                alt="The Night of the Crash"
+                class="w-full h-44 object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-200"
+              />
+              <div class="p-3">
+                <span
+                  class="text-[11px] text-red-700 bg-red-50 px-1.5 py-0.5 rounded"
+                  >Kinh dị</span
+                >
+                <h3 class="font-semibold text-sm mt-1.5">
+                  The Night of the Crash
+                </h3>
+                <p class="text-xs text-gray-400">Jessica Irena Smith</p>
+                <div class="text-yellow-400 text-xs mt-1">★★★★☆</div>
+                <p class="text-red-500 font-bold text-sm mt-2">165.000₫</p>
+              </div>
+            </div>
+            <div
+              class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition group"
+            >
+              <img
+                src="./3.jpg"
+                alt="The Second Chance Book Club"
+                class="w-full h-44 object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-200"
+              />
+              <div class="p-3">
+                <span
+                  class="text-[11px] text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded"
+                  >Tiểu thuyết</span
+                >
+                <h3 class="font-semibold text-sm mt-1.5">
+                  The Second Chance Book Club
+                </h3>
+                <p class="text-xs text-gray-400">Stephanie Butland</p>
+                <div class="text-yellow-400 text-xs mt-1">★★★★★</div>
+                <p class="text-red-500 font-bold text-sm mt-2">175.000₫</p>
+              </div>
+            </div>
+            <div
+              class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition group"
+            >
+              <img
+                src="./4.jpg"
+                alt="In Her Eyes"
+                class="w-full h-44 object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-200"
+              />
+              <div class="p-3">
+                <span
+                  class="text-[11px] text-orange-700 bg-orange-50 px-1.5 py-0.5 rounded"
+                  >Tâm lý</span
+                >
+                <h3 class="font-semibold text-sm mt-1.5">In Her Eyes</h3>
+                <p class="text-xs text-gray-400">Sarah Alderson</p>
+                <div class="text-yellow-400 text-xs mt-1">★★★★☆</div>
+                <p class="text-red-500 font-bold text-sm mt-2">145.000₫</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- footer -->
+    <footer class="bg-white border-t border-gray-200">
+      <div class="max-w-6xl mx-auto px-4 py-8">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-sm"
+        >
+          <div>
+            <p class="font-bold tracking-tight mb-3">
+              RIKKEI<span class="text-blue-700">BOOKSTORE</span>
+            </p>
+            <p class="text-gray-500">
+              Cửa hàng sách online.<br />Cam kết sách chính hãng 100%.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-3">Hỗ Trợ</h4>
+            <ul class="space-y-1.5 text-gray-500">
+              <li>
+                <a href="#" class="hover:text-gray-800">Trung tâm trợ giúp</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-gray-800">Chính sách đổi trả</a>
+              </li>
+              <li><a href="#" class="hover:text-gray-800">Vận chuyển</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-3">Liên Hệ</h4>
+            <ul class="space-y-1.5 text-gray-500">
+              <li>123 Tố Hữu, Hà Nội</li>
+              <li><a href="tel:0912345678">+84 912345678</a></li>
+              <li><a href="mailto:abc@gmail.com">abc@gmail.com</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        class="border-t border-gray-200 py-4 text-center text-xs text-gray-400"
+      >
+        2026 Rikkei BookStore
+      </div>
+    </footer>
+  </body>
+</html>

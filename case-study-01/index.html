@@ -16,7 +16,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-white text-gray-800">
-    <!-- HEADER -->
+    <!-- header -->
     <header class="border-b border-gray-200 bg-white sticky top-0 z-50">
       <div class="max-w-6xl mx-auto px-4">
         <div class="flex items-center justify-between h-14">
@@ -28,27 +28,16 @@
 
           <nav class="hidden md:flex items-center gap-6 text-sm">
             <a href="#" class="text-blue-700 font-medium">Trang chủ</a>
-            <a href="#" class="text-gray-500 hover:text-gray-800">Danh mục</a>
-            <a href="#" class="text-gray-500 hover:text-gray-800">Bán chạy</a>
-            <a href="#" class="text-gray-500 hover:text-gray-800">Khuyến mãi</a>
+            <a href="categories.html" class="text-gray-500 hover:text-gray-800">Danh mục</a>
+            <a href="bestseller.html" class="text-gray-500 hover:text-gray-800">Bán chạy</a>
           </nav>
 
           <div class="flex items-center gap-3">
-            <button class="relative text-gray-400 hover:text-gray-600">
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
-                />
+            <a href="cart.html" class="relative text-gray-400 hover:text-gray-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
               </svg>
-            </button>
+            </a>
             <label for="menuToggle" class="md:hidden text-gray-400 hover:text-gray-600 cursor-pointer">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
@@ -82,14 +71,13 @@
         <a href="#" class="block py-2 text-sm text-blue-700 font-medium"
           >Trang chủ</a
         >
-        <a href="#" class="block py-2 text-sm text-gray-500">Danh mục</a>
-        <a href="#" class="block py-2 text-sm text-gray-500">Bán chạy</a>
-        <a href="#" class="block py-2 text-sm text-gray-500">Khuyến mãi</a>
+        <a href="categories.html" class="block py-2 text-sm text-gray-500">Danh mục</a>
+        <a href="bestseller.html" class="block py-2 text-sm text-gray-500">Bán chạy</a>
       </nav>
     </header>
 
     <main>
-      <!-- HERO -->
+      <!-- hero -->
       <section
         class="relative bg-cover bg-center text-white"
         style="background-image: url('./hero.jpeg')"
@@ -117,7 +105,7 @@
         </div>
       </section>
 
-      <!-- FILTER -->
+      <!-- bộ lọc -->
       <section class="max-w-6xl mx-auto px-4 py-10">
         <h2 class="text-lg font-bold mb-4">Bộ Lọc</h2>
         <div class="flex flex-wrap gap-3">
@@ -160,7 +148,7 @@
         </div>
       </section>
 
-      <!-- SÁCH NỔI BẬT -->
+      <!-- sách nổi bật -->
       <section class="max-w-6xl mx-auto px-4 pb-10">
         <div class="flex items-center justify-between mb-5">
           <h2 class="text-lg font-bold">Sách Nổi Bật</h2>
@@ -285,7 +273,7 @@
         </div>
       </section>
 
-      <!-- FLASH SALE -->
+      <!-- flash sale -->
       <section class="bg-red-600 text-white">
         <div class="max-w-6xl mx-auto px-4 py-10 text-center">
           <h2 class="text-xl font-bold mb-1">Flash Sale Cuối Tuần</h2>
@@ -300,7 +288,7 @@
         </div>
       </section>
 
-      <!-- SÁCH BÁN CHẠY -->
+      <!-- sách bán chạy -->
       <section class="max-w-6xl mx-auto px-4 py-10">
         <div class="flex items-center justify-between mb-5">
           <h2 class="text-lg font-bold">Sách Bán Chạy</h2>
@@ -389,7 +377,7 @@
         </div>
       </section>
 
-      <!-- NEWSLETTER -->
+      <!-- đăng ký nhận tin -->
       <section class="bg-gray-100 border-t border-b border-gray-200">
         <div class="max-w-lg mx-auto px-4 py-10 text-center">
           <h2 class="font-bold text-lg mb-1">Đăng Ký Nhận Tin</h2>
@@ -412,7 +400,7 @@
       </section>
     </main>
 
-    <!-- FOOTER -->
+    <!-- footer -->
     <footer class="bg-white">
       <div class="max-w-6xl mx-auto px-4 py-8">
         <div

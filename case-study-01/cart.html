@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giỏ Hàng | Rikkei BookStore</title>
+    <meta name="description" content="Giỏ hàng của bạn tại Rikkei BookStore" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <!-- header -->
+    <header class="border-b border-gray-200 bg-white sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between h-14">
+          <a href="index.html" class="flex items-center gap-1.5">
+            <span class="text-xl font-bold tracking-tight"
+              >RIKKEI<span class="text-blue-700">BOOKSTORE</span></span
+            >
+          </a>
+
+          <nav class="hidden md:flex items-center gap-6 text-sm">
+            <a href="index.html" class="text-blue-700 font-medium">Trang chủ</a>
+            <a href="categories.html" class="text-gray-500 hover:text-gray-800"
+              >Danh mục</a
+            >
+            <a href="bestseller.html" class="text-gray-500 hover:text-gray-800"
+              >Bán chạy</a
+            >
+          </nav>
+
+          <div class="flex items-center gap-3">
+            <a href="cart.html" class="relative text-blue-700">
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+                />
+              </svg>
+            </a>
+            <label
+              for="menuToggle"
+              class="md:hidden text-gray-400 hover:text-gray-600 cursor-pointer"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <input type="checkbox" id="menuToggle" class="hidden peer" />
+
+      <nav
+        id="mobileMenu"
+        class="hidden peer-checked:block md:hidden border-t border-gray-100 px-4 pb-3 bg-white"
+      >
+        <a
+          href="index.html"
+          class="block py-2 text-sm text-blue-700 font-medium"
+          >Trang chủ</a
+        >
+        <a href="categories.html" class="block py-2 text-sm text-gray-500"
+          >Danh mục</a
+        >
+        <a href="bestseller.html" class="block py-2 text-sm text-gray-500"
+          >Bán chạy</a
+        >
+      </nav>
+    </header>
+
+    <input type="checkbox" id="checkoutModal" class="hidden peer" />
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+      <h1 class="text-2xl font-bold mb-2">Giỏ Hàng</h1>
+      <p class="text-sm text-gray-500 mb-6">3 sản phẩm</p>
+
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- danh sách sản phẩm -->
+        <div class="flex-1 space-y-4">
+          <div
+            class="bg-white border border-gray-200 rounded-lg p-4 flex gap-4"
+          >
+            <img
+              src="./1.jpg"
+              alt="On the Book Train to Paris"
+              class="w-16 h-20 object-cover rounded bg-gray-100 flex-shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-sm">On the Book Train to Paris</h3>
+              <p class="text-xs text-gray-400">Norie Clarke</p>
+              <p class="text-red-500 font-bold text-sm mt-1">189.000₫</p>
+              <div class="flex items-center mt-2">
+                <span class="text-xs text-gray-400">Số lượng: 1</span>
+                <button
+                  class="ml-auto text-xs text-gray-400 hover:text-red-500"
+                >
+                  Xoá
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white border border-gray-200 rounded-lg p-4 flex gap-4"
+          >
+            <img
+              src="./2.jpg"
+              alt="The Night of the Crash"
+              class="w-16 h-20 object-cover rounded bg-gray-100 flex-shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-sm">The Night of the Crash</h3>
+              <p class="text-xs text-gray-400">Jessica Irena Smith</p>
+              <p class="text-red-500 font-bold text-sm mt-1">165.000₫</p>
+              <div class="flex items-center mt-2">
+                <span class="text-xs text-gray-400">Số lượng: 2</span>
+                <button
+                  class="ml-auto text-xs text-gray-400 hover:text-red-500"
+                >
+                  Xoá
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white border border-gray-200 rounded-lg p-4 flex gap-4"
+          >
+            <img
+              src="./4.jpg"
+              alt="In Her Eyes"
+              class="w-16 h-20 object-cover rounded bg-gray-100 flex-shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-sm">In Her Eyes</h3>
+              <p class="text-xs text-gray-400">Sarah Alderson</p>
+              <p class="text-red-500 font-bold text-sm mt-1">145.000₫</p>
+              <div class="flex items-center mt-2">
+                <span class="text-xs text-gray-400">Số lượng: 1</span>
+                <button
+                  class="ml-auto text-xs text-gray-400 hover:text-red-500"
+                >
+                  Xoá
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- tổng tiền -->
+        <div class="w-full lg:w-72">
+          <div
+            class="bg-white border border-gray-200 rounded-lg p-5 sticky top-24"
+          >
+            <h3 class="font-semibold mb-4">Tổng Cộng</h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">Tạm tính (3 sản phẩm)</span>
+                <span class="font-medium">664.000₫</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Phí vận chuyển</span>
+                <span class="text-green-600 font-medium">Miễn phí</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Giảm giá</span>
+                <span class="text-red-500 font-medium">-50.000₫</span>
+              </div>
+              <hr class="border-gray-200" />
+              <div class="flex justify-between text-base font-bold">
+                <span>Tổng cộng</span>
+                <span class="text-red-500">614.000₫</span>
+              </div>
+            </div>
+            <div class="mt-4 space-y-2">
+              <div class="flex gap-1">
+                <input
+                  type="text"
+                  placeholder="Mã giảm giá"
+                  class="flex-1 min-w-0 px-2 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                />
+                <button
+                  class="bg-gray-100 text-gray-600 text-sm font-medium px-3 py-2 rounded hover:bg-gray-200 whitespace-nowrap"
+                >
+                  Áp dụng
+                </button>
+              </div>
+              <label
+                for="checkoutModal"
+                class="block w-full bg-blue-700 text-white font-medium py-2.5 rounded-lg text-sm hover:bg-blue-800 text-center cursor-pointer"
+              >
+                Tiến hành thanh toán
+              </label>
+              <a
+                href="index.html"
+                class="block text-center text-sm text-blue-700 hover:underline"
+                >Tiếp tục mua sắm</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- checkout modal -->
+    <div
+      class="fixed inset-0 z-50 hidden peer-checked:flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4 shadow-xl">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-lg font-bold">Thông Tin Giao Hàng</h2>
+          <label
+            for="checkoutModal"
+            class="text-gray-400 hover:text-gray-600 cursor-pointer text-xl leading-none"
+            >&times;</label
+          >
+        </div>
+        <form class="space-y-3">
+          <div>
+            <label
+              class="text-sm font-medium text-gray-700 mb-1 block"
+              for="checkoutName"
+              >Họ và tên <span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              id="checkoutName"
+              placeholder="Nguyễn Văn A"
+              required
+              class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div class="flex gap-3">
+            <div class="flex-1">
+              <label
+                class="text-sm font-medium text-gray-700 mb-1 block"
+                for="checkoutPhone"
+                >Số điện thoại <span class="text-red-500">*</span></label
+              >
+              <input
+                type="tel"
+                id="checkoutPhone"
+                placeholder="0912 345 678"
+                required
+                pattern="0[1-9][0-9]{8}"
+                title="Số điện thoại 10 chữ số, bắt đầu bằng 0"
+                class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div class="flex-1">
+              <label
+                class="text-sm font-medium text-gray-700 mb-1 block"
+                for="checkoutEmail"
+                >Email</label
+              >
+              <input
+                type="email"
+                id="checkoutEmail"
+                placeholder="abc@gmail.com"
+                required
+                class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+              />
+            </div>
+          </div>
+          <div>
+            <label
+              class="text-sm font-medium text-gray-700 mb-1 block"
+              for="checkoutAddress"
+              >Địa chỉ <span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              id="checkoutAddress"
+              placeholder="Số nhà, đường, phường, thành phố"
+              required
+              class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              class="text-sm font-medium text-gray-700 mb-1 block"
+              for="checkoutNote"
+              >Ghi chú</label
+            >
+            <textarea
+              id="checkoutNote"
+              rows="3"
+              placeholder="Ghi chú cho đơn hàng..."
+              class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 resize-none"
+            ></textarea>
+          </div>
+          <button
+            class="w-full bg-blue-700 text-white font-medium py-2.5 rounded-lg text-sm hover:bg-blue-800"
+          >
+            Xác nhận đặt hàng
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+      <div class="max-w-6xl mx-auto px-4 py-8">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-sm"
+        >
+          <div>
+            <p class="font-bold tracking-tight mb-3">
+              RIKKEI<span class="text-blue-700">BOOKSTORE</span>
+            </p>
+            <p class="text-gray-500">
+              Cửa hàng sách online.<br />
+              Cam kết sách chính hãng 100%.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-3">Hỗ Trợ</h4>
+            <ul class="space-y-1.5 text-gray-500">
+              <li>
+                <a href="#" class="hover:text-gray-800">Trung tâm trợ giúp</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-gray-800">Chính sách đổi trả</a>
+              </li>
+              <li><a href="#" class="hover:text-gray-800">Vận chuyển</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-3">Liên Hệ</h4>
+            <ul class="space-y-1.5 text-gray-500">
+              <li>123 Tố Hữu, Hà Nội</li>
+              <li><a href="tel:0912345678">+84 912345678</a></li>
+              <li><a href="mailto:abc@gmail.com">abc@gmail.com</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        class="border-t border-gray-200 py-4 text-center text-xs text-gray-400"
+      >
+        2026 Rikkei BookStore
+      </div>
+    </footer>
+  </body>
+</html>
