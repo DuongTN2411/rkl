@@ -1,8 +1,8 @@
-var chuyenCan = Number(prompt("Nhập % chuyên cần:"));
-var diemTrungBinh = Number(prompt("Nhập điểm trung bình:"));
-var coGiayPhep = confirm("Có giấy phép đặc biệt không?");
+let chuyenCan = Number(prompt("Nhập % chuyên cần:"));
+let diemTrungBinh = Number(prompt("Nhập điểm trung bình:"));
+let coGiayPhep = confirm("Có giấy phép đặc biệt không?");
 
-var duocDuThi = (chuyenCan > 80 && diemTrungBinh >= 5) || coGiayPhep;
+let duocDuThi = (chuyenCan > 80 && diemTrungBinh >= 5) || coGiayPhep;
 
 console.log("Chuyên cần:", chuyenCan);
 console.log("Điểm TB:", diemTrungBinh);

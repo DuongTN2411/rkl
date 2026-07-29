@@ -1,8 +1,8 @@
-var a = Number(prompt("Nhập số A:"));
-var b = Number(prompt("Nhập số B:"));
-var phepTinh = prompt("Nhập phép tính (+, -, *, /):");
+let a = Number(prompt("Nhập số A:"));
+let b = Number(prompt("Nhập số B:"));
+let phepTinh = prompt("Nhập phép tính (+, -, *, /):");
 
-var ketQua;
+let ketQua;
 
 if (phepTinh === "+") {
   ketQua = a + b;
@@ -16,6 +16,6 @@ if (phepTinh === "+") {
   ketQua = "Phép tính không hợp lệ";
 }
 
-var thongBao = "Kết quả của " + a + " " + phepTinh + " " + b + " là: " + ketQua;
+let thongBao = "Kết quả của " + a + " " + phepTinh + " " + b + " là: " + ketQua;
 console.log(thongBao);
 alert(thongBao);

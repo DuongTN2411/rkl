@@ -1,8 +1,8 @@
 const ADMIN_USER = "admin";
 const ADMIN_PASS = "123456";
 
-var userName = prompt("Nhập tên đăng nhập:");
-var userPass = prompt("Nhập mật khẩu:");
+let userName = prompt("Nhập tên đăng nhập:");
+let userPass = prompt("Nhập mật khẩu:");
 
 if (userName === ADMIN_USER && userPass === ADMIN_PASS) {
   alert("Đăng nhập thành công! Chào mừng " + userName);

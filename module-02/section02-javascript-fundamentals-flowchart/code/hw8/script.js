@@ -1,9 +1,9 @@
 console.log(message);
-var message = "Hello";
+let message = "Hello";
 console.log(message);
 
 function kiemTraScope() {
-  var bienTrongHam = "Tôi ở trong hàm";
+  let bienTrongHam = "Tôi ở trong hàm";
   console.log("Trong hàm:", bienTrongHam);
 }
 
