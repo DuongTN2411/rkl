@@ -1,10 +1,10 @@
-var randomNumber = Math.floor(Math.random() * 100 + 1);
-var soLan = 5;
-var doanTrung = false;
+let randomNumber = Math.floor(Math.random() * 100 + 1);
+let soLan = 5;
+let doanTrung = false;
 
 console.log(randomNumber);
 for (i = 1; i <= 5; i++) {
-  var userNumber = Number(prompt("So ban doan la:"));
+  let userNumber = Number(prompt("So ban doan la:"));
   if (userNumber < randomNumber) {
     console.log(userNumber + " qua nho");
   } else if (userNumber > randomNumber) {

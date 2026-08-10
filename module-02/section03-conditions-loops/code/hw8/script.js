@@ -1,5 +1,5 @@
-var i;
-var tong = 0;
+let i;
+let tong = 0;
 
 for (i = 1; i <= 50; i++) {
   if (i % 5 === 0) {

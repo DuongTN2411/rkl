@@ -1,10 +1,10 @@
-var a = Number(prompt("Nhap vao 1 so nguyen bat ky:"));
-var flag = true;
+let a = Number(prompt("Nhap vao 1 so nguyen bat ky:"));
+let flag = true;
 
 if (a <= 2) {
   flag = false;
 } else {
-  for (var i = 2; i < a; i++) {
+  for (let i = 2; i < a; i++) {
     if (a % i === 0) {
       flag = false;
       break;
