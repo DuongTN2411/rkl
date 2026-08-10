@@ -1,0 +1,12 @@
+#my-box {
+  width: 300px;
+  height: 100px;
+  border: 1px solid black;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.highlight {
+  background-color: yellow;
+}
