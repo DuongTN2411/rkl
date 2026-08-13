@@ -189,6 +189,10 @@ body {
   gap: 16px;
 }
 
+.section[hidden] {
+  display: none;
+}
+
 /* ---------- Dashboard: thẻ thống kê (F01-1, F01-2) ---------- */
 .stat-grid {
   display: grid;
@@ -540,6 +544,11 @@ tr.active-month {
 
 tr.active-month td {
   border-bottom-color: #a3d9a3;
+}
+
+tr.active-month:hover,
+tbody tr.active-month:hover {
+  background: var(--green-light);
 }
 
 .note-cell {

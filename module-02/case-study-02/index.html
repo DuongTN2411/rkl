@@ -1,9 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="E-Wallet - Ứng dụng quản lý chi tiêu cá nhân (Personal Finance Manager)" />
+    <meta
+      name="description"
+      content="E-Wallet - Ứng dụng quản lý chi tiêu cá nhân (Personal Finance Manager)"
+    />
     <title>E-Wallet — Quản lý chi tiêu cá nhân</title>
   </head>
   <body>
@@ -17,17 +20,37 @@
           </div>
         </div>
         <div class="month-picker">
-          <button type="button" class="nav-btn" id="prevMonthBtn" aria-label="Tháng trước">‹</button>
+          <button
+            type="button"
+            class="nav-btn"
+            id="prevMonthBtn"
+            aria-label="Tháng trước"
+          >
+            ‹
+          </button>
           <span class="month-label" id="monthLabel">…</span>
-          <button type="button" class="nav-btn" id="nextMonthBtn" aria-label="Tháng sau">›</button>
+          <button
+            type="button"
+            class="nav-btn"
+            id="nextMonthBtn"
+            aria-label="Tháng sau"
+          >
+            ›
+          </button>
         </div>
       </header>
 
       <!-- ===== Tabs điều hướng ===== -->
       <nav class="tabs">
-        <button type="button" class="tab active" data-tab="dashboard">Dashboard</button>
-        <button type="button" class="tab" data-tab="transactions">Giao dịch</button>
-        <button type="button" class="tab" data-tab="categories">Danh mục</button>
+        <button type="button" class="tab active" data-tab="dashboard">
+          Dashboard
+        </button>
+        <button type="button" class="tab" data-tab="transactions">
+          Giao dịch
+        </button>
+        <button type="button" class="tab" data-tab="categories">
+          Danh mục
+        </button>
         <button type="button" class="tab" data-tab="summary">Báo cáo</button>
       </nav>
 
@@ -92,7 +115,12 @@
                   required
                 />
                 <select id="txCategory" required></select>
-                <input type="text" id="txNote" placeholder="Ghi chú (tuỳ chọn)" maxlength="120" />
+                <input
+                  type="text"
+                  id="txNote"
+                  placeholder="Ghi chú (tuỳ chọn)"
+                  maxlength="120"
+                />
                 <input type="date" id="txDate" required />
               </div>
               <button type="submit" class="btn primary">Lưu giao dịch</button>
@@ -100,7 +128,9 @@
           </article>
 
           <article class="card">
-            <h2 class="with-count">Lịch sử giao dịch <span class="count-badge" id="txCount">0</span></h2>
+            <h2 class="with-count">
+              Lịch sử giao dịch <span class="count-badge" id="txCount">0</span>
+            </h2>
             <div class="table-wrap">
               <table class="tx-table">
                 <thead>
@@ -115,7 +145,9 @@
                 <tbody id="txList"></tbody>
               </table>
             </div>
-            <p id="txEmpty" class="empty" hidden>Chưa có giao dịch nào trong tháng này.</p>
+            <p id="txEmpty" class="empty" hidden>
+              Chưa có giao dịch nào trong tháng này.
+            </p>
           </article>
         </section>
 
@@ -126,7 +158,13 @@
             <form id="catForm" novalidate>
               <input type="hidden" id="editingCatId" value="" />
               <div class="cat-grid">
-                <input type="text" id="catName" placeholder="Tên danh mục (VD: Ăn uống)" maxlength="40" required />
+                <input
+                  type="text"
+                  id="catName"
+                  placeholder="Tên danh mục (VD: Ăn uống)"
+                  maxlength="40"
+                  required
+                />
                 <input
                   type="number"
                   id="catLimit"
@@ -136,8 +174,17 @@
                 />
               </div>
               <div class="form-actions">
-                <button type="submit" class="btn primary" id="catSubmitBtn">Lưu danh mục</button>
-                <button type="button" class="btn ghost" id="catCancelBtn" hidden>Huỷ sửa</button>
+                <button type="submit" class="btn primary" id="catSubmitBtn">
+                  Lưu danh mục
+                </button>
+                <button
+                  type="button"
+                  class="btn ghost"
+                  id="catCancelBtn"
+                  hidden
+                >
+                  Huỷ sửa
+                </button>
               </div>
             </form>
           </article>
@@ -146,7 +193,8 @@
             <h2>Danh sách danh mục</h2>
             <ul id="catList" class="cat-list"></ul>
             <p id="catEmpty" class="empty" hidden>
-              Chưa có danh mục nào. Hãy thêm danh mục đầu tiên để bắt đầu ghi chép.
+              Chưa có danh mục nào. Hãy thêm danh mục đầu tiên để bắt đầu ghi
+              chép.
             </p>
           </article>
         </section>
@@ -169,9 +217,8 @@
                 <tbody id="summaryBody"></tbody>
               </table>
             </div>
-            <p id="summaryEmpty" class="empty" hidden>Chưa có dữ liệu nào được lưu.</p>
-            <p class="card-sub hint">
-              Chiều dài thanh tỷ lệ với tổng chi cao nhất, giúp so sánh nhanh giữa các tháng.
+            <p id="summaryEmpty" class="empty" hidden>
+              Chưa có dữ liệu nào được lưu.
             </p>
           </article>
         </section>
