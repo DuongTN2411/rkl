@@ -123,7 +123,7 @@ function renderDashboard(): void {
 
   // 2) Tổng thu / tổng chi của tháng đang xem
   byId("statIncome").textContent = `+${formatVND(totals.income)}`;
-  byId("statExpense").textContent = `−${formatVND(totals.expense)}`;
+  byId("statExpense").textContent = `-${formatVND(totals.expense)}`;
 
   // 3) Ngân sách: đã chi so với tổng hạn mức các danh mục
   const sumLimit = cats.totalLimit(categories);
@@ -202,7 +202,7 @@ function renderTxList(): void {
       ? esc(cat.name)
       : '<span class="muted">(danh mục đã xóa)</span>';
     const cls = t.amount >= 0 ? "up" : "down";
-    const sign = t.amount >= 0 ? "+" : "−";
+    const sign = t.amount >= 0 ? "+" : "-";
     const [y, m, d] = t.date.split("-"); // "2026-08-15" → hiển thị 15/08/2026
     rows +=
       `<tr>` +
@@ -372,7 +372,7 @@ function renderSummary(): void {
       `<tr${active}>` +
       `<td><strong>${monthLabel(s.key)}</strong></td>` +
       `<td class="num up">+${formatVND(s.income)}</td>` +
-      `<td class="num down">−${formatVND(s.expense)}</td>` +
+      `<td class="num down">-${formatVND(s.expense)}</td>` +
       `<td class="num ${diffCls}">${diffSign}${formatVND(
         Math.abs(diff)
       )}</td>` +
