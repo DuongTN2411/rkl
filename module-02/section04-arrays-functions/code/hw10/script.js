@@ -9,8 +9,8 @@ function removeTask(index) {
 }
 
 function displayTasks() {
-  tasks.forEach(function(task, index) {
-    console.log((index + 1) + ". " + task);
+  tasks.forEach(function (task, index) {
+    console.log(index + 1 + ". " + task);
   });
 }
 
