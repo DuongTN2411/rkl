@@ -1,7 +1,7 @@
 // category.ts — Nghiệp vụ DANH MỤC: thêm, sửa, xóa, hạn mức.
 
-import type { Category, Transaction } from './types';
-import * as storage from './storage';
+import type { Category, Transaction } from "./types";
+import * as storage from "./storage";
 
 /** Toàn bộ danh mục, cũ trước mới sau. */
 export function getCategories(): Category[] {
@@ -18,10 +18,14 @@ export function getCategory(id: string): Category | undefined {
 /** "1.000.000" nhập từ form → số; để trống → null (không giới hạn). */
 function parseLimit(raw: string): any {
   const trimmed = raw.trim();
-  if (trimmed === '') return { ok: true, value: null };
+  if (trimmed === "") return { ok: true, value: null };
   const n = Number(trimmed);
   if (!Number.isFinite(n) || n < 0 || !Number.isInteger(n)) {
-    return { ok: false, error: 'Hạn mức phải là số nguyên ≥ 0 (để trống = không giới hạn).', value: null };
+    return {
+      ok: false,
+      error: "Hạn mức phải là số nguyên ≥ 0 (để trống = không giới hạn).",
+      value: null,
+    };
   }
   return { ok: true, value: n };
 }
@@ -29,8 +33,8 @@ function parseLimit(raw: string): any {
 /** Kiểm tra tên: không rỗng, ≤ 40 ký tự, không trùng (excludeId bỏ qua khi sửa). */
 function nameError(name: string, excludeId?: string): string | null {
   const trimmed = name.trim();
-  if (!trimmed) return 'Tên danh mục không được để trống.';
-  if (trimmed.length > 40) return 'Tên danh mục tối đa 40 ký tự.';
+  if (!trimmed) return "Tên danh mục không được để trống.";
+  if (trimmed.length > 40) return "Tên danh mục tối đa 40 ký tự.";
   for (const c of storage.loadCategories()) {
     if (c.name.toLowerCase() === trimmed.toLowerCase() && c.id !== excludeId) {
       return `Danh mục "${trimmed}" đã tồn tại.`;
@@ -46,20 +50,33 @@ export function addCategory(name: string, limitRaw: string): any {
   if (!limit.ok) return { ok: false, error: limit.error };
   storage.saveCategories([
     ...storage.loadCategories(),
-    { id: crypto.randomUUID(), name: name.trim(), limit: limit.value, createdAt: Date.now() },
+    {
+      id: crypto.randomUUID(),
+      name: name.trim(),
+      limit: limit.value,
+      createdAt: Date.now(),
+    },
   ]);
   return { ok: true };
 }
 
-export function updateCategory(id: string, name: string, limitRaw: string): any {
+export function updateCategory(
+  id: string,
+  name: string,
+  limitRaw: string
+): any {
   const list = storage.loadCategories();
   const target = list.find((c) => c.id === id);
-  if (!target) return { ok: false, error: 'Không tìm thấy danh mục.' };
+  if (!target) return { ok: false, error: "Không tìm thấy danh mục." };
   const nameErr = nameError(name, id);
   if (nameErr) return { ok: false, error: nameErr };
   const limit = parseLimit(limitRaw);
   if (!limit.ok) return { ok: false, error: limit.error };
-  storage.saveCategories(list.map((c) => (c.id === id ? { ...c, name: name.trim(), limit: limit.value } : c)));
+  storage.saveCategories(
+    list.map((c) =>
+      c.id === id ? { ...c, name: name.trim(), limit: limit.value } : c
+    )
+  );
   return { ok: true };
 }
 
@@ -67,7 +84,7 @@ export function updateCategory(id: string, name: string, limitRaw: string): any 
 export function deleteCategory(id: string): any {
   const list = storage.loadCategories();
   const target = list.find((c) => c.id === id);
-  if (!target) return { ok: false, error: 'Không tìm thấy danh mục.' };
+  if (!target) return { ok: false, error: "Không tìm thấy danh mục." };
   let txCount = 0;
   for (const month of storage.allTxMonths()) {
     for (const t of storage.loadTransactions(month)) {
@@ -93,7 +110,8 @@ export function totalLimit(list: Category[]): number {
 export function categorySpends(cats: Category[], txs: Transaction[]): any[] {
   const spentByCat: any = {};
   for (const t of txs) {
-    if (t.amount < 0) spentByCat[t.categoryId] = (spentByCat[t.categoryId] ?? 0) + -t.amount;
+    if (t.amount < 0)
+      spentByCat[t.categoryId] = (spentByCat[t.categoryId] ?? 0) + -t.amount;
   }
   return cats.map((category) => {
     const spent = spentByCat[category.id] ?? 0;

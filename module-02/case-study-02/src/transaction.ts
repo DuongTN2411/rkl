@@ -1,7 +1,7 @@
 // transaction.ts — Nghiệp vụ GIAO DỊCH: thêm, xóa, sắp xếp, thống kê.
 
-import type { Transaction } from './types';
-import * as storage from './storage';
+import type { Transaction } from "./types";
+import * as storage from "./storage";
 
 /** Dữ liệu người dùng nhập trên form thêm giao dịch. */
 export type TxInput = {
@@ -19,7 +19,11 @@ function isValidDate(s: string): boolean {
   const month = Number(s.slice(5, 7));
   const day = Number(s.slice(8, 10));
   const d = new Date(year, month - 1, day);
-  return d.getFullYear() === year && d.getMonth() === month - 1 && d.getDate() === day;
+  return (
+    d.getFullYear() === year &&
+    d.getMonth() === month - 1 &&
+    d.getDate() === day
+  );
 }
 
 /** Giao dịch của một tháng, mới nhất lên đầu (cùng ngày thì nhập sau xếp trước). */
@@ -35,18 +39,20 @@ export function addTransaction(input: TxInput): any {
   const { amount, type, categoryId, note, date } = input;
 
   if (!Number.isFinite(amount) || amount <= 0 || !Number.isInteger(amount)) {
-    return { ok: false, error: 'Số tiền phải là số nguyên dương.' };
+    return { ok: false, error: "Số tiền phải là số nguyên dương." };
   }
-  if (!categoryId) return { ok: false, error: 'Vui lòng chọn danh mục cho giao dịch.' };
+  if (!categoryId)
+    return { ok: false, error: "Vui lòng chọn danh mục cho giao dịch." };
   if (!storage.loadCategories().some((c) => c.id === categoryId)) {
-    return { ok: false, error: 'Danh mục không tồn tại.' };
+    return { ok: false, error: "Danh mục không tồn tại." };
   }
-  if (!isValidDate(date)) return { ok: false, error: 'Ngày giao dịch không hợp lệ.' };
+  if (!isValidDate(date))
+    return { ok: false, error: "Ngày giao dịch không hợp lệ." };
 
   // Số tiền có dấu: thu = +, chi = −
   const tx: Transaction = {
     id: crypto.randomUUID(),
-    amount: type === 'income' ? amount : -amount,
+    amount: type === "income" ? amount : -amount,
     categoryId,
     note: note.trim().slice(0, 120),
     date,
@@ -62,7 +68,8 @@ export function addTransaction(input: TxInput): any {
 export function deleteTransaction(id: string, month: string): any {
   const before = storage.loadTransactions(month);
   const remaining = before.filter((t) => t.id !== id);
-  if (remaining.length === before.length) return { ok: false, error: 'Không tìm thấy giao dịch.' };
+  if (remaining.length === before.length)
+    return { ok: false, error: "Không tìm thấy giao dịch." };
   storage.saveTransactions(month, remaining);
   return { ok: true };
 }

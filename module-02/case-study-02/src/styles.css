@@ -5,10 +5,10 @@
 
 /* ---------- Biến màu ---------- */
 :root {
-  --green: green;           /* thu / số dư dương */
+  --green: green; /* thu / số dư dương */
   --green-dark: darkgreen;
   --green-light: lightgreen;
-  --red: red;               /* chi / cảnh báo vượt hạn mức */
+  --red: red; /* chi / cảnh báo vượt hạn mức */
   --red-dark: darkred;
   --red-light: #ffe9e9;
   --ink: #0f172a;
@@ -32,8 +32,8 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   background: var(--bg);
   color: var(--ink);
   line-height: 1.5;
@@ -423,7 +423,7 @@ select:focus {
   border-color: var(--green);
 }
 
-input[type='number'] {
+input[type="number"] {
   font-variant-numeric: tabular-nums;
 }
 
