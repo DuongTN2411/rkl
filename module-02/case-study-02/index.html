@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="E-Wallet - Ứng dụng quản lý chi tiêu cá nhân (Personal Finance Manager)" />
+    <title>E-Wallet — Quản lý chi tiêu cá nhân</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- ===== Header: thương hiệu + bộ chọn tháng/năm ===== -->
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-text">
+            <strong>E-Wallet</strong>
+            <span>Quản lý chi tiêu cá nhân</span>
+          </div>
+        </div>
+        <div class="month-picker">
+          <button type="button" class="nav-btn" id="prevMonthBtn" aria-label="Tháng trước">‹</button>
+          <span class="month-label" id="monthLabel">…</span>
+          <button type="button" class="nav-btn" id="nextMonthBtn" aria-label="Tháng sau">›</button>
+        </div>
+      </header>
+
+      <!-- ===== Tabs điều hướng ===== -->
+      <nav class="tabs">
+        <button type="button" class="tab active" data-tab="dashboard">Dashboard</button>
+        <button type="button" class="tab" data-tab="transactions">Giao dịch</button>
+        <button type="button" class="tab" data-tab="categories">Danh mục</button>
+        <button type="button" class="tab" data-tab="summary">Báo cáo</button>
+      </nav>
+
+      <main class="container">
+        <!-- ===== F01: DASHBOARD ===== -->
+        <section class="section" data-section="dashboard">
+          <div class="stat-grid">
+            <article class="card balance-card" id="balanceCard">
+              <p class="card-label">Số dư hiện tại</p>
+              <p class="card-value" id="balanceAmount">0 đ</p>
+              <p class="card-sub" id="balanceCaption"></p>
+            </article>
+            <article class="card income-card">
+              <p class="card-label">Tổng thu tháng</p>
+              <p class="card-value up" id="statIncome">0 đ</p>
+            </article>
+            <article class="card expense-card">
+              <p class="card-label">Tổng chi tháng</p>
+              <p class="card-value down" id="statExpense">0 đ</p>
+            </article>
+          </div>
+
+          <article class="card budget-card">
+            <div class="budget-head">
+              <h2>Ngân sách tháng</h2>
+              <span class="budget-state" id="budgetState">…</span>
+            </div>
+            <div class="progress">
+              <div class="progress-fill" id="budgetBar"></div>
+            </div>
+            <p class="card-sub" id="budgetText"></p>
+          </article>
+
+          <article class="card alert-card" id="alertCard" hidden>
+            <h2>Cảnh báo vượt hạn mức</h2>
+            <ul id="alertList"></ul>
+          </article>
+        </section>
+
+        <!-- ===== F03: GIAO DỊCH ===== -->
+        <section class="section" data-section="transactions" hidden>
+          <article class="card">
+            <h2>Thêm giao dịch</h2>
+            <form id="txForm" novalidate>
+              <div class="tx-type">
+                <label class="type-option income">
+                  <input type="radio" name="txType" value="income" checked />
+                  <span>＋ Thu</span>
+                </label>
+                <label class="type-option expense">
+                  <input type="radio" name="txType" value="expense" />
+                  <span>− Chi</span>
+                </label>
+              </div>
+              <div class="tx-grid">
+                <input
+                  type="number"
+                  id="txAmount"
+                  min="0"
+                  step="1000"
+                  placeholder="Số tiền (VND)"
+                  required
+                />
+                <select id="txCategory" required></select>
+                <input type="text" id="txNote" placeholder="Ghi chú (tuỳ chọn)" maxlength="120" />
+                <input type="date" id="txDate" required />
+              </div>
+              <button type="submit" class="btn primary">Lưu giao dịch</button>
+            </form>
+          </article>
+
+          <article class="card">
+            <h2 class="with-count">Lịch sử giao dịch <span class="count-badge" id="txCount">0</span></h2>
+            <div class="table-wrap">
+              <table class="tx-table">
+                <thead>
+                  <tr>
+                    <th>Ngày</th>
+                    <th>Danh mục</th>
+                    <th>Ghi chú</th>
+                    <th class="num">Số tiền</th>
+                    <th class="num">Xoá</th>
+                  </tr>
+                </thead>
+                <tbody id="txList"></tbody>
+              </table>
+            </div>
+            <p id="txEmpty" class="empty" hidden>Chưa có giao dịch nào trong tháng này.</p>
+          </article>
+        </section>
+
+        <!-- ===== F02: DANH MỤC ===== -->
+        <section class="section" data-section="categories" hidden>
+          <article class="card">
+            <h2 id="catFormTitle">Thêm danh mục</h2>
+            <form id="catForm" novalidate>
+              <input type="hidden" id="editingCatId" value="" />
+              <div class="cat-grid">
+                <input type="text" id="catName" placeholder="Tên danh mục (VD: Ăn uống)" maxlength="40" required />
+                <input
+                  type="number"
+                  id="catLimit"
+                  min="0"
+                  step="1000"
+                  placeholder="Hạn mức / tháng (VND, để trống = không giới hạn)"
+                />
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn primary" id="catSubmitBtn">Lưu danh mục</button>
+                <button type="button" class="btn ghost" id="catCancelBtn" hidden>Huỷ sửa</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card">
+            <h2>Danh sách danh mục</h2>
+            <ul id="catList" class="cat-list"></ul>
+            <p id="catEmpty" class="empty" hidden>
+              Chưa có danh mục nào. Hãy thêm danh mục đầu tiên để bắt đầu ghi chép.
+            </p>
+          </article>
+        </section>
+
+        <!-- ===== F05: BÁO CÁO TỔNG HỢP ===== -->
+        <section class="section" data-section="summary" hidden>
+          <article class="card">
+            <h2>Bảng tổng hợp chi tiêu các tháng</h2>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tháng</th>
+                    <th class="num">Tổng thu</th>
+                    <th class="num">Tổng chi</th>
+                    <th class="num">Chênh lệch</th>
+                    <th class="bar-col">So sánh chi tiêu</th>
+                  </tr>
+                </thead>
+                <tbody id="summaryBody"></tbody>
+              </table>
+            </div>
+            <p id="summaryEmpty" class="empty" hidden>Chưa có dữ liệu nào được lưu.</p>
+            <p class="card-sub hint">
+              Chiều dài thanh tỷ lệ với tổng chi cao nhất, giúp so sánh nhanh giữa các tháng.
+            </p>
+          </article>
+        </section>
+      </main>
+
+      <footer class="app-footer"></footer>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script type="module" src="/src/app.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,709 @@
+/* ==================================================================
+   E-Wallet — styles.css
+   Minimalist, responsive (Flex/Grid), xanh cho thu/số dư, đỏ cho chi.
+   ================================================================== */
+
+/* ---------- Biến màu ---------- */
+:root {
+  --green: green;           /* thu / số dư dương */
+  --green-dark: darkgreen;
+  --green-light: lightgreen;
+  --red: red;               /* chi / cảnh báo vượt hạn mức */
+  --red-dark: darkred;
+  --red-light: #ffe9e9;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --shadow: 0 1px 3px rgb(15 23 42 / 0.08), 0 4px 12px rgb(15 23 42 / 0.05);
+  --radius: 14px;
+}
+
+/* ---------- Reset ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: rgb(255 255 255 / 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  margin: 0 -16px;
+  padding: 12px 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand-text strong {
+  font-size: 18px;
+}
+
+.brand-text span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ---------- Month Picker (F04-1) ---------- */
+.month-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--green-light);
+  border: 1px solid var(--green);
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.month-label {
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 130px;
+  text-align: center;
+  color: var(--green-dark);
+}
+
+.nav-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.nav-btn:hover {
+  background: var(--green-dark);
+}
+
+/* ---------- Tabs ---------- */
+.tabs {
+  position: sticky;
+  top: 62px;
+  z-index: 10;
+  display: flex;
+  gap: 6px;
+  background: rgb(241 245 249 / 0.9);
+  backdrop-filter: blur(8px);
+  padding: 6px 0;
+  overflow-x: auto;
+}
+
+.tab {
+  flex: 1;
+  min-width: max-content;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--green);
+}
+
+.tab.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+/* ---------- Card ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.card h2 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card .hint {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---------- Dashboard: thẻ thống kê (F01-1, F01-2) ---------- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.card-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.card-value {
+  font-size: clamp(22px, 4vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.card-sub {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* Thu / số dư dương → XANH; Chi / cảnh báo → ĐỎ (NFR-6) */
+.up {
+  color: var(--green);
+}
+
+.down {
+  color: var(--red);
+}
+
+.muted {
+  color: var(--muted) !important;
+}
+
+.balance-card.negative {
+  border-color: var(--red);
+}
+
+.income-card {
+  border-top: 3px solid var(--green);
+}
+
+.expense-card {
+  border-top: 3px solid var(--red);
+}
+
+/* ---------- Ngân sách (F01-3) ---------- */
+.budget-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.budget-head h2 {
+  margin-bottom: 0;
+}
+
+.budget-state {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.budget-state.ok {
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.budget-state.over {
+  background: var(--red-light);
+  color: var(--red-dark);
+}
+
+.budget-state.muted {
+  background: var(--bg);
+  color: var(--muted);
+}
+
+/* ---------- Thanh tiến trình ---------- */
+.progress {
+  height: 12px;
+  background: var(--bg);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.progress.mini {
+  height: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: var(--green);
+  transition: width 0.4s ease;
+}
+
+.progress-fill.over {
+  background: var(--red);
+}
+
+/* ---------- Cảnh báo vượt hạn mức (F05-1) ---------- */
+.alert-card {
+  background: var(--red-light);
+  border-color: var(--red);
+}
+
+.alert-card h2 {
+  color: var(--red-dark);
+}
+
+.alert-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.alert-card li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--muted);
+}
+
+.tag.over {
+  background: var(--red);
+  color: #fff;
+}
+
+.tag.current {
+  background: var(--green);
+  color: #fff;
+}
+
+/* ---------- Form ---------- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tx-type {
+  display: flex;
+  gap: 10px;
+}
+
+.type-option {
+  flex: 1;
+  cursor: pointer;
+}
+
+.type-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.type-option span {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  font-weight: 700;
+  transition: all 0.15s;
+}
+
+.type-option.income input:checked + span {
+  border-color: var(--green);
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.type-option.expense input:checked + span {
+  border-color: var(--red);
+  background: var(--red-light);
+  color: var(--red-dark);
+}
+
+.tx-grid,
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+  color: var(--ink);
+  transition: border-color 0.15s;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+input[type='number'] {
+  font-variant-numeric: tabular-nums;
+}
+
+::placeholder {
+  color: #94a3b8;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Nút ---------- */
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: filter 0.15s, background 0.15s;
+}
+
+.btn:hover {
+  filter: brightness(1.08);
+}
+
+.btn.primary {
+  background: var(--green);
+  color: #fff;
+  align-self: flex-start;
+}
+
+.btn.ghost {
+  background: var(--bg);
+  color: var(--muted);
+}
+
+.btn.danger {
+  background: var(--red);
+  color: #fff;
+}
+
+.btn.sm {
+  padding: 6px 10px;
+  font-size: 12.5px;
+  border-radius: 8px;
+}
+
+.btn.danger.sm {
+  background: transparent;
+  color: var(--red);
+  border: 1px solid var(--red);
+}
+
+.btn.danger.sm:hover {
+  background: var(--red-light);
+}
+
+/* ---------- Bảng ---------- */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 520px;
+}
+
+th,
+td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+th {
+  background: var(--bg);
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--muted);
+}
+
+td.num,
+th.num {
+  text-align: right;
+}
+
+th.bar-col,
+td.bar-col {
+  text-align: left;
+}
+
+td.bar-col .progress {
+  width: 140px;
+  min-width: 80px;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+tr.active-month {
+  background: var(--green-light);
+}
+
+tr.active-month td {
+  border-bottom-color: #a3d9a3;
+}
+
+.note-cell {
+  white-space: normal;
+  min-width: 120px;
+  color: var(--ink);
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 18px 0;
+  font-size: 14px;
+}
+
+.count-badge {
+  background: var(--green-light);
+  color: var(--green-dark);
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 2px 10px;
+}
+
+/* ---------- Danh sách danh mục (F02-5) ---------- */
+.cat-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cat-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.cat-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cat-name-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cat-meta {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.cat-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+  z-index: 100;
+  animation: rise 0.25s ease;
+  max-width: min(92vw, 420px);
+  text-align: center;
+}
+
+.toast.error {
+  background: var(--red);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ---------- Footer ---------- */
+.app-footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 8px 0 0;
+}
+
+/* ==================================================================
+   Responsive cho điện thoại (NFR-5): layout cột dọc, 1 cột card
+   ================================================================== */
+@media (max-width: 640px) {
+  #app {
+    padding: 0 10px 24px;
+    gap: 12px;
+  }
+
+  .app-header {
+    margin: 0 -10px;
+    padding: 10px;
+  }
+
+  .tabs {
+    top: 58px;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .balance-card {
+    grid-column: 1 / -1;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .tx-grid,
+  .cat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cat-row {
+    flex-wrap: wrap;
+  }
+
+  .cat-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  table {
+    font-size: 13px;
+    min-width: 440px;
+  }
+
+  td.bar-col .progress {
+    width: 90px;
+  }
+
+  .month-label {
+    min-width: 105px;
+    font-size: 13px;
+  }
+}
