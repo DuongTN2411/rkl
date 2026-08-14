@@ -1,472 +1,457 @@
-// ui.ts — Tầng GIAO DIỆN: vẽ mọi thứ lên màn hình và xử lý nút bấm.
-// Mỗi khi dữ liệu thay đổi → refreshAll() vẽ lại toàn bộ trang từ dữ liệu mới.
+// ui.ts — Phần giao diện: vẽ dữ liệu lên màn hình và xử lý nút bấm.
+// Mỗi khi dữ liệu thay đổi → refreshAll() vẽ lại toàn bộ trang.
 
-import type { Category } from "./types";
 import * as storage from "./storage";
-import * as cats from "./category";
-import * as txs from "./transaction";
+import * as category from "./category";
+import * as transaction from "./transaction";
 
-/* ============================================================
-   Hàm dùng chung
-   ============================================================ */
+// ---------- Hàm tiện ích ----------
 
-/** Lấy phần tử HTML theo id (nếu thiếu trong index.html thì báo lỗi). */
-function byId(id: string): any {
-  const el = document.getElementById(id);
-  if (!el) throw new Error(`Thiếu phần tử #${id} trong index.html`);
-  return el;
+// Lấy phần tử HTML theo id.
+// "as HTMLInputElement" là ép kiểu: nói cho TypeScript biết đó là ô nhập
+// liệu để dùng được .value.
+function getEl(id: string): HTMLElement {
+  return document.getElementById(id) as HTMLElement;
 }
 
-/** Chống lỗi XSS: thay ký tự đặc biệt (`<` `"`...) bằng ký tự an toàn. */
-function esc(text: string): string {
-  const map: any = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  };
-  return text.replace(/[&<>"']/g, (ch) => map[ch]);
+function getInput(id: string): HTMLInputElement {
+  return document.getElementById(id) as HTMLInputElement;
 }
 
-/** Định dạng tiền kiểu Việt Nam: 1200000 → "1.200.000 đ". */
+function getSelect(id: string): HTMLSelectElement {
+  return document.getElementById(id) as HTMLSelectElement;
+}
+
+function getForm(id: string): HTMLFormElement {
+  return document.getElementById(id) as HTMLFormElement;
+}
+
+// 1200000 → "1200000 đ"
 function formatVND(n: number): string {
-  return (
-    new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 0 }).format(n) +
-    " đ"
-  );
+  return String(n) + " đ";
 }
 
-/** "2026-08" → "Tháng 8 năm 2026" (nhãn Month Picker). */
+// "2026-08" → "Tháng 8 năm 2026"
 function monthLabel(month: string): string {
-  return `Tháng ${Number(month.slice(5, 7))} năm ${month.slice(0, 4)}`;
+  return "Tháng " + Number(month.slice(5, 7)) + " năm " + month.slice(0, 4);
 }
 
-/** Tháng đang xem (đọc từ localStorage). */
+// Tháng đang xem trên Month Picker
 function selectedMonth(): string {
   return storage.loadSelectedMonth();
 }
 
-/** Hiện thông báo nổi nhỏ, tự ẩn sau ~3 giây. */
-let toastTimer: any;
-function toast(message: string, kind: string = "success"): void {
-  const el = byId("toast");
-  el.textContent = message;
-  el.className = `toast ${kind}`;
-  el.hidden = false;
-  window.clearTimeout(toastTimer);
-  toastTimer = window.setTimeout(() => {
-    el.hidden = true;
-  }, 2800);
-}
+// ---------- Điều hướng ----------
 
-/* ============================================================
-   Điều hướng: Month Picker + tabs
-   ============================================================ */
-
-/** Chuyển tab (Dashboard / Giao dịch / Danh mục / Báo cáo). */
+// Chuyển tab (Dashboard / Giao dịch / Danh mục / Báo cáo)
 function switchTab(tab: string): void {
-  document.querySelectorAll(".tab").forEach((b) => {
-    const btn = b as HTMLElement;
-    btn.classList.toggle("active", btn.dataset.tab === tab);
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function (btn) {
+    if (btn.getAttribute("data-tab") === tab) btn.classList.add("active");
+    else btn.classList.remove("active");
   });
-  document.querySelectorAll(".section").forEach((s) => {
-    const section = s as HTMLElement;
-    section.hidden = section.dataset.section !== tab;
+  const sections = document.querySelectorAll(".section");
+  sections.forEach(function (section) {
+    if (section.getAttribute("data-section") === tab) {
+      section.removeAttribute("hidden");
+    } else {
+      section.setAttribute("hidden", "");
+    }
   });
 }
 
-/** Chuyển tháng bằng nút ‹ › rồi vẽ lại toàn bộ. */
+// Chuyển tháng bằng nút ‹ › rồi vẽ lại toàn bộ trang
 function changeMonth(delta: number): void {
   storage.saveSelectedMonth(storage.shiftMonth(selectedMonth(), delta));
   refreshAll();
 }
 
-/* ============================================================
-   Vẽ toàn bộ trang
-   ============================================================ */
+// ---------- Vẽ trang ----------
 
+// Vẽ lại toàn bộ trang (gọi sau mỗi thay đổi dữ liệu)
 function refreshAll(): void {
   renderMonthPicker();
-  renderDashboard();
-  renderTxFormCategories();
+  renderBalance();
+  renderBudget();
+  renderAlerts();
+  renderTxForm();
   renderTxList();
   renderCategories();
   renderSummary();
 }
 
-/** Nhãn "Tháng 8 năm 2026" trên header. */
+// Nhãn tháng trên header
 function renderMonthPicker(): void {
-  byId("monthLabel").textContent = monthLabel(selectedMonth());
+  getEl("monthLabel").textContent = monthLabel(selectedMonth());
 }
 
-/* ============================================================
-   DASHBOARD
-   ============================================================ */
+// ---------- Dashboard ----------
 
-function renderDashboard(): void {
+// 3 thẻ đầu: số dư hiện tại (mọi tháng) + tổng thu/chi của tháng đang xem
+function renderBalance(): void {
   const month = selectedMonth();
-  const monthTxs = txs.listTransactions(month);
-  const totals = txs.totTx(monthTxs);
-  const allTxs = storage.loadAllTransactions();
-  const categories = cats.getCategories();
+  const totals = transaction.getTotals(transaction.listTransactions(month));
+  const balance = transaction.getBalance();
 
-  // 1) Số dư hiện tại: tổng thu − tổng chi của MỌI tháng
-  const balance = txs.balanceOf(allTxs);
-  const balanceEl = byId("balanceAmount");
+  // 1) Số dư hiện tại
+  const balanceEl = getEl("balanceAmount");
   balanceEl.textContent = formatVND(balance);
-  balanceEl.className = balance >= 0 ? "card-value up" : "card-value down";
-  byId("balanceCard").classList.toggle("negative", balance < 0);
-  byId(
-    "balanceCaption"
-  ).textContent = `${allTxs.length} giao dịch đã ghi nhận (mọi tháng)`;
+  if (balance >= 0) balanceEl.className = "card-value up";
+  else balanceEl.className = "card-value down";
+  const balanceCard = getEl("balanceCard");
+  if (balance < 0) balanceCard.classList.add("negative");
+  else balanceCard.classList.remove("negative");
+  getEl("balanceCaption").textContent =
+    transaction.countTransactions() + " giao dịch đã ghi nhận (mọi tháng)";
 
   // 2) Tổng thu / tổng chi của tháng đang xem
-  byId("statIncome").textContent = `+${formatVND(totals.income)}`;
-  byId("statExpense").textContent = `-${formatVND(totals.expense)}`;
+  getEl("statIncome").textContent = "+" + formatVND(totals.income);
+  getEl("statExpense").textContent = "-" + formatVND(totals.expense);
+}
 
-  // 3) Ngân sách: đã chi so với tổng hạn mức các danh mục
-  const sumLimit = cats.totalLimit(categories);
-  const stateEl = byId("budgetState");
-  const bar = byId("budgetBar");
+// Thẻ "Ngân sách tháng": đã chi bao nhiêu so với tổng hạn mức
+function renderBudget(): void {
+  const monthTx = transaction.listTransactions(selectedMonth());
+  const expense = transaction.getTotals(monthTx).expense;
+  const sumLimit = category.totalLimit();
+  const stateEl = getEl("budgetState");
+  const bar = getEl("budgetBar");
+  const textEl = getEl("budgetText");
+
+  // Chưa đặt hạn mức nào → chỉ hiện gợi ý
   if (sumLimit <= 0) {
     stateEl.textContent = "Chưa đặt hạn mức";
     stateEl.className = "budget-state muted";
     bar.style.width = "0%";
-    byId("budgetText").textContent =
+    textEl.textContent =
       "Đặt hạn mức cho từng danh mục (tab Danh mục) để theo dõi ngân sách.";
-  } else {
-    const percent = (totals.expense / sumLimit) * 100;
-    const over = percent > 100;
-    stateEl.textContent = over
-      ? `Vượt ${Math.round(percent - 100)}%`
-      : "Đạt hạn mức";
-    stateEl.className = over ? "budget-state over" : "budget-state ok";
-    bar.style.width = `${Math.min(percent, 1000)}%`;
-    bar.classList.toggle("over", over);
-    byId("budgetText").textContent = `Đã chi ${formatVND(
-      totals.expense
-    )} / ${formatVND(sumLimit)} (${Math.round(percent)}%)`;
+    return;
   }
 
-  // 4) Cảnh báo các danh mục vượt hạn mức
-  const overSpends = cats
-    .categorySpends(categories, monthTxs)
-    .filter((s) => s.overLimit);
-  const alertCard = byId("alertCard");
+  const percent = (expense / sumLimit) * 100;
+  if (percent > 100) {
+    stateEl.textContent = "Vượt " + Math.round(percent - 100) + "%";
+    stateEl.className = "budget-state over";
+  } else {
+    stateEl.textContent = "Đạt hạn mức";
+    stateEl.className = "budget-state ok";
+  }
+  bar.style.width = Math.min(percent, 1000) + "%";
+  if (percent > 100) bar.classList.add("over");
+  else bar.classList.remove("over");
+  textEl.textContent =
+    "Đã chi " +
+    formatVND(expense) +
+    " / " +
+    formatVND(sumLimit) +
+    " (" +
+    Math.round(percent) +
+    "%)";
+}
+
+// Cảnh báo các danh mục vượt hạn mức trong tháng đang xem
+function renderAlerts(): void {
+  const spends = category.getSpends(selectedMonth());
+  const overSpends = spends.filter(function (s) {
+    return s.overLimit;
+  });
+
+  const alertCard = getEl("alertCard");
   alertCard.hidden = overSpends.length === 0;
-  let alertHtml = "";
+
+  let html = "";
   for (const s of overSpends) {
     const overBy = Math.round(s.percent - 100);
-    alertHtml +=
-      `<li>` +
-      `<strong>${esc(s.category.name)}</strong> ` +
-      `<span>đã chi <b class="down">${formatVND(
-        s.spent
-      )}</b> / hạn mức ${formatVND(s.category.limit ?? 0)}</span> ` +
-      `<b class="tag over">vượt ${overBy}%</b></li>`;
+    const limitText = s.category.limit === null ? 0 : s.category.limit;
+    html += `
+      <li>
+        <strong>${s.category.name}</strong>
+        <span>đã chi <b class="down">${formatVND(s.spent)}</b>
+        / hạn mức ${formatVND(limitText)}</span>
+        <b class="tag over">vượt ${overBy}%</b>
+      </li>`;
   }
-  byId("alertList").innerHTML = alertHtml;
+  getEl("alertList").innerHTML = html;
 }
 
-/* ============================================================
-   GIAO DỊCH
-   ============================================================ */
+// ---------- Giao dịch ----------
 
-/** Đổ danh mục vào dropdown của form thêm giao dịch. */
-function renderTxFormCategories(): void {
-  const select = byId("txCategory");
+// Đổ danh mục vào dropdown của form thêm giao dịch
+function renderTxForm(): void {
+  const select = getSelect("txCategory");
   const previous = select.value;
   let options = '<option value="" disabled selected>— Chọn danh mục —</option>';
-  for (const c of cats.getCategories()) {
-    options += `<option value="${c.id}">${esc(c.name)}</option>`;
+  for (const c of category.getCategories()) {
+    options += `<option value="${c.id}">${c.name}</option>`;
   }
   select.innerHTML = options;
-  if (previous) select.value = previous;
+  if (previous !== "") select.value = previous;
 }
 
-/** Vẽ bảng lịch sử giao dịch của tháng đang xem. */
+// Bảng lịch sử giao dịch của tháng đang xem
 function renderTxList(): void {
-  const list = txs.listTransactions(selectedMonth());
-  byId("txCount").textContent = String(list.length);
-  byId("txEmpty").hidden = list.length > 0;
-
-  // Map id → danh mục để tra tên nhanh khi vẽ
-  const catMap = new Map<string, Category>();
-  for (const c of cats.getCategories()) catMap.set(c.id, c);
+  const list = transaction.listTransactions(selectedMonth());
+  getEl("txCount").textContent = String(list.length);
+  getEl("txEmpty").hidden = list.length > 0;
 
   let rows = "";
   for (const t of list) {
-    const cat = catMap.get(t.categoryId);
-    const catName = cat
-      ? esc(cat.name)
-      : '<span class="muted">(danh mục đã xóa)</span>';
+    const cat = category.getCategory(t.categoryId);
+    const catName =
+      cat === null ? '<span class="muted">(danh mục đã xóa)</span>' : cat.name;
     const cls = t.amount >= 0 ? "up" : "down";
     const sign = t.amount >= 0 ? "+" : "-";
-    const [y, m, d] = t.date.split("-"); // "2026-08-15" → hiển thị 15/08/2026
-    rows +=
-      `<tr>` +
-      `<td class="muted">${d}/${m}/${y}</td>` +
-      `<td>${catName}</td>` +
-      `<td class="note-cell">${
-        t.note ? esc(t.note) : '<span class="muted">—</span>'
-      }</td>` +
-      `<td class="num ${cls}">${sign}${formatVND(Math.abs(t.amount))}</td>` +
-      `<td class="num"><button type="button" class="btn danger sm" ` +
-      `data-del-tx="${t.id}" title="Xóa giao dịch">✕</button></td>` +
-      `</tr>`;
+    const note = t.note === "" ? '<span class="muted">—</span>' : t.note;
+    const parts = t.date.split("-"); // "2026-08-15" → hiển thị 15/08/2026
+    rows += `
+      <tr>
+        <td class="muted">${parts[2]}/${parts[1]}/${parts[0]}</td>
+        <td>${catName}</td>
+        <td class="note-cell">${note}</td>
+        <td class="num ${cls}">${sign}${formatVND(Math.abs(t.amount))}</td>
+        <td class="num">
+          <button type="button" class="btn danger sm" data-del-tx="${t.id}" title="Xóa giao dịch">✕</button>
+        </td>
+      </tr>`;
   }
-  byId("txList").innerHTML = rows;
+  getEl("txList").innerHTML = rows;
   bindTxButtons();
 }
 
-/** Gắn sự kiện xóa cho từng nút ✕ trong bảng lịch sử. */
+// Gắn sự kiện xóa cho từng nút ✕ (pattern querySelectorAll + forEach ở section 5)
 function bindTxButtons(): void {
-  const buttons: any = document.querySelectorAll("#txList button[data-del-tx]");
-  buttons.forEach((btn: any) => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.delTx ?? "";
-      const month = selectedMonth();
-      const tx = txs.listTransactions(month).find((t) => t.id === id);
-      if (!tx) return;
+  const buttons = document.querySelectorAll("[data-del-tx]");
+  buttons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const id = btn.getAttribute("data-del-tx") || "";
+      const tx = transaction.findTransaction(id);
+      if (tx === null) return;
       const kind = tx.amount >= 0 ? "thu" : "chi";
-      // Hỏi lại trước khi xóa
-      if (
-        window.confirm(
-          `Xóa giao dịch ${kind} ${formatVND(Math.abs(tx.amount))} ngày ${
-            tx.date
-          }?`
-        )
-      ) {
-        const result = txs.deleteTransaction(id, month);
-        if (result.ok) {
-          toast("Đã xóa giao dịch ✓");
+      const message =
+        "Xóa giao dịch " +
+        kind +
+        " " +
+        formatVND(Math.abs(tx.amount)) +
+        " ngày " +
+        tx.date +
+        "?";
+      if (window.confirm(message)) {
+        const error = transaction.deleteTransaction(id, selectedMonth());
+        if (error === null) {
           refreshAll();
         } else {
-          toast(result.error ?? "Không thể xóa giao dịch.", "error");
+          alert(error);
         }
       }
     });
   });
 }
 
-/* ============================================================
-   DANH MỤC
-   ============================================================ */
+// ---------- Danh mục ----------
 
-/** Vẽ danh sách danh mục: hạn mức + đã chi + % + nút Sửa/Xóa. */
+// Danh sách danh mục: hạn mức + đã chi + % + nút Sửa/Xóa
 function renderCategories(): void {
-  const list = cats.getCategories();
-  const monthTxs = txs.listTransactions(selectedMonth());
-  const spends = cats.categorySpends(list, monthTxs);
-
-  byId("catEmpty").hidden = list.length > 0;
+  const spends = category.getSpends(selectedMonth());
+  getEl("catEmpty").hidden = spends.length > 0;
 
   let html = "";
   for (const s of spends) {
-    const { category, spent, percent, overLimit } = s;
     const limitText =
-      category.limit === null ? "Không giới hạn" : formatVND(category.limit);
-    const overTag = overLimit
-      ? `<b class="tag over">vượt ${Math.round(percent - 100)}%</b>`
+      s.category.limit === null ? "Không giới hạn" : formatVND(s.category.limit);
+    const overTag = s.overLimit
+      ? `<b class="tag over">vượt ${Math.round(s.percent - 100)}%</b>`
       : "";
     let bar = "";
-    if (category.limit !== null && category.limit > 0) {
-      bar =
-        `<div class="progress mini"><div class="progress-fill ${
-          overLimit ? "over" : ""
-        }" ` + `style="width:${Math.min(percent, 1000)}%"></div></div>`;
+    if (s.category.limit !== null && s.category.limit > 0) {
+      bar = `<div class="progress mini"><div class="progress-fill ${s.overLimit ? "over" : ""}" style="width:${Math.min(s.percent, 1000)}%"></div></div>`;
     }
-    html +=
-      `<li class="cat-row">` +
-      `<div class="cat-info">` +
-      `<div class="cat-name-line"><strong>${esc(
-        category.name
-      )}</strong>${overTag}</div>` +
-      `<div class="cat-meta">Đã chi <b class="${
-        overLimit ? "down" : ""
-      }">${formatVND(spent)}</b> ` +
-      `/ Hạn mức ${limitText}</div>` +
-      `${bar}` +
-      `</div>` +
-      `<div class="cat-actions">` +
-      `<button type="button" class="btn sm" data-edit-cat="${category.id}">Sửa</button>` +
-      `<button type="button" class="btn danger sm" data-del-cat="${category.id}">Xóa</button>` +
-      `</div>` +
-      `</li>`;
+    html += `
+      <li class="cat-row">
+        <div class="cat-info">
+          <div class="cat-name-line">
+            <strong>${s.category.name}</strong>${overTag}
+          </div>
+          <div class="cat-meta">
+            Đã chi <b class="${s.overLimit ? "down" : ""}">${formatVND(s.spent)}</b>
+            / Hạn mức ${limitText}
+          </div>
+          ${bar}
+        </div>
+        <div class="cat-actions">
+          <button type="button" class="btn sm" data-edit-cat="${s.category.id}">Sửa</button>
+          <button type="button" class="btn danger sm" data-del-cat="${s.category.id}">Xóa</button>
+        </div>
+      </li>`;
   }
-  byId("catList").innerHTML = html;
+  getEl("catList").innerHTML = html;
   bindCategoryButtons();
 }
 
-/** Gắn sự kiện cho nút Sửa / Xóa của từng danh mục. */
+// Gắn sự kiện cho nút Sửa / Xóa của từng danh mục
 function bindCategoryButtons(): void {
-  // "Sửa": điền dữ liệu danh mục lên form
-  const editButtons: any = document.querySelectorAll(
-    "#catList button[data-edit-cat]"
-  );
-  editButtons.forEach((btn: any) => {
-    btn.addEventListener("click", () => {
-      const cat = cats.getCategory(btn.dataset.editCat);
-      if (!cat) return;
-      byId("editingCatId").value = cat.id;
-      byId("catName").value = cat.name;
-      byId("catLimit").value = cat.limit === null ? "" : String(cat.limit);
-      byId("catSubmitBtn").textContent = "Cập nhật";
-      byId("catFormTitle").textContent = "Sửa danh mục";
-      byId("catCancelBtn").hidden = false;
+  // Nút "Sửa": đưa dữ liệu danh mục lên form
+  const editButtons = document.querySelectorAll("[data-edit-cat]");
+  editButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const cat = category.getCategory(btn.getAttribute("data-edit-cat") || "");
+      if (cat === null) return;
+      getInput("editingCatId").value = cat.id;
+      getInput("catName").value = cat.name;
+      getInput("catLimit").value = cat.limit === null ? "" : String(cat.limit);
+      getEl("catSubmitBtn").textContent = "Cập nhật";
+      getEl("catFormTitle").textContent = "Sửa danh mục";
+      getEl("catCancelBtn").hidden = false;
       switchTab("categories");
-      byId("catName").focus();
+      getInput("catName").focus();
     });
   });
 
-  // "Xóa": hỏi lại + kiểm tra ràng buộc
-  const delButtons: any = document.querySelectorAll(
-    "#catList button[data-del-cat]"
-  );
-  delButtons.forEach((btn: any) => {
-    btn.addEventListener("click", () => {
-      const cat = cats.getCategory(btn.dataset.delCat);
-      if (!cat) return;
-      if (!window.confirm(`Xóa danh mục "${cat.name}"?`)) return;
-      const result = cats.deleteCategory(cat.id);
-      if (result.ok) {
-        toast("Đã xóa danh mục ✓");
-        resetCatForm();
-        refreshAll();
-      } else {
-        toast(result.error ?? "Không thể xóa danh mục.", "error");
+  // Nút "Xóa": hỏi lại rồi xóa
+  const delButtons = document.querySelectorAll("[data-del-cat]");
+  delButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const cat = category.getCategory(btn.getAttribute("data-del-cat") || "");
+      if (cat === null) return;
+      if (window.confirm('Xóa danh mục "' + cat.name + '"?')) {
+        const error = category.deleteCategory(cat.id);
+        if (error === null) {
+          resetCatForm();
+          refreshAll();
+        } else {
+          alert(error);
+        }
       }
     });
   });
 }
 
-/* ============================================================
-   BÁO CÁO CÁC THÁNG
-   ============================================================ */
+// ---------- Báo cáo ----------
 
+// Bảng tổng hợp thu/chi từng tháng (tháng chi nhiều nhất có thanh dài nhất)
 function renderSummary(): void {
   const months = storage.allTxMonths();
-  const summaries: { key: string; income: number; expense: number }[] = [];
+
+  // Tháng chi nhiều nhất → để quy đổi độ dài các thanh so sánh
+  let maxExpense = 0;
   for (const m of months) {
-    const t = txs.totTx(storage.loadTransactions(m));
-    summaries.push({ key: m, income: t.income, expense: t.expense });
+    const totals = transaction.getTotals(storage.loadTransactions(m));
+    if (totals.expense > maxExpense) maxExpense = totals.expense;
   }
 
-  // Tháng chi nhiều nhất để đổi ra chiều dài thanh so sánh
-  let maxExpense = 0;
-  for (const s of summaries) maxExpense = Math.max(maxExpense, s.expense);
-
-  byId("summaryEmpty").hidden = summaries.length > 0;
+  getEl("summaryEmpty").hidden = months.length > 0;
 
   let rows = "";
-  for (const s of summaries) {
-    const diff = s.income - s.expense;
-    const diffCls = diff >= 0 ? "up" : "down";
-    const diffSign = diff >= 0 ? "+" : "−";
+  // Duyệt từ cuối mảng: tháng mới nhất hiện lên đầu
+  for (let i = months.length - 1; i >= 0; i--) {
+    const m = months[i];
+    const totals = transaction.getTotals(storage.loadTransactions(m));
+    const diff = totals.income - totals.expense;
     const width =
-      maxExpense > 0 ? Math.round((s.expense / maxExpense) * 100) : 0;
-    // Tô màu dòng "đang xem" trên Month Picker để dễ đối chiếu
-    const active = s.key === selectedMonth() ? ' class="active-month"' : "";
-    rows +=
-      `<tr${active}>` +
-      `<td><strong>${monthLabel(s.key)}</strong></td>` +
-      `<td class="num up">+${formatVND(s.income)}</td>` +
-      `<td class="num down">-${formatVND(s.expense)}</td>` +
-      `<td class="num ${diffCls}">${diffSign}${formatVND(
-        Math.abs(diff)
-      )}</td>` +
-      `<td class="bar-col"><div class="progress mini">` +
-      `<div class="progress-fill" style="width:${width}%"></div></div></td>` +
-      `</tr>`;
+      maxExpense > 0 ? Math.round((totals.expense / maxExpense) * 100) : 0;
+    // Tô màu dòng tháng đang xem để dễ đối chiếu
+    const active = m === selectedMonth() ? ' class="active-month"' : "";
+    rows += `
+      <tr${active}>
+        <td><strong>${monthLabel(m)}</strong></td>
+        <td class="num up">+${formatVND(totals.income)}</td>
+        <td class="num down">-${formatVND(totals.expense)}</td>
+        <td class="num ${diff >= 0 ? "up" : "down"}">${diff >= 0 ? "+" : "−"}${formatVND(Math.abs(diff))}</td>
+        <td class="bar-col"><div class="progress mini"><div class="progress-fill" style="width:${width}%"></div></div></td>
+      </tr>`;
   }
-  byId("summaryBody").innerHTML = rows;
+  getEl("summaryBody").innerHTML = rows;
 }
 
-/* ============================================================
-   Xử lý form (giao dịch & danh mục)
-   ============================================================ */
+// ---------- Xử lý form ----------
 
-/** Lưu giao dịch từ form. */
+// Lưu giao dịch từ form
 function onTxSubmit(e: SubmitEvent): void {
   e.preventDefault();
-  const amountInput = byId("txAmount");
-  const categorySelect = byId("txCategory");
-  const noteInput = byId("txNote");
-  const dateInput = byId("txDate");
-  const typeRadio: any = document.querySelector('input[name="txType"]:checked');
+  const amountInput = getInput("txAmount");
+  const categorySelect = getSelect("txCategory");
+  const noteInput = getInput("txNote");
+  const dateInput = getInput("txDate");
+  const typeInput = document.querySelector(
+    'input[name="txType"]:checked'
+  ) as HTMLInputElement | null;
 
-  if (!dateInput.value) dateInput.value = storage.todayKey();
+  // Ngày bỏ trống → mặc định hôm nay
+  if (dateInput.value === "") dateInput.value = storage.todayKey();
 
-  const result = txs.addTransaction({
-    amount: amountInput.valueAsNumber,
-    type: typeRadio ? typeRadio.value : "expense",
-    categoryId: categorySelect.value,
-    note: noteInput.value,
-    date: dateInput.value,
-  });
+  const error = transaction.addTransaction(
+    amountInput.valueAsNumber,
+    typeInput === null ? "expense" : typeInput.value,
+    categorySelect.value,
+    noteInput.value,
+    dateInput.value
+  );
 
-  if (!result.ok) {
-    toast(result.error ?? "Không thể lưu giao dịch.", "error");
+  if (error !== null) {
+    alert(error);
     return;
   }
 
-  // Xóa trắng 2 ô tiền & ghi chú, giữ danh mục & ngày đã chọn
+  // Xóa trắng 2 ô tiền & ghi chú, giữ nguyên danh mục & ngày đã chọn
   amountInput.value = "";
   noteInput.value = "";
-  toast("Đã lưu giao dịch ✓");
   refreshAll();
 }
 
-/** Đưa form danh mục về trạng thái "thêm mới". */
+// Đưa form danh mục về trạng thái "thêm mới"
 function resetCatForm(): void {
-  byId("editingCatId").value = "";
-  byId("catForm").reset();
-  byId("catSubmitBtn").textContent = "Lưu danh mục";
-  byId("catFormTitle").textContent = "Thêm danh mục";
-  byId("catCancelBtn").hidden = true;
+  getInput("editingCatId").value = "";
+  getForm("catForm").reset();
+  getEl("catSubmitBtn").textContent = "Lưu danh mục";
+  getEl("catFormTitle").textContent = "Thêm danh mục";
+  getEl("catCancelBtn").hidden = true;
 }
 
-/** Lưu danh mục: thêm mới hoặc cập nhật (tùy ô ẩn editingCatId). */
+// Lưu danh mục: thêm mới hoặc cập nhật (tùy ô ẩn editingCatId có id hay không)
 function onCatSubmit(e: SubmitEvent): void {
   e.preventDefault();
-  const nameInput = byId("catName");
-  const limitInput = byId("catLimit");
-  const editingId = byId("editingCatId").value;
+  const editingId = getInput("editingCatId").value;
+  const name = getInput("catName").value;
+  const limit = getInput("catLimit").value;
 
-  const result =
+  const error =
     editingId === ""
-      ? cats.addCategory(nameInput.value, limitInput.value)
-      : cats.updateCategory(editingId, nameInput.value, limitInput.value);
+      ? category.addCategory(name, limit)
+      : category.updateCategory(editingId, name, limit);
 
-  if (!result.ok) {
-    toast(result.error ?? "Không thể lưu danh mục.", "error");
+  if (error !== null) {
+    alert(error);
     return;
   }
 
-  toast(editingId === "" ? "Đã thêm danh mục ✓" : "Đã cập nhật danh mục ✓");
   resetCatForm();
   refreshAll();
 }
 
-/* ============================================================
-   Khởi tạo (app.ts gọi)
-   ============================================================ */
+// ---------- Khởi tạo ----------
 
-/** Gắn toàn bộ sự kiện cố định rồi vẽ trang lần đầu. */
+// Gắn toàn bộ sự kiện rồi vẽ trang lần đầu
 export function initUi(): void {
-  byId("prevMonthBtn").addEventListener("click", () => changeMonth(-1));
-  byId("nextMonthBtn").addEventListener("click", () => changeMonth(1));
-
-  // Tabs điều hướng
-  const tabs: any = document.querySelectorAll(".tab");
-  tabs.forEach((tab: any) => {
-    tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+  // Nút chuyển tháng ‹ ›
+  getEl("prevMonthBtn").addEventListener("click", function () {
+    changeMonth(-1);
+  });
+  getEl("nextMonthBtn").addEventListener("click", function () {
+    changeMonth(1);
   });
 
-  byId("txForm").addEventListener("submit", onTxSubmit);
-  byId("catForm").addEventListener("submit", onCatSubmit);
-  byId("catCancelBtn").addEventListener("click", resetCatForm);
+  // Tabs điều hướng
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      switchTab(tab.getAttribute("data-tab") || "");
+    });
+  });
 
+  // Form giao dịch & danh mục
+  getForm("txForm").addEventListener("submit", onTxSubmit);
+  getForm("catForm").addEventListener("submit", onCatSubmit);
+  getEl("catCancelBtn").addEventListener("click", resetCatForm);
+
+  // Vẽ trang lần đầu
   refreshAll();
 }

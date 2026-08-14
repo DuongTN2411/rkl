@@ -1,126 +1,156 @@
-// category.ts — Nghiệp vụ DANH MỤC: thêm, sửa, xóa, hạn mức.
+// category.ts — Nghiệp vụ danh mục: thêm, sửa, xóa, hạn mức, thống kê chi
 
-import type { Category, Transaction } from "./types";
+import { Category, CatSpend } from "./types";
 import * as storage from "./storage";
 
-/** Toàn bộ danh mục, cũ trước mới sau. */
+// ---------- Xem ----------
+
+/** Toàn bộ danh mục (hiển thị theo thứ tự tạo) */
 export function getCategories(): Category[] {
+  return storage.loadCategories();
+}
+
+/** Tìm danh mục theo id, không có → null */
+export function getCategory(id: string): Category | null {
   const list = storage.loadCategories();
-  list.sort((a, b) => a.createdAt - b.createdAt);
-  return list;
-}
-
-/** Tìm một danh mục theo id. */
-export function getCategory(id: string): Category | undefined {
-  return storage.loadCategories().find((c) => c.id === id);
-}
-
-/** "1.000.000" nhập từ form → số; để trống → null (không giới hạn). */
-function parseLimit(raw: string): any {
-  const trimmed = raw.trim();
-  if (trimmed === "") return { ok: true, value: null };
-  const n = Number(trimmed);
-  if (!Number.isFinite(n) || n < 0 || !Number.isInteger(n)) {
-    return {
-      ok: false,
-      error: "Hạn mức phải là số nguyên ≥ 0 (để trống = không giới hạn).",
-      value: null,
-    };
-  }
-  return { ok: true, value: n };
-}
-
-/** Kiểm tra tên: không rỗng, ≤ 40 ký tự, không trùng (excludeId bỏ qua khi sửa). */
-function nameError(name: string, excludeId?: string): string | null {
-  const trimmed = name.trim();
-  if (!trimmed) return "Tên danh mục không được để trống.";
-  if (trimmed.length > 40) return "Tên danh mục tối đa 40 ký tự.";
-  for (const c of storage.loadCategories()) {
-    if (c.name.toLowerCase() === trimmed.toLowerCase() && c.id !== excludeId) {
-      return `Danh mục "${trimmed}" đã tồn tại.`;
-    }
+  for (const c of list) {
+    if (c.id === id) return c;
   }
   return null;
 }
 
-export function addCategory(name: string, limitRaw: string): any {
-  const nameErr = nameError(name);
-  if (nameErr) return { ok: false, error: nameErr };
-  const limit = parseLimit(limitRaw);
-  if (!limit.ok) return { ok: false, error: limit.error };
-  storage.saveCategories([
-    ...storage.loadCategories(),
-    {
-      id: crypto.randomUUID(),
-      name: name.trim(),
-      limit: limit.value,
-      createdAt: Date.now(),
-    },
-  ]);
-  return { ok: true };
+// ---------- Thêm / sửa / xóa ----------
+
+/** "1000000" → số; để trống → null (không giới hạn); không hợp lệ → undefined */
+function parseLimit(text: string): number | null | undefined {
+  if (text === "") return null;
+  const n = Number(text);
+  if (isNaN(n) || n < 0 || n % 1 !== 0) return undefined;
+  return n;
 }
 
+/** Thêm danh mục; trả về thông báo lỗi, hoặc null nếu thành công */
+export function addCategory(name: string, limitRaw: string): string | null {
+  const trimmed = name.trim();
+  const limitText = limitRaw.trim();
+
+  // Kiểm tra tên
+  if (trimmed === "") return "Tên danh mục không được để trống.";
+  if (trimmed.length > 40) return "Tên danh mục tối đa 40 ký tự.";
+  for (const c of storage.loadCategories()) {
+    if (c.name.toLowerCase() === trimmed.toLowerCase()) {
+      return `Danh mục "${trimmed}" đã tồn tại.`;
+    }
+  }
+
+  // Kiểm tra hạn mức
+  const limit = parseLimit(limitText);
+  if (limit === undefined) {
+    return "Hạn mức phải là số nguyên ≥ 0 (để trống = không giới hạn).";
+  }
+
+  storage.saveCategories([
+    ...storage.loadCategories(),
+    { id: storage.newId(), name: trimmed, limit, createdAt: Date.now() },
+  ]);
+  return null;
+}
+
+/** Sửa tên / hạn mức của một danh mục */
 export function updateCategory(
   id: string,
   name: string,
   limitRaw: string
-): any {
-  const list = storage.loadCategories();
-  const target = list.find((c) => c.id === id);
-  if (!target) return { ok: false, error: "Không tìm thấy danh mục." };
-  const nameErr = nameError(name, id);
-  if (nameErr) return { ok: false, error: nameErr };
-  const limit = parseLimit(limitRaw);
-  if (!limit.ok) return { ok: false, error: limit.error };
-  storage.saveCategories(
-    list.map((c) =>
-      c.id === id ? { ...c, name: name.trim(), limit: limit.value } : c
-    )
-  );
-  return { ok: true };
-}
+): string | null {
+  const trimmed = name.trim();
+  const limitText = limitRaw.trim();
 
-/** Xóa danh mục; không cho xóa nếu vẫn còn giao dịch thuộc nó (ở mọi tháng). */
-export function deleteCategory(id: string): any {
-  const list = storage.loadCategories();
-  const target = list.find((c) => c.id === id);
-  if (!target) return { ok: false, error: "Không tìm thấy danh mục." };
-  let txCount = 0;
-  for (const month of storage.allTxMonths()) {
-    for (const t of storage.loadTransactions(month)) {
-      if (t.categoryId === id) txCount++;
+  // Kiểm tra danh mục có tồn tại
+  const old = getCategory(id);
+  if (old === null) return "Không tìm thấy danh mục.";
+
+  // Kiểm tra tên (bỏ qua chính danh mục đang sửa)
+  if (trimmed === "") return "Tên danh mục không được để trống.";
+  if (trimmed.length > 40) return "Tên danh mục tối đa 40 ký tự.";
+  for (const c of storage.loadCategories()) {
+    if (c.name.toLowerCase() === trimmed.toLowerCase() && c.id !== id) {
+      return `Danh mục "${trimmed}" đã tồn tại.`;
     }
   }
-  if (txCount > 0) {
-    return {
-      ok: false,
-      error: `Không thể xóa "${target.name}" vì vẫn còn ${txCount} giao dịch thuộc danh mục này.`,
-    };
+
+  // Kiểm tra hạn mức
+  const limit = parseLimit(limitText);
+  if (limit === undefined) {
+    return "Hạn mức phải là số nguyên ≥ 0 (để trống = không giới hạn).";
   }
-  storage.saveCategories(list.filter((c) => c.id !== id));
-  return { ok: true };
+
+  // Thay danh mục cũ bằng danh mục mới (giữ nguyên id và createdAt)
+  const newList: Category[] = [];
+  for (const c of storage.loadCategories()) {
+    if (c.id === id) {
+      newList.push({ id: c.id, name: trimmed, limit, createdAt: old.createdAt });
+    } else {
+      newList.push(c);
+    }
+  }
+  storage.saveCategories(newList);
+  return null;
 }
 
-/** Tổng hạn mức của tất cả danh mục (="ngân sách tháng" trên Dashboard). */
-export function totalLimit(list: Category[]): number {
-  return list.reduce((sum, c) => sum + (c.limit ?? 0), 0);
+/** Xóa danh mục; không cho xóa nếu vẫn còn giao dịch thuộc nó */
+export function deleteCategory(id: string): string | null {
+  const target = getCategory(id);
+  if (target === null) return "Không tìm thấy danh mục.";
+
+  // Đếm số giao dịch thuộc danh mục này (ở mọi tháng)
+  let count = 0;
+  const months = storage.allTxMonths();
+  for (const m of months) {
+    const list = storage.loadTransactions(m);
+    for (const t of list) {
+      if (t.categoryId === id) count++;
+    }
+  }
+  if (count > 0) {
+    return `Không thể xóa "${target.name}" vì vẫn còn ${count} giao dịch thuộc danh mục này.`;
+  }
+
+  const newList: Category[] = [];
+  for (const c of storage.loadCategories()) {
+    if (c.id !== id) newList.push(c);
+  }
+  storage.saveCategories(newList);
+  return null;
 }
 
-/** Tình hình chi tiêu từng danh mục trong tháng: đã chi, %, có vượt hạn mức không. */
-export function categorySpends(cats: Category[], txs: Transaction[]): any[] {
-  const spentByCat: any = {};
-  for (const t of txs) {
-    if (t.amount < 0)
-      spentByCat[t.categoryId] = (spentByCat[t.categoryId] ?? 0) + -t.amount;
+// ---------- Thống kê ----------
+
+/** Tổng hạn mức của tất cả danh mục ("ngân sách tháng") */
+export function totalLimit(): number {
+  let sum = 0;
+  for (const c of storage.loadCategories()) {
+    if (c.limit !== null) sum += c.limit;
   }
-  return cats.map((category) => {
-    const spent = spentByCat[category.id] ?? 0;
-    const hasLimit = category.limit !== null && category.limit > 0;
-    return {
-      category,
+  return sum;
+}
+
+/** Tình hình chi tiêu từng danh mục trong tháng: đã chi, %, có vượt không */
+export function getSpends(month: string): CatSpend[] {
+  const txs = storage.loadTransactions(month);
+  const cats = storage.loadCategories();
+  const result: CatSpend[] = [];
+  for (const c of cats) {
+    // Đếm tổng tiền đã chi của danh mục này
+    let spent = 0;
+    for (const t of txs) {
+      if (t.categoryId === c.id && t.amount < 0) spent += -t.amount;
+    }
+    result.push({
+      category: c,
       spent,
-      overLimit: hasLimit && spent > (category.limit as number),
-      percent: hasLimit ? (spent / (category.limit as number)) * 100 : 0,
-    };
-  });
+      percent: c.limit !== null && c.limit > 0 ? (spent / c.limit) * 100 : 0,
+      overLimit: c.limit !== null && c.limit > 0 && spent > c.limit,
+    });
+  }
+  return result;
 }

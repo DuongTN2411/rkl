@@ -1,209 +1,165 @@
-// storage.ts — Đọc/ghi dữ liệu vào localStorage (trình duyệt tự nhớ khi đóng tab).
-//
-// QUY ƯỚC ĐẶT KHÓA (key):
-//   ewallet:categories    → danh sách danh mục (dùng chung mọi tháng)
-//   ewallet:tx:2026-08    → giao dịch riêng của từng tháng
-//   ewallet:selectedMonth → tháng đang xem trên Month Picker
-//   ewallet:seeded        → cờ "đã tạo dữ liệu mẫu chưa"
+// storage.ts — Đọc/ghi dữ liệu vào localStorage và các hàm tiện ích thời gian
 
-import type { Category, Transaction } from "./types";
+import { Category, Transaction } from "./types";
 
+// Khóa (key) lưu trong localStorage
 const CATEGORIES_KEY = "ewallet:categories";
 const SELECTED_MONTH_KEY = "ewallet:selectedMonth";
-const SEED_FLAG_KEY = "ewallet:seeded";
-const TX_PREFIX = "ewallet:tx:";
+const TX_PREFIX = "ewallet:tx:"; // mỗi tháng một khóa riêng, VD: "ewallet:tx:2026-08"
+const SEED_FLAG_KEY = "ewallet:seeded-v2";
 
-/* ============================================================
-   Tiện ích thời gian
-   ============================================================ */
+// ---------- Tiện ích chung ----------
 
-/** Date → "YYYY-MM". */
-function monthKeyOf(date: Date): string {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-    2,
-    "0"
-  )}`;
+/** 8 → "08" */
+function twoDigits(n: number): string {
+  if (n < 10) return "0" + n;
+  return String(n);
 }
 
-/** Tháng hiện tại theo đồng hồ máy. */
-export function currentMonthKey(): string {
-  return monthKeyOf(new Date());
+/** Tạo id duy nhất: thời điểm tạo + số ngẫu nhiên */
+export function newId(): string {
+  return String(Date.now()) + "-" + Math.floor(Math.random() * 100000);
 }
 
-/** Ngày hôm nay dạng "YYYY-MM-DD" (ngày mặc định của form). */
+// ---------- Thời gian ----------
+
+/** Tháng hiện tại, dạng "YYYY-MM" */
+export function currentMonth(): string {
+  const d = new Date();
+  return d.getFullYear() + "-" + twoDigits(d.getMonth() + 1);
+}
+
+/** Ngày hôm nay, dạng "YYYY-MM-DD" (ngày mặc định của form) */
 export function todayKey(): string {
   const d = new Date();
-  return `${monthKeyOf(d)}-${String(d.getDate()).padStart(2, "0")}`;
+  return currentMonth() + "-" + twoDigits(d.getDate());
 }
 
-/** Cộng/trừ tháng: shiftMonth("2026-08", -1) → "2026-07". */
+/** Cộng/trừ tháng: shiftMonth("2026-08", -1) → "2026-07" */
 export function shiftMonth(month: string, delta: number): string {
-  const d = new Date(
-    Number(month.slice(0, 4)),
-    Number(month.slice(5, 7)) - 1 + delta,
-    1
-  );
-  return monthKeyOf(d);
-}
-
-/* ============================================================
-   Đọc/ghi an toàn
-   ============================================================ */
-
-/** Đọc khóa → mảng; chưa có hoặc JSON hỏng thì trả về []. */
-function readArray(key: string): any[] {
-  const raw = localStorage.getItem(key);
-  if (!raw) return [];
-  try {
-    const data = JSON.parse(raw);
-    return Array.isArray(data) ? data : [];
-  } catch {
-    return [];
+  let year = Number(month.slice(0, 4));
+  let m = Number(month.slice(5, 7)) + delta;
+  if (m < 1) {
+    m += 12;
+    year -= 1;
   }
+  if (m > 12) {
+    m -= 12;
+    year += 1;
+  }
+  return year + "-" + twoDigits(m);
 }
 
-/** Kiểm tra phần tử có đủ các trường của Transaction không (sai thì bỏ qua). */
-function isOkTransaction(item: any): boolean {
-  return (
-    typeof item.id === "string" &&
-    typeof item.amount === "number" &&
-    Number.isFinite(item.amount) &&
-    typeof item.categoryId === "string" &&
-    typeof item.date === "string"
-  );
-}
-
-/** Tương tự cho Category. */
-function isOkCategory(item: any): boolean {
-  return (
-    typeof item.id === "string" &&
-    typeof item.name === "string" &&
-    (typeof item.limit === "number" || item.limit === null) &&
-    typeof item.createdAt === "number"
-  );
-}
-
-/* ============================================================
-   Danh mục
-   ============================================================ */
+// ---------- Danh mục ----------
 
 export function loadCategories(): Category[] {
-  return readArray(CATEGORIES_KEY).filter(isOkCategory) as Category[];
+  return JSON.parse(localStorage.getItem(CATEGORIES_KEY) || "[]");
 }
 
 export function saveCategories(list: Category[]): void {
   localStorage.setItem(CATEGORIES_KEY, JSON.stringify(list));
 }
 
-/* ============================================================
-   Giao dịch — mỗi tháng một khóa riêng
-   ============================================================ */
-
-function txKey(month: string): string {
-  return `${TX_PREFIX}${month}`;
-}
+// ---------- Giao dịch (mỗi tháng một khóa riêng) ----------
 
 export function loadTransactions(month: string): Transaction[] {
-  return readArray(txKey(month)).filter(isOkTransaction) as Transaction[];
+  return JSON.parse(localStorage.getItem(TX_PREFIX + month) || "[]");
 }
 
 export function saveTransactions(month: string, list: Transaction[]): void {
-  localStorage.setItem(txKey(month), JSON.stringify(list));
+  localStorage.setItem(TX_PREFIX + month, JSON.stringify(list));
 }
 
-/** Các tháng đang có dữ liệu, tháng mới nhất trước. */
+/** Các tháng đang có dữ liệu */
 export function allTxMonths(): string[] {
   const months: string[] = [];
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (key && key.startsWith(TX_PREFIX))
+    if (key && key.startsWith(TX_PREFIX)) {
       months.push(key.slice(TX_PREFIX.length));
+    }
   }
-  months.sort((a, b) => (a < b ? 1 : -1));
   return months;
 }
 
-/** Gộp giao dịch của tất cả các tháng (dùng để tính số dư tổng). */
-export function loadAllTransactions(): Transaction[] {
-  return allTxMonths().flatMap((m) => loadTransactions(m));
-}
-
-/* ============================================================
-   Tháng đang xem trên Month Picker
-   ============================================================ */
+// ---------- Tháng đang xem ----------
 
 export function loadSelectedMonth(): string {
   const m = localStorage.getItem(SELECTED_MONTH_KEY);
-  return m && /^\d{4}-\d{2}$/.test(m) ? m : currentMonthKey();
+  if (m === null) return currentMonth();
+  return m;
 }
 
 export function saveSelectedMonth(month: string): void {
   localStorage.setItem(SELECTED_MONTH_KEY, month);
 }
 
-/* ============================================================
-   Dữ liệu mẫu — tạo 1 lần khi lần đầu mở app
-   ============================================================ */
+// ---------- Dữ liệu mẫu ----------
 
+/** Lần đầu mở app: tạo danh mục và giao dịch mẫu */
 export function seedIfEmpty(): void {
-  if (localStorage.getItem(SEED_FLAG_KEY)) return;
+  if (localStorage.getItem(SEED_FLAG_KEY) !== null) return;
   const now = Date.now();
 
   // 6 danh mục mẫu kèm hạn mức
   const cats: Category[] = [
-    { id: "c-food", name: "Ăn uống", limit: 3_000_000, createdAt: now },
-    { id: "c-fuel", name: "Xăng xe", limit: 800_000, createdAt: now },
-    { id: "c-shop", name: "Mua sắm", limit: 2_000_000, createdAt: now },
-    { id: "c-fun", name: "Giải trí", limit: 800_000, createdAt: now },
-    { id: "c-bill", name: "Hóa đơn", limit: 1_500_000, createdAt: now },
+    { id: "c-food", name: "Ăn uống", limit: 3000000, createdAt: now },
+    { id: "c-fuel", name: "Xăng xe", limit: 800000, createdAt: now },
+    { id: "c-shop", name: "Mua sắm", limit: 2000000, createdAt: now },
+    { id: "c-fun", name: "Giải trí", limit: 800000, createdAt: now },
+    { id: "c-bill", name: "Hóa đơn", limit: 1500000, createdAt: now },
     { id: "c-sal", name: "Lương", limit: null, createdAt: now },
   ];
   saveCategories(cats);
 
-  // Giao dịch mẫu: [tháng, [ngày, tiền, danh mục, ghi chú]]
-  // (Tháng hiện tại cố ý để Ăn uống VƯỢT hạn mức để demo cảnh báo)
-  const m0 = currentMonthKey();
+  // Giao dịch mẫu cho 3 tháng gần nhất
+  // (tháng hiện tại cố ý để "Ăn uống" VƯỢT hạn mức để xem cảnh báo)
+  const m0 = currentMonth();
   const m1 = shiftMonth(m0, -1);
   const m2 = shiftMonth(m0, -2);
-  const seed: [string, [number, number, string, string][]][] = [
-    [
-      m0,
-      [
-        [1, 15_000_000, "c-sal", "Lương tháng"],
-        [2, -1_500_000, "c-food", "Ăn uống"],
-        [3, -900_000, "c-food", "Ăn cùng bạn"],
-        [5, -850_000, "c-food", "Đi ăn sinh nhật"],
-        [6, -700_000, "c-fuel", "Đổ xăng"],
-        [7, -350_000, "c-fun", "Xem phim"],
+  const seed = [
+    {
+      month: m0,
+      rows: [
+        { day: 1, amount: 15000000, categoryId: "c-sal", note: "Lương tháng" },
+        { day: 2, amount: -1500000, categoryId: "c-food", note: "Ăn uống" },
+        { day: 3, amount: -900000, categoryId: "c-food", note: "Ăn cùng bạn" },
+        { day: 5, amount: -850000, categoryId: "c-food", note: "Đi ăn sinh nhật" },
+        { day: 6, amount: -700000, categoryId: "c-fuel", note: "Đổ xăng" },
+        { day: 7, amount: -350000, categoryId: "c-fun", note: "Xem phim" },
       ],
-    ],
-    [
-      m1,
-      [
-        [3, -2_600_000, "c-food", "Ăn uống tháng"],
-        [5, -900_000, "c-fuel", "Xăng xe"],
+    },
+    {
+      month: m1,
+      rows: [
+        { day: 3, amount: -2600000, categoryId: "c-food", note: "Ăn uống tháng" },
+        { day: 5, amount: -900000, categoryId: "c-fuel", note: "Xăng xe" },
       ],
-    ],
-    [
-      m2,
-      [
-        [5, -2_200_000, "c-food", "Ăn uống"],
-        [12, -750_000, "c-fuel", "Xăng xe"],
+    },
+    {
+      month: m2,
+      rows: [
+        { day: 5, amount: -2200000, categoryId: "c-food", note: "Ăn uống" },
+        { day: 12, amount: -750000, categoryId: "c-fuel", note: "Xăng xe" },
       ],
-    ],
+    },
   ];
-  for (const [month, rows] of seed) {
-    const list: Transaction[] = rows.map(
-      ([day, amount, categoryId, note], i) => ({
-        id: `seed-${month}-${i}`,
-        amount,
-        categoryId,
-        note,
-        date: `${month}-${String(day).padStart(2, "0")}`,
+
+  for (const s of seed) {
+    const list: Transaction[] = [];
+    let i = 0;
+    for (const r of s.rows) {
+      list.push({
+        id: "seed-" + s.month + "-" + i,
+        amount: r.amount,
+        categoryId: r.categoryId,
+        note: r.note,
+        date: s.month + "-" + twoDigits(r.day),
         createdAt: now + i,
-      })
-    );
-    saveTransactions(month, list);
+      });
+      i++;
+    }
+    saveTransactions(s.month, list);
   }
 
   localStorage.setItem(SEED_FLAG_KEY, "1");

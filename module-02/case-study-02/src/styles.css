@@ -615,40 +615,6 @@ tbody tr.active-month:hover {
   gap: 6px;
 }
 
-/* ---------- Toast ---------- */
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: 24px;
-  transform: translateX(-50%);
-  background: var(--ink);
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
-  z-index: 100;
-  animation: rise 0.25s ease;
-  max-width: min(92vw, 420px);
-  text-align: center;
-}
-
-.toast.error {
-  background: var(--red);
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translate(-50%, 12px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
 /* ---------- Footer ---------- */
 .app-footer {
   text-align: center;

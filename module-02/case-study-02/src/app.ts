@@ -1,13 +1,9 @@
-// app.ts — Điểm bắt đầu (Vite chạy file này trước tiên).
-// Gồm 2 việc: 1) tạo dữ liệu mẫu nếu lần đầu mở app  2) gắn sự kiện + vẽ trang.
-
 import "./styles.css";
 import * as storage from "./storage";
-import * as ui from "./ui";
+import { initUi } from "./ui";
 
-function init(): void {
-  storage.seedIfEmpty();
-  ui.initUi();
-}
+// Lần đầu mở app: tạo danh mục & giao dịch mẫu
+storage.seedIfEmpty();
 
-init();
+// Vẽ giao diện
+initUi();
