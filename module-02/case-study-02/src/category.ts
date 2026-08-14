@@ -10,7 +10,7 @@ export function getCategories(): Category[] {
   return storage.loadCategories();
 }
 
-/** Tìm danh mục theo id, không có → null */
+/** Tìm danh mục theo id, không có -> null */
 export function getCategory(id: string): Category | null {
   const list = storage.loadCategories();
   for (const c of list) {
@@ -21,7 +21,7 @@ export function getCategory(id: string): Category | null {
 
 // ---------- Thêm / sửa / xóa ----------
 
-/** "1000000" → số; để trống → null (không giới hạn); không hợp lệ → undefined */
+/** "1000000" -> số; để trống -> null (không giới hạn); không hợp lệ -> undefined */
 function parseLimit(text: string): number | null | undefined {
   if (text === "") return null;
   const n = Number(text);
@@ -88,7 +88,12 @@ export function updateCategory(
   const newList: Category[] = [];
   for (const c of storage.loadCategories()) {
     if (c.id === id) {
-      newList.push({ id: c.id, name: trimmed, limit, createdAt: old.createdAt });
+      newList.push({
+        id: c.id,
+        name: trimmed,
+        limit,
+        createdAt: old.createdAt,
+      });
     } else {
       newList.push(c);
     }

@@ -1,5 +1,5 @@
 // ui.ts — Phần giao diện: vẽ dữ liệu lên màn hình và xử lý nút bấm.
-// Mỗi khi dữ liệu thay đổi → refreshAll() vẽ lại toàn bộ trang.
+// Mỗi khi dữ liệu thay đổi -> refreshAll() vẽ lại toàn bộ trang.
 
 import * as storage from "./storage";
 import * as category from "./category";
@@ -25,12 +25,12 @@ function getForm(id: string): HTMLFormElement {
   return document.getElementById(id) as HTMLFormElement;
 }
 
-// 1200000 → "1200000 đ"
+// 1200000 -> "1200000 đ"
 function formatVND(n: number): string {
   return String(n) + " đ";
 }
 
-// "2026-08" → "Tháng 8 năm 2026"
+// "2026-08" -> "Tháng 8 năm 2026"
 function monthLabel(month: string): string {
   return "Tháng " + Number(month.slice(5, 7)) + " năm " + month.slice(0, 4);
 }
@@ -117,7 +117,7 @@ function renderBudget(): void {
   const bar = getEl("budgetBar");
   const textEl = getEl("budgetText");
 
-  // Chưa đặt hạn mức nào → chỉ hiện gợi ý
+  // Chưa đặt hạn mức nào -> chỉ hiện gợi ý
   if (sumLimit <= 0) {
     stateEl.textContent = "Chưa đặt hạn mức";
     stateEl.className = "budget-state muted";
@@ -201,7 +201,7 @@ function renderTxList(): void {
     const cls = t.amount >= 0 ? "up" : "down";
     const sign = t.amount >= 0 ? "+" : "-";
     const note = t.note === "" ? '<span class="muted">—</span>' : t.note;
-    const parts = t.date.split("-"); // "2026-08-15" → hiển thị 15/08/2026
+    const parts = t.date.split("-"); // "2026-08-15" -> hiển thị 15/08/2026
     rows += `
       <tr>
         <td class="muted">${parts[2]}/${parts[1]}/${parts[0]}</td>
@@ -342,7 +342,7 @@ function bindCategoryButtons(): void {
 function renderSummary(): void {
   const months = storage.allTxMonths();
 
-  // Tháng chi nhiều nhất → để quy đổi độ dài các thanh so sánh
+  // Tháng chi nhiều nhất -> để quy đổi độ dài các thanh so sánh
   let maxExpense = 0;
   for (const m of months) {
     const totals = transaction.getTotals(storage.loadTransactions(m));
@@ -388,7 +388,7 @@ function onTxSubmit(e: SubmitEvent): void {
     'input[name="txType"]:checked'
   ) as HTMLInputElement | null;
 
-  // Ngày bỏ trống → mặc định hôm nay
+  // Ngày bỏ trống -> mặc định hôm nay
   if (dateInput.value === "") dateInput.value = storage.todayKey();
 
   const error = transaction.addTransaction(

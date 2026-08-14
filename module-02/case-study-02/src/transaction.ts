@@ -30,7 +30,7 @@ export function listTransactions(month: string): Transaction[] {
   return result;
 }
 
-/** Tìm giao dịch theo id (ở mọi tháng), không có → null */
+/** Tìm giao dịch theo id (ở mọi tháng), không có -> null */
 export function findTransaction(id: string): Transaction | null {
   const months = storage.allTxMonths();
   for (const m of months) {

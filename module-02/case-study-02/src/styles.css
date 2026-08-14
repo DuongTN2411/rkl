@@ -218,7 +218,7 @@ body {
   margin-top: 4px;
 }
 
-/* Thu / số dư dương → XANH; Chi / cảnh báo → ĐỎ (NFR-6) */
+/* Thu / số dư dương -> XANH; Chi / cảnh báo -> ĐỎ (NFR-6) */
 .up {
   color: var(--green);
 }

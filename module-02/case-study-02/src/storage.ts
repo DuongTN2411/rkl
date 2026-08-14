@@ -10,7 +10,7 @@ const SEED_FLAG_KEY = "ewallet:seeded-v2";
 
 // ---------- Tiện ích chung ----------
 
-/** 8 → "08" */
+/** 8 -> "08" */
 function twoDigits(n: number): string {
   if (n < 10) return "0" + n;
   return String(n);
@@ -35,7 +35,7 @@ export function todayKey(): string {
   return currentMonth() + "-" + twoDigits(d.getDate());
 }
 
-/** Cộng/trừ tháng: shiftMonth("2026-08", -1) → "2026-07" */
+/** Cộng/trừ tháng: shiftMonth("2026-08", -1) -> "2026-07" */
 export function shiftMonth(month: string, delta: number): string {
   let year = Number(month.slice(0, 4));
   let m = Number(month.slice(5, 7)) + delta;
@@ -124,7 +124,12 @@ export function seedIfEmpty(): void {
         { day: 1, amount: 15000000, categoryId: "c-sal", note: "Lương tháng" },
         { day: 2, amount: -1500000, categoryId: "c-food", note: "Ăn uống" },
         { day: 3, amount: -900000, categoryId: "c-food", note: "Ăn cùng bạn" },
-        { day: 5, amount: -850000, categoryId: "c-food", note: "Đi ăn sinh nhật" },
+        {
+          day: 5,
+          amount: -850000,
+          categoryId: "c-food",
+          note: "Đi ăn sinh nhật",
+        },
         { day: 6, amount: -700000, categoryId: "c-fuel", note: "Đổ xăng" },
         { day: 7, amount: -350000, categoryId: "c-fun", note: "Xem phim" },
       ],
@@ -132,7 +137,12 @@ export function seedIfEmpty(): void {
     {
       month: m1,
       rows: [
-        { day: 3, amount: -2600000, categoryId: "c-food", note: "Ăn uống tháng" },
+        {
+          day: 3,
+          amount: -2600000,
+          categoryId: "c-food",
+          note: "Ăn uống tháng",
+        },
         { day: 5, amount: -900000, categoryId: "c-fuel", note: "Xăng xe" },
       ],
     },
