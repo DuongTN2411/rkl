@@ -8,8 +8,7 @@ import * as transaction from "./transaction";
 // ---------- Hàm tiện ích ----------
 
 // Lấy phần tử HTML theo id.
-// "as HTMLInputElement" là ép kiểu: nói cho TypeScript biết đó là ô nhập
-// liệu để dùng được .value.
+// "as HTMLInputElement" là ép kiểu: nói cho TypeScript biết đó là ô nhập liệu để dùng được .value.
 function getEl(id: string): HTMLElement {
   return document.getElementById(id) as HTMLElement;
 }
@@ -210,7 +209,9 @@ function renderTxList(): void {
         <td class="note-cell">${note}</td>
         <td class="num ${cls}">${sign}${formatVND(Math.abs(t.amount))}</td>
         <td class="num">
-          <button type="button" class="btn danger sm" data-del-tx="${t.id}" title="Xóa giao dịch">✕</button>
+          <button type="button" class="btn danger sm" data-del-tx="${
+            t.id
+          }" title="Xóa giao dịch">✕</button>
         </td>
       </tr>`;
   }
@@ -257,13 +258,17 @@ function renderCategories(): void {
   let html = "";
   for (const s of spends) {
     const limitText =
-      s.category.limit === null ? "Không giới hạn" : formatVND(s.category.limit);
+      s.category.limit === null
+        ? "Không giới hạn"
+        : formatVND(s.category.limit);
     const overTag = s.overLimit
       ? `<b class="tag over">vượt ${Math.round(s.percent - 100)}%</b>`
       : "";
     let bar = "";
     if (s.category.limit !== null && s.category.limit > 0) {
-      bar = `<div class="progress mini"><div class="progress-fill ${s.overLimit ? "over" : ""}" style="width:${Math.min(s.percent, 1000)}%"></div></div>`;
+      bar = `<div class="progress mini"><div class="progress-fill ${
+        s.overLimit ? "over" : ""
+      }" style="width:${Math.min(s.percent, 1000)}%"></div></div>`;
     }
     html += `
       <li class="cat-row">
@@ -272,14 +277,20 @@ function renderCategories(): void {
             <strong>${s.category.name}</strong>${overTag}
           </div>
           <div class="cat-meta">
-            Đã chi <b class="${s.overLimit ? "down" : ""}">${formatVND(s.spent)}</b>
+            Đã chi <b class="${s.overLimit ? "down" : ""}">${formatVND(
+      s.spent
+    )}</b>
             / Hạn mức ${limitText}
           </div>
           ${bar}
         </div>
         <div class="cat-actions">
-          <button type="button" class="btn sm" data-edit-cat="${s.category.id}">Sửa</button>
-          <button type="button" class="btn danger sm" data-del-cat="${s.category.id}">Xóa</button>
+          <button type="button" class="btn sm" data-edit-cat="${
+            s.category.id
+          }">Sửa</button>
+          <button type="button" class="btn danger sm" data-del-cat="${
+            s.category.id
+          }">Xóa</button>
         </div>
       </li>`;
   }
@@ -355,7 +366,9 @@ function renderSummary(): void {
         <td><strong>${monthLabel(m)}</strong></td>
         <td class="num up">+${formatVND(totals.income)}</td>
         <td class="num down">-${formatVND(totals.expense)}</td>
-        <td class="num ${diff >= 0 ? "up" : "down"}">${diff >= 0 ? "+" : "−"}${formatVND(Math.abs(diff))}</td>
+        <td class="num ${diff >= 0 ? "up" : "down"}">${
+      diff >= 0 ? "+" : "−"
+    }${formatVND(Math.abs(diff))}</td>
         <td class="bar-col"><div class="progress mini"><div class="progress-fill" style="width:${width}%"></div></div></td>
       </tr>`;
   }
