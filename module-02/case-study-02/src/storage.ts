@@ -1,14 +1,9 @@
-// storage.ts — Đọc/ghi dữ liệu vào localStorage và các hàm tiện ích thời gian
-
 import { Category, Transaction } from "./types";
 
-// Khóa (key) lưu trong localStorage
 const CATEGORIES_KEY = "ewallet:categories";
 const SELECTED_MONTH_KEY = "ewallet:selectedMonth";
-const TX_PREFIX = "ewallet:tx:"; // mỗi tháng một khóa riêng, VD: "ewallet:tx:2026-08"
+const TX_PREFIX = "ewallet:tx:";
 const SEED_FLAG_KEY = "ewallet:seeded-v2";
-
-// ---------- Tiện ích chung ----------
 
 /** 8 -> "08" */
 function twoDigits(n: number): string {
@@ -16,12 +11,10 @@ function twoDigits(n: number): string {
   return String(n);
 }
 
-/** Tạo id duy nhất: thời điểm tạo + số ngẫu nhiên */
+/** Id duy nhất: thời điểm tạo + số ngẫu nhiên */
 export function newId(): string {
   return String(Date.now()) + "-" + Math.floor(Math.random() * 100000);
 }
-
-// ---------- Thời gian ----------
 
 /** Tháng hiện tại, dạng "YYYY-MM" */
 export function currentMonth(): string {
@@ -29,7 +22,7 @@ export function currentMonth(): string {
   return d.getFullYear() + "-" + twoDigits(d.getMonth() + 1);
 }
 
-/** Ngày hôm nay, dạng "YYYY-MM-DD" (ngày mặc định của form) */
+/** Ngày hôm nay, dạng "YYYY-MM-DD" */
 export function todayKey(): string {
   const d = new Date();
   return currentMonth() + "-" + twoDigits(d.getDate());
@@ -50,8 +43,6 @@ export function shiftMonth(month: string, delta: number): string {
   return year + "-" + twoDigits(m);
 }
 
-// ---------- Danh mục ----------
-
 export function loadCategories(): Category[] {
   return JSON.parse(localStorage.getItem(CATEGORIES_KEY) || "[]");
 }
@@ -59,8 +50,6 @@ export function loadCategories(): Category[] {
 export function saveCategories(list: Category[]): void {
   localStorage.setItem(CATEGORIES_KEY, JSON.stringify(list));
 }
-
-// ---------- Giao dịch (mỗi tháng một khóa riêng) ----------
 
 export function loadTransactions(month: string): Transaction[] {
   return JSON.parse(localStorage.getItem(TX_PREFIX + month) || "[]");
@@ -82,8 +71,6 @@ export function allTxMonths(): string[] {
   return months;
 }
 
-// ---------- Tháng đang xem ----------
-
 export function loadSelectedMonth(): string {
   const m = localStorage.getItem(SELECTED_MONTH_KEY);
   if (m === null) return currentMonth();
@@ -94,14 +81,11 @@ export function saveSelectedMonth(month: string): void {
   localStorage.setItem(SELECTED_MONTH_KEY, month);
 }
 
-// ---------- Dữ liệu mẫu ----------
-
-/** Lần đầu mở app: tạo danh mục và giao dịch mẫu */
+/** Lần đầu mở app: tạo danh mục & giao dịch mẫu */
 export function seedIfEmpty(): void {
   if (localStorage.getItem(SEED_FLAG_KEY) !== null) return;
   const now = Date.now();
 
-  // 6 danh mục mẫu kèm hạn mức
   const cats: Category[] = [
     { id: "c-food", name: "Ăn uống", limit: 3000000, createdAt: now },
     { id: "c-fuel", name: "Xăng xe", limit: 800000, createdAt: now },
@@ -112,8 +96,6 @@ export function seedIfEmpty(): void {
   ];
   saveCategories(cats);
 
-  // Giao dịch mẫu cho 3 tháng gần nhất
-  // (tháng hiện tại cố ý để "Ăn uống" VƯỢT hạn mức để xem cảnh báo)
   const m0 = currentMonth();
   const m1 = shiftMonth(m0, -1);
   const m2 = shiftMonth(m0, -2);

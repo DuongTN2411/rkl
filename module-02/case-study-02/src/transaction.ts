@@ -1,10 +1,8 @@
-// transaction.ts — Nghiệp vụ giao dịch: thêm, xóa, sắp xếp, thống kê
-
 import { Transaction, Totals } from "./types";
 import * as storage from "./storage";
 import { getCategory } from "./category";
 
-/** Kiểm tra "YYYY-MM-DD" đúng định dạng và là ngày tồn tại thật */
+/** Kiểm tra định dạng ngày "YYYY-MM-DD" */
 function isValidDate(s: string): boolean {
   const parts = s.split("-");
   if (parts.length !== 3) return false;
@@ -16,21 +14,20 @@ function isValidDate(s: string): boolean {
   if (month === 2 && day > 29) return false;
   if ((month === 4 || month === 6 || month === 9 || month === 11) && day > 30)
     return false;
-  return year >= 2000; // năm phải hợp lý (form date luôn gửi "20xx-..")
+  return year >= 2000;
 }
 
-/** Giao dịch của tháng "YYYY-MM", mới nhất lên đầu */
+/** Giao dịch tháng "YYYY-MM", mới nhất lên đầu */
 export function listTransactions(month: string): Transaction[] {
   const list = storage.loadTransactions(month);
   const result: Transaction[] = [];
-  // Duyệt từ cuối mảng (mới nhất) nên mới nhất hiện lên đầu
   for (let i = list.length - 1; i >= 0; i--) {
     result.push(list[i]);
   }
   return result;
 }
 
-/** Tìm giao dịch theo id (ở mọi tháng), không có -> null */
+/** Tìm giao dịch theo id (mọi tháng), không có -> null */
 export function findTransaction(id: string): Transaction | null {
   const months = storage.allTxMonths();
   for (const m of months) {
@@ -42,22 +39,20 @@ export function findTransaction(id: string): Transaction | null {
   return null;
 }
 
-/** Thêm giao dịch; trả về thông báo lỗi, hoặc null nếu thành công */
+/** Thêm giao dịch; trả về lỗi hoặc null nếu thành công */
 export function addTransaction(
   amount: number,
-  type: string, // "income" = thu, "expense" = chi
+  type: string,
   categoryId: string,
   note: string,
   date: string
 ): string | null {
-  // Kiểm tra dữ liệu nhập
   if (amount <= 0 || amount % 1 !== 0)
     return "Số tiền phải là số nguyên dương.";
   if (categoryId === "") return "Vui lòng chọn danh mục cho giao dịch.";
   if (getCategory(categoryId) === null) return "Danh mục không tồn tại.";
   if (!isValidDate(date)) return "Ngày giao dịch không hợp lệ.";
 
-  // Tạo giao dịch (thu = +, chi = −) rồi lưu vào đúng tháng của ngày đó
   const month = date.slice(0, 7);
   const tx: Transaction = {
     id: storage.newId(),
@@ -71,7 +66,7 @@ export function addTransaction(
   return null;
 }
 
-/** Xóa giao dịch theo id (tìm trong tháng đang xem) */
+/** Xóa giao dịch theo id trong tháng đang xem */
 export function deleteTransaction(id: string, month: string): string | null {
   const list = storage.loadTransactions(month);
   const newList: Transaction[] = [];
@@ -88,9 +83,7 @@ export function deleteTransaction(id: string, month: string): string | null {
   return null;
 }
 
-// ---------- Thống kê ----------
-
-/** Tổng thu và tổng chi của một danh sách giao dịch */
+/** Tổng thu và tổng chi của danh sách giao dịch */
 export function getTotals(txs: Transaction[]): Totals {
   let income = 0;
   let expense = 0;
@@ -101,7 +94,7 @@ export function getTotals(txs: Transaction[]): Totals {
   return { income, expense };
 }
 
-/** Số dư hiện tại = tổng thu − tổng chi (của MỌI tháng) */
+/** Số dư hiện tại = tổng thu − tổng chi (mọi tháng) */
 export function getBalance(): number {
   let total = 0;
   const months = storage.allTxMonths();
@@ -112,7 +105,7 @@ export function getBalance(): number {
   return total;
 }
 
-/** Số giao dịch của toàn bộ app (hiển thị trên Dashboard) */
+/** Số giao dịch của toàn bộ app (Dashboard) */
 export function countTransactions(): number {
   let count = 0;
   const months = storage.allTxMonths();

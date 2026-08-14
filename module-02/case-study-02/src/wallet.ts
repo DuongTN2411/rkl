@@ -1,16 +1,9 @@
-// wallet.ts — Class EWallet: chứa dữ liệu (danh mục + giao dịch)
-// và các thao tác trên dữ liệu. Lưu trong localStorage để không mất khi đóng tab.
-// (Kiểu dữ liệu ở types.ts)
-
 import { Category, Transaction, Totals, CatSpend } from "./types";
 
-// Khóa (key) lưu trong localStorage
 const CATEGORIES_KEY = "ewallet:categories";
 const TRANSACTIONS_KEY = "ewallet:transactions";
 const SELECTED_MONTH_KEY = "ewallet:selectedMonth";
 const SEED_FLAG_KEY = "ewallet:seeded-v2";
-
-// ---------- Hàm dùng chung ----------
 
 /** 8 -> "08" */
 function twoDigits(n: number): string {
@@ -18,7 +11,7 @@ function twoDigits(n: number): string {
   return String(n);
 }
 
-/** Kiểm tra "YYYY-MM-DD" đúng định dạng và là ngày tồn tại thật */
+/** Kiểm tra định dạng ngày "YYYY-MM-DD" */
 function isValidDate(s: string): boolean {
   const parts = s.split("-");
   if (parts.length !== 3) return false;
@@ -30,14 +23,10 @@ function isValidDate(s: string): boolean {
   if (month === 2 && day > 29) return false;
   if ((month === 4 || month === 6 || month === 9 || month === 11) && day > 30)
     return false;
-  return year >= 2000; // năm phải hợp lý (form date luôn gửi "20xx-..")
+  return year >= 2000;
 }
 
-// ---------- Class EWallet ----------
-
 export class EWallet {
-  // Toàn bộ dữ liệu nằm trong 2 mảng này.
-  // Sau mỗi lần thay đổi phải gọi save() để lưu lại.
   categories: Category[] = [];
   transactions: Transaction[] = [];
 
@@ -45,11 +34,8 @@ export class EWallet {
     this.load();
   }
 
-  // ---------- Đọc / ghi localStorage ----------
-
-  /** Đọc dữ liệu đã lưu từ localStorage vào 2 mảng */
+  /** Đọc dữ liệu từ localStorage vào 2 mảng */
   load(): void {
-    // JSON.parse: biến chuỗi JSON thành mảng; "[]" là mảng rỗng
     this.categories = JSON.parse(localStorage.getItem(CATEGORIES_KEY) || "[]");
     this.transactions = JSON.parse(
       localStorage.getItem(TRANSACTIONS_KEY) || "[]"
@@ -62,14 +48,10 @@ export class EWallet {
     localStorage.setItem(TRANSACTIONS_KEY, JSON.stringify(this.transactions));
   }
 
-  // ---------- Tiện ích ----------
-
-  /** Tạo id duy nhất: thời điểm tạo + số ngẫu nhiên */
+  /** Id duy nhất: thời điểm tạo + số ngẫu nhiên */
   newId(): string {
     return String(Date.now()) + "-" + Math.floor(Math.random() * 100000);
   }
-
-  // ---------- Thời gian ----------
 
   /** Tháng hiện tại, dạng "YYYY-MM" */
   currentMonth(): string {
@@ -77,7 +59,7 @@ export class EWallet {
     return d.getFullYear() + "-" + twoDigits(d.getMonth() + 1);
   }
 
-  /** Ngày hôm nay, dạng "YYYY-MM-DD" (ngày mặc định của form) */
+  /** Ngày hôm nay, dạng "YYYY-MM-DD" */
   todayKey(): string {
     const d = new Date();
     return this.currentMonth() + "-" + twoDigits(d.getDate());
@@ -109,9 +91,7 @@ export class EWallet {
     localStorage.setItem(SELECTED_MONTH_KEY, month);
   }
 
-  // ---------- Danh mục ----------
-
-  /** Toàn bộ danh mục, hiển thị theo thứ tự tạo (cũ trước) */
+  /** Toàn bộ danh mục, hiển thị theo thứ tự tạo */
   getCategories(): Category[] {
     return this.categories;
   }
@@ -124,12 +104,11 @@ export class EWallet {
     return null;
   }
 
-  /** Thêm danh mục; trả về thông báo lỗi, hoặc null nếu thành công */
+  /** Thêm danh mục; trả về lỗi hoặc null nếu thành công */
   addCategory(name: string, limitRaw: string): string | null {
     const trimmed = name.trim();
     const limitText = limitRaw.trim();
 
-    // 1. Kiểm tra tên
     if (trimmed === "") return "Tên danh mục không được để trống.";
     if (trimmed.length > 40) return "Tên danh mục tối đa 40 ký tự.";
     for (const c of this.categories) {
@@ -138,8 +117,7 @@ export class EWallet {
       }
     }
 
-    // 2. Kiểm tra hạn mức
-    let limit: number | null = null; // mặc định: không giới hạn
+    let limit: number | null = null;
     if (limitText !== "") {
       limit = Number(limitText);
       if (isNaN(limit) || limit < 0 || limit % 1 !== 0) {
@@ -147,7 +125,6 @@ export class EWallet {
       }
     }
 
-    // 3. Thêm vào danh sách rồi lưu lại
     this.categories.push({
       id: this.newId(),
       name: trimmed,
@@ -163,11 +140,9 @@ export class EWallet {
     const trimmed = name.trim();
     const limitText = limitRaw.trim();
 
-    // 1. Kiểm tra danh mục có tồn tại
     const target = this.getCategory(id);
     if (target === null) return "Không tìm thấy danh mục.";
 
-    // 2. Kiểm tra tên (bỏ qua chính danh mục đang sửa)
     if (trimmed === "") return "Tên danh mục không được để trống.";
     if (trimmed.length > 40) return "Tên danh mục tối đa 40 ký tự.";
     for (const c of this.categories) {
@@ -176,7 +151,6 @@ export class EWallet {
       }
     }
 
-    // 3. Kiểm tra hạn mức
     let limit: number | null = null;
     if (limitText !== "") {
       limit = Number(limitText);
@@ -185,7 +159,6 @@ export class EWallet {
       }
     }
 
-    // 4. Thay danh mục cũ bằng danh mục mới (giữ nguyên id và createdAt)
     const index = this.categories.indexOf(target);
     this.categories[index] = {
       id: target.id,
@@ -197,12 +170,11 @@ export class EWallet {
     return null;
   }
 
-  /** Xóa danh mục; không cho xóa nếu vẫn còn giao dịch thuộc nó */
+  /** Xóa danh mục; không cho xóa nếu còn giao dịch thuộc nó */
   deleteCategory(id: string): string | null {
     const target = this.getCategory(id);
     if (target === null) return "Không tìm thấy danh mục.";
 
-    // Đếm số giao dịch thuộc danh mục này (ở mọi tháng)
     let count = 0;
     for (const t of this.transactions) {
       if (t.categoryId === id) count++;
@@ -211,19 +183,15 @@ export class EWallet {
       return `Không thể xóa "${target.name}" vì vẫn còn ${count} giao dịch thuộc danh mục này.`;
     }
 
-    // Xóa khỏi mảng rồi lưu lại
     const index = this.categories.indexOf(target);
     this.categories.splice(index, 1);
     this.save();
     return null;
   }
 
-  // ---------- Giao dịch ----------
-
   /** Giao dịch của tháng "YYYY-MM", mới nhất lên đầu */
   getTransactions(month: string): Transaction[] {
     const result: Transaction[] = [];
-    // Duyệt từ cuối mảng (mới nhất) nên mới nhất hiện lên đầu
     for (let i = this.transactions.length - 1; i >= 0; i--) {
       const t = this.transactions[i];
       if (t.date.slice(0, 7) === month) result.push(t);
@@ -239,22 +207,20 @@ export class EWallet {
     return null;
   }
 
-  /** Thêm giao dịch; trả về thông báo lỗi, hoặc null nếu thành công */
+  /** Thêm giao dịch; trả về lỗi hoặc null nếu thành công */
   addTransaction(
     amount: number,
-    type: string, // "income" = thu, "expense" = chi
+    type: string,
     categoryId: string,
     note: string,
     date: string
   ): string | null {
-    // 1. Kiểm tra dữ liệu nhập
     if (amount <= 0 || amount % 1 !== 0)
       return "Số tiền phải là số nguyên dương.";
     if (categoryId === "") return "Vui lòng chọn danh mục cho giao dịch.";
     if (this.getCategory(categoryId) === null) return "Danh mục không tồn tại.";
     if (!isValidDate(date)) return "Ngày giao dịch không hợp lệ.";
 
-    // 2. Tạo giao dịch (thu = +, chi = −) rồi thêm vào cuối mảng
     this.transactions.push({
       id: this.newId(),
       amount: type === "income" ? amount : -amount,
@@ -264,12 +230,11 @@ export class EWallet {
       createdAt: Date.now(),
     });
 
-    // 3. Lưu lại
     this.save();
     return null;
   }
 
-  /** Xóa giao dịch theo id (tìm trong tháng đang xem) */
+  /** Xóa giao dịch theo id trong tháng đang xem */
   deleteTransaction(id: string, month: string): string | null {
     const txs = this.getTransactions(month);
     for (const t of txs) {
@@ -283,8 +248,6 @@ export class EWallet {
     return "Không tìm thấy giao dịch.";
   }
 
-  // ---------- Thống kê ----------
-
   /** Tổng thu và tổng chi của một danh sách giao dịch */
   getTotals(txs: Transaction[]): Totals {
     let income = 0;
@@ -296,14 +259,14 @@ export class EWallet {
     return { income, expense };
   }
 
-  /** Số dư hiện tại = tổng thu − tổng chi (của MỌI tháng) */
+  /** Số dư hiện tại = tổng thu − tổng chi (mọi tháng) */
   getBalance(): number {
     let total = 0;
     for (const t of this.transactions) total += t.amount;
     return total;
   }
 
-  /** Tổng hạn mức của tất cả danh mục ("ngân sách tháng") */
+  /** Tổng hạn mức của tất cả danh mục */
   totalLimit(): number {
     let sum = 0;
     for (const c of this.categories) {
@@ -312,12 +275,11 @@ export class EWallet {
     return sum;
   }
 
-  /** Tình hình chi tiêu từng danh mục trong tháng: đã chi, %, có vượt không */
+  /** Chi tiêu từng danh mục trong tháng: đã chi, %, có vượt không */
   getSpends(month: string): CatSpend[] {
     const txs = this.getTransactions(month);
     const result: CatSpend[] = [];
     for (const c of this.categories) {
-      // Đếm tổng tiền đã chi của danh mục này
       let spent = 0;
       for (const t of txs) {
         if (t.categoryId === c.id && t.amount < 0) spent += -t.amount;
@@ -332,14 +294,11 @@ export class EWallet {
     return result;
   }
 
-  // ---------- Dữ liệu mẫu ----------
-
   /** Lần đầu mở app: tạo danh mục và giao dịch mẫu */
   seedIfEmpty(): void {
     if (localStorage.getItem(SEED_FLAG_KEY) !== null) return;
     const now = Date.now();
 
-    // 6 danh mục mẫu kèm hạn mức
     this.categories = [
       { id: "c-food", name: "Ăn uống", limit: 3000000, createdAt: now },
       { id: "c-fuel", name: "Xăng xe", limit: 800000, createdAt: now },
@@ -349,8 +308,6 @@ export class EWallet {
       { id: "c-sal", name: "Lương", limit: null, createdAt: now },
     ];
 
-    // Giao dịch mẫu cho 3 tháng gần nhất
-    // (tháng hiện tại cố ý để "Ăn uống" VƯỢT hạn mức để xem cảnh báo)
     const m0 = this.currentMonth();
     const m1 = this.shiftMonth(m0, -1);
     const m2 = this.shiftMonth(m0, -2);
