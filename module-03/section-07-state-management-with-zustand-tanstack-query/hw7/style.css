@@ -1,0 +1,68 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f5f7;
+  margin: 0;
+  padding: 24px;
+  color: #222;
+}
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.note {
+  font-size: 13px;
+  color: #555;
+}
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin: 10px 0 16px;
+}
+.post-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.like-btn {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.like-btn.liked {
+  background: #1976d2;
+  color: #fff;
+  border-color: #1976d2;
+}
+.status {
+  font-size: 13px;
+  color: #666;
+  min-height: 18px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+th, td {
+  border: 1px solid #ffe082;
+  padding: 8px 10px;
+  font-size: 13px;
+  text-align: left;
+}
+.analysis {
+  margin-top: 20px;
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}

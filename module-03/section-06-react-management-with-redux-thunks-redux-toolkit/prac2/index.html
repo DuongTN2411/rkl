@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice 2</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <h1>Danh Sách Khách Hàng</h1>
+    <div class="controls">
+      <button id="fetchBtn">Tải danh sách</button>
+      <button id="fetchErrorBtn">Tải (Giả lỗi mạng)</button>
+    </div>
+    <div id="status"></div>
+    <ul id="userList"></ul>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/redux-toolkit/1.9.7/redux-toolkit.umd.min.js"></script>
+  <script>window.RTK = window['@reduxjs/toolkit'];</script>
+  <script src="script.js"></script>
+</body>
+</html>

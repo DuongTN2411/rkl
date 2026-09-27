@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Practice 1</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bài 1 - Sửa lỗi Re-render diện rộng (Zustand)</h1>
+    <div class="controls">
+      <button id="btn-theme">Đổi Theme (hiện: <span id="theme-label">light</span>)</button>
+      <button id="btn-sidebar">Toggle Sidebar</button>
+      <select id="select-role">
+        <option value="admin">admin</option>
+        <option value="editor">editor</option>
+        <option value="viewer">viewer</option>
+      </select>
+    </div>
+    <p class="note">Nhấn "Toggle Sidebar" hoặc đổi "role" nhiều lần. Header BAD sẽ tăng số lần render, Header GOOD (dùng selector) thì không đổi vì nó chỉ quan tâm tới "theme".</p>
+
+    <div class="panel bad">
+      <h2>Header BAD - lấy toàn bộ store</h2>
+      <div id="header-bad" class="header-box">Header</div>
+      <p>Số lần render: <span id="count-bad">0</span></p>
+    </div>
+
+    <div class="panel good">
+      <h2>Header GOOD - dùng selector (chỉ lấy theme)</h2>
+      <div id="header-good" class="header-box">Header</div>
+      <p>Số lần render: <span id="count-good">0</span></p>
+    </div>
+
+    <div class="panel">
+      <h2>Sidebar (để so sánh, luôn phải render khi sidebarOpen đổi)</h2>
+      <div id="sidebar-box" class="header-box">Sidebar</div>
+      <p>Số lần render: <span id="count-sidebar">0</span></p>
+    </div>
+
+    <div class="analysis">
+      <h3>Phân tích</h3>
+      <p>Trong đoạn code lỗi, useAppStore() được gọi không có selector, nghĩa là component đăng ký lắng nghe TOÀN BỘ state. Bất kỳ field nào trong store đổi (kể cả sidebarOpen, userRole không liên quan tới Header) đều khiến Zustand phát tín hiệu update và Header render lại, phá vỡ triết lý "chỉ render khi phần state mình dùng thay đổi" của Zustand.</p>
+      <p>Cách sửa: dùng selector useAppStore(state => state.theme) để chỉ subscribe đúng phần cần thiết, hoặc dùng useAppStore(useShallow(state => ({...}))) khi cần nhiều field nhưng so sánh nông để tránh render thừa.</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

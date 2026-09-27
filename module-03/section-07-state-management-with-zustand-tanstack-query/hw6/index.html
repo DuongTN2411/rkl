@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Homework 6</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bài 6 - Phân tích và Tối ưu Autocomplete Search (Chống Spam API)</h1>
+    <p class="note">Gõ nhanh vào ô tìm kiếm (ví dụ: "Macbook"). Bộ đếm "Số request đã gửi" cho thấy giải pháp Debounce giảm số lần gọi API xuống chỉ còn 1 lần sau khi người dùng ngừng gõ 400ms.</p>
+
+    <input id="search-input" type="text" placeholder="Gõ nhanh để kiểm tra, ví dụ: Macbook">
+    <p>Số ký tự đã gõ: <span id="char-count">0</span> &nbsp;|&nbsp; Số request đã gửi (debounce): <span id="request-count">0</span></p>
+    <p id="api-status" class="status"></p>
+    <ul id="result-list"></ul>
+
+    <div class="analysis">
+      <h3>1) Phân tích &amp; Đề xuất (2 giải pháp)</h3>
+      <p><strong>Giải pháp 1 - Debounce (setTimeout thuần trong Component):</strong> mỗi lần người dùng gõ, hủy timer cũ và đặt timer mới (vd 400ms). Chỉ khi hết 400ms mà không có ký tự mới, mới thực sự gọi API.</p>
+      <p><strong>Giải pháp 2 - Hủy request cũ / skip tham số (Redux Thunk / RTK Query):</strong> cấu hình RTK Query tự động abort request trước đó khi có request mới với query key khác, kết hợp tham số "skip" khi input rỗng.</p>
+
+      <h3>2) So sánh &amp; Lựa chọn</h3>
+      <table>
+        <thead><tr><th>Tiêu chí</th><th>Debounce</th><th>Hủy request cũ (AbortController)</th></tr></thead>
+        <tbody>
+          <tr><td>Tốc độ triển khai</td><td>Rất nhanh, không cần thư viện</td><td>Phức tạp hơn, cần quản lý AbortController</td></tr>
+          <tr><td>Dễ bảo trì</td><td>Dễ đọc, dễ chỉnh thời gian delay</td><td>Cần hiểu rõ cơ chế cancel token của RTK Query</td></tr>
+          <tr><td>Tính an toàn (tránh race-condition)</td><td>Vẫn có khả năng response cũ về sau response mới nếu mạng chậm</td><td>An toàn tuyệt đối vì request cũ bị hủy hẳn</td></tr>
+          <tr><td>Trải nghiệm UI</td><td>Mượt, độ trễ cảm nhận thấp (400ms)</td><td>Mượt nhưng tốn nhiều request hơn nếu không kết hợp debounce</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Quyết định:</strong> Chọn Debounce làm giải pháp chính vì đơn giản, giảm số request hiệu quả nhất và đủ dùng cho thanh tìm kiếm sản phẩm với lưu lượng vừa phải.</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

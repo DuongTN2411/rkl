@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Practice 4</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bài 4 - Luồng gọi API phụ thuộc (Dependent Queries)</h1>
+    <p class="note">Chọn một đơn hàng. Query 1 lấy thông tin đơn hàng. Query 2 (lịch sử giao hàng) chỉ được gọi (enabled) khi Query 1 đã trả về trackingId khác null.</p>
+
+    <select id="order-select">
+      <option value="1">Đơn hàng #1 (đã giao cho vận chuyển)</option>
+      <option value="2">Đơn hàng #2 (chưa giao cho vận chuyển)</option>
+    </select>
+
+    <div class="panel">
+      <h2>Query 1: Thông tin đơn hàng</h2>
+      <div id="order-info">-</div>
+    </div>
+
+    <div class="panel">
+      <h2>Query 2: Lịch sử giao hàng (phụ thuộc trackingId)</h2>
+      <div id="shipping-info">Chưa đủ điều kiện để gọi (trackingId = null)</div>
+    </div>
+
+    <div class="analysis">
+      <h3>Sơ đồ luồng điều kiện</h3>
+      <p>useQuery(orderInfo) chạy ngay lập tức khi component mount. useQuery(shippingHistory) có option enabled: !!trackingId, nghĩa là hook này tồn tại nhưng KHÔNG tự fetch cho tới khi trackingId (lấy từ kết quả Query 1) khác null/undefined. Nếu đơn hàng chưa giao cho vận chuyển (trackingId = null), Query 2 sẽ giữ trạng thái "chưa chạy" vĩnh viễn, tránh gọi API với tham số rỗng gây lỗi 400 Bad Request.</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Homework 8</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bài 8 - Cơ chế Tự động làm mới Cache (Mutations &amp; InvalidatesTags)</h1>
+    <p class="note">Thêm, xóa hoặc sửa sản phẩm. Danh sách tự động làm mới ngay khi thao tác thành công, không cần F5. Nếu bấm nút "Giả lập lỗi", danh sách sẽ KHÔNG bị gọi lại (không tốn tài nguyên).</p>
+
+    <label class="toggle">
+      <input type="checkbox" id="simulate-error">
+      Giả lập lỗi cho lần thao tác kế tiếp
+    </label>
+
+    <div class="form-row">
+      <input id="new-product-name" type="text" placeholder="Tên sản phẩm mới">
+      <button id="btn-add">Thêm sản phẩm</button>
+    </div>
+    <p id="toast" class="toast hidden"></p>
+
+    <table id="product-table">
+      <thead><tr><th>ID</th><th>Tên sản phẩm</th><th></th></tr></thead>
+      <tbody id="product-tbody"></tbody>
+    </table>
+
+    <div class="analysis">
+      <h3>Thiết kế kiến trúc</h3>
+      <p>Danh sách sản phẩm ("products") được gán providesTags: ['Product'] khi query. Mỗi Mutation (Thêm/Xóa/Sửa) được gán invalidatesTags: ['Product']. Khi Mutation trả về thành công (HTTP 200), RTK Query tự động đánh dấu tag 'Product' là stale và gọi lại query danh sách - toàn bộ xảy ra tự động, không cần code refetch thủ công. Nếu Mutation thất bại, tag không bị invalidate nên danh sách không bị gọi lại thừa, tránh lãng phí tài nguyên.</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

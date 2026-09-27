@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homework 10</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <h1>Mini E-commerce</h1>
+    <div class="layout">
+      <div class="col">
+        <h2>Sản Phẩm</h2>
+        <div id="productList"></div>
+      </div>
+      <div class="col">
+        <h2>Giỏ Hàng</h2>
+        <div id="cartList"></div>
+        <div id="cartTotal"></div>
+        <h2 class="section-title">Địa Chỉ Giao Hàng</h2>
+        <div class="address-form">
+          <input type="text" id="nameField" placeholder="Họ và tên..." />
+          <input type="text" id="addressField" placeholder="Địa chỉ giao hàng..." />
+          <input type="text" id="phoneField" placeholder="Số điện thoại..." />
+        </div>
+        <button id="checkoutBtn" disabled>Thanh Toán</button>
+      </div>
+    </div>
+    <div id="orderResult"></div>
+  </div>
+  <div id="toastContainer"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/redux-toolkit/1.9.7/redux-toolkit.umd.min.js"></script>
+  <script>window.RTK = window['@reduxjs/toolkit'];</script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Homework 9</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bài 9 - Hệ thống Mini Notification (Bắt lỗi Global)</h1>
+    <p class="note">Bấm các nút API dưới đây. Một Middleware trung tâm sẽ "nghe" mọi action bị lỗi (kết thúc bằng .rejected) và tự động hiện Toast báo lỗi, không cần bất kỳ Component nào tự viết code hiển thị lỗi.</p>
+
+    <div class="btn-row">
+      <button id="btn-401">Gọi API lỗi 401 (Unauthorized)</button>
+      <button id="btn-500">Gọi API lỗi 500 (Server Error)</button>
+      <button id="btn-ok">Gọi API thành công</button>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <div class="analysis">
+      <h3>Thiết kế kiến trúc</h3>
+      <p>Một custom middleware được gắn vào configureStore/dispatch pipeline. Middleware này chặn (intercept) MỌI action đi qua Store trước khi tới reducer; nếu action.type kết thúc bằng ".rejected" (quy ước của RTK Query/Redux Thunk khi 1 request thất bại), middleware sẽ tự lấy action.error.message rồi đẩy một thông báo Toast lên góc màn hình - hoàn toàn tách biệt khỏi logic của Component gọi API.</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

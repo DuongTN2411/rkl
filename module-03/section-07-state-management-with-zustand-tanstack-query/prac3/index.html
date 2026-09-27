@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Practice 3</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bài 3 - Lưu trữ trạng thái Giỏ hàng (Persist Middleware)</h1>
+    <p class="note">Thêm sản phẩm vào giỏ, sau đó F5 (tải lại trang) - giỏ hàng vẫn còn vì được lưu vào LocalStorage.</p>
+
+    <div class="products">
+      <div class="product-card" data-id="1" data-name="Áo thun" data-price="150000">
+        <span>Áo thun - 150.000 đ</span>
+        <button class="btn-add">Thêm vào giỏ</button>
+      </div>
+      <div class="product-card" data-id="2" data-name="Quần jean" data-price="450000">
+        <span>Quần jean - 450.000 đ</span>
+        <button class="btn-add">Thêm vào giỏ</button>
+      </div>
+      <div class="product-card" data-id="3" data-name="Giày sneaker" data-price="900000">
+        <span>Giày sneaker - 900.000 đ</span>
+        <button class="btn-add">Thêm vào giỏ</button>
+      </div>
+    </div>
+
+    <h2>Giỏ hàng (<span id="cart-count">0</span> sản phẩm)</h2>
+    <p id="storage-warning" class="warning hidden">LocalStorage không khả dụng (chế độ ẩn danh hoặc bị chặn) - giỏ hàng chỉ tồn tại tạm thời trong phiên này, sẽ mất khi tải lại trang.</p>
+    <ul id="cart-list"></ul>
+    <p>Tổng tiền: <strong id="cart-total">0 đ</strong></p>
+    <button id="btn-clear">Xóa toàn bộ giỏ hàng</button>
+
+    <div class="analysis">
+      <h3>Phân tích (I/O) &amp; Thiết kế</h3>
+      <p>State cần thiết: danh sách items trong giỏ (id, tên, giá, số lượng). Middleware persist bọc quanh Store, mỗi lần setState nó tự động serialize state sang JSON rồi ghi vào localStorage với 1 key cố định (vd "cart-storage"); lúc khởi tạo Store, nó đọc lại key đó để hydrate state ban đầu.</p>
+      <p>Bẫy dữ liệu: nếu localStorage bị lỗi hoặc bị chặn (Safari ẩn danh), lệnh setItem/getItem sẽ ném lỗi. Store phải bọc try/catch quanh các thao tác này, và khi lỗi xảy ra thì rơi về một in-memory storage giả để ứng dụng vẫn hoạt động bình thường thay vì crash trắng màn hình.</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

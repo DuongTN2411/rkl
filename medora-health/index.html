@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#12322d" />
+    <meta
+      name="description"
+      content="Medora Health - không gian chăm sóc sức khỏe cá nhân của bạn."
+    />
+    <title>Medora Health | Patient space</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <div class="mobile-topbar">
+      <a class="brand brand-mobile" href="#overview" aria-label="Medora Health">
+        <span class="brand-mark"><span class="icon" data-icon="cross"></span></span>
+        <span class="brand-copy">
+          <strong>medora</strong>
+          <small>health system</small>
+        </span>
+      </a>
+      <button class="icon-button mobile-menu-trigger" id="mobileMenuTrigger" aria-label="Mở menu">
+        <span class="icon" data-icon="menu"></span>
+      </button>
+    </div>
+
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-topline"></div>
+        <div class="sidebar-header">
+          <a class="brand" href="#overview" aria-label="Medora Health">
+            <span class="brand-mark"><span class="icon" data-icon="cross"></span></span>
+            <span class="brand-copy">
+              <strong>medora</strong>
+              <small>health system</small>
+            </span>
+          </a>
+          <button class="icon-button sidebar-close" id="sidebarClose" aria-label="Đóng menu">
+            <span class="icon" data-icon="x"></span>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Điều hướng chính">
+          <p class="nav-label">Không gian của tôi</p>
+          <button class="nav-link active" data-view="overview" data-title="Tổng quan sức khỏe">
+            <span class="icon" data-icon="layout-dashboard"></span>
+            <span>Tổng quan</span>
+            <span class="nav-status-dot"></span>
+          </button>
+          <button class="nav-link" data-view="appointments" data-title="Lịch hẹn của tôi">
+            <span class="icon" data-icon="calendar-days"></span>
+            <span>Lịch hẹn</span>
+            <span class="nav-badge">2</span>
+          </button>
+          <button class="nav-link" data-view="doctors" data-title="Đội ngũ chuyên gia">
+            <span class="icon" data-icon="stethoscope"></span>
+            <span>Tìm bác sĩ</span>
+          </button>
+          <button class="nav-link" data-view="records" data-title="Hồ sơ y tế">
+            <span class="icon" data-icon="file-heart"></span>
+            <span>Hồ sơ y tế</span>
+          </button>
+          <button class="nav-link" data-view="wellness" data-title="Theo dõi sức khỏe">
+            <span class="icon" data-icon="activity"></span>
+            <span>Chỉ số sức khỏe</span>
+          </button>
+
+          <p class="nav-label nav-label-spaced">Tiện ích Medora</p>
+          <button class="nav-link" data-view="pharmacy" data-title="Nhà thuốc Medora">
+            <span class="icon" data-icon="pill"></span>
+            <span>Nhà thuốc</span>
+          </button>
+          <button class="nav-link" data-view="locations" data-title="Cơ sở & tiện ích">
+            <span class="icon" data-icon="map-pinned"></span>
+            <span>Cơ sở y tế</span>
+          </button>
+          <button class="nav-link" data-view="support" data-title="Trung tâm hỗ trợ">
+            <span class="icon" data-icon="message-circle"></span>
+            <span>Hỗ trợ 24/7</span>
+            <span class="nav-live">LIVE</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="sidebar-help-card">
+            <div class="help-icon"><span class="icon" data-icon="sparkles"></span></div>
+            <div>
+              <strong>Medora AI</strong>
+              <p>Trợ lý sức khỏe riêng của bạn</p>
+            </div>
+            <button class="arrow-button" data-toast="Medora AI đang được kết nối..." aria-label="Mở Medora AI">
+              <span class="icon" data-icon="arrow-up-right"></span>
+            </button>
+          </div>
+          <div class="user-mini">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=85"
+              alt="Ảnh đại diện Linh Nguyễn"
+            />
+            <div class="user-mini-copy">
+              <strong>Linh Nguyễn</strong>
+              <span>Gói Premium · #MD-20481</span>
+            </div>
+            <button class="icon-button user-more" aria-label="Tùy chọn tài khoản">
+              <span class="icon" data-icon="more-horizontal"></span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="sidebar-scrim" id="sidebarScrim"></div>
+
+      <main class="main-content" id="overview">
+        <header class="topbar">
+          <div class="page-context">
+            <div class="breadcrumb"><span>MEDORA</span><span class="breadcrumb-slash">/</span><span>PATIENT SPACE</span></div>
+            <h1 id="pageTitle">Tổng quan sức khỏe</h1>
+          </div>
+          <div class="topbar-actions">
+            <label class="search-field" for="globalSearch">
+              <span class="icon" data-icon="search"></span>
+              <input id="globalSearch" type="search" placeholder="Tìm bác sĩ, chuyên khoa..." autocomplete="off" />
+              <kbd>⌘ K</kbd>
+            </label>
+            <div class="topbar-divider"></div>
+            <button class="icon-button notification-trigger" id="notificationTrigger" aria-label="Thông báo">
+              <span class="icon" data-icon="bell"></span>
+              <span class="notification-dot"></span>
+            </button>
+            <button class="topbar-profile" id="profileTrigger">
+              <img
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=85"
+                alt="Linh Nguyễn"
+              />
+              <span class="topbar-profile-name">Linh Nguyễn</span>
+              <span class="icon" data-icon="chevron-down"></span>
+            </button>
+          </div>
+          <div class="notification-panel" id="notificationPanel">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">INBOX</span>
+                <h2>Thông báo mới</h2>
+              </div>
+              <span class="unread-count">3 mới</span>
+            </div>
+            <button class="notification-item unread" data-toast="Đã mở nhắc lịch xét nghiệm">
+              <span class="notification-item-icon blue"><span class="icon" data-icon="flask-conical"></span></span>
+              <span><strong>Kết quả xét nghiệm đã sẵn sàng</strong><small>Huyết học tổng quát · 12 phút trước</small></span>
+            </button>
+            <button class="notification-item unread" data-toast="Đã mở lời nhắc uống thuốc">
+              <span class="notification-item-icon coral"><span class="icon" data-icon="pill"></span></span>
+              <span><strong>Nhắc lịch uống thuốc</strong><small>Vitamin D3 · hôm nay, 20:00</small></span>
+            </button>
+            <button class="notification-item" data-toast="Đã mở tin nhắn từ phòng khám">
+              <span class="notification-item-icon green"><span class="icon" data-icon="message-circle"></span></span>
+              <span><strong>Tin nhắn từ phòng khám</strong><small>Điều dưỡng Mai đã phản hồi</small></span>
+            </button>
+            <button class="panel-footer-link" data-toast="Tất cả thông báo đã được đánh dấu đã đọc">Đánh dấu tất cả là đã đọc <span class="icon" data-icon="arrow-up-right"></span></button>
+          </div>
+        </header>
+
+        <div class="search-results" id="searchResults" aria-live="polite">
+          <div class="search-results-header"><span class="eyebrow">QUICK SEARCH</span><span id="searchResultCount">0 kết quả</span></div>
+          <div class="search-results-list" id="searchResultsList"></div>
+        </div>
+
+        <div class="emergency-strip">
+          <div class="emergency-pulse"><span></span></div>
+          <p><strong>Trung tâm cấp cứu</strong><span>Luôn sẵn sàng · 24 giờ mỗi ngày, 7 ngày mỗi tuần</span></p>
+          <a href="tel:115"><span class="icon" data-icon="phone"></span> Gọi 115</a>
+          <span class="strip-arrow icon" data-icon="arrow-up-right"></span>
+        </div>
+
+        <section class="hero-card">
+          <div class="hero-content">
+            <div class="eyebrow eyebrow-light"><span class="eyebrow-pulse"></span> MEDORA HEALTH SYSTEM · 2026</div>
+            <h2>Chăm sóc tốt hơn,<br /><em>mỗi ngày.</em></h2>
+            <p>Không gian sức khỏe riêng, nơi mọi dữ liệu và chuyên gia bạn cần luôn ở trong tầm tay.</p>
+            <div class="hero-actions">
+              <button class="primary-button light-button book-trigger"><span class="icon" data-icon="plus"></span> Đặt lịch khám</button>
+              <button class="text-button light-text-button" data-scroll-target="healthSnapshot">Xem chỉ số hôm nay <span class="icon" data-icon="arrow-up-right"></span></button>
+            </div>
+            <div class="hero-proof">
+              <div class="avatar-stack">
+                <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=80&q=85" alt="Bác sĩ" />
+                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=80&q=85" alt="Bác sĩ" />
+                <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=80&q=85" alt="Bác sĩ" />
+                <span>+28</span>
+              </div>
+              <p>Được đồng hành bởi<br /><strong>hơn 180 chuyên gia</strong></p>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="hero-orbit orbit-one"></div>
+            <div class="hero-orbit orbit-two"></div>
+            <div class="hero-portrait-wrap">
+              <img src="https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=900&q=85" alt="Bác sĩ Medora đang tư vấn cho bệnh nhân" />
+              <span class="portrait-wash"></span>
+            </div>
+            <div class="floating-status status-top"><span class="status-check"><span class="icon" data-icon="check"></span></span><span><small>Hồ sơ đã đồng bộ</small><strong>26.08.2026</strong></span></div>
+            <div class="floating-status status-bottom"><span class="status-wave"><span class="icon" data-icon="heart-pulse"></span></span><span><small>Health score</small><strong>92 <b>/ 100</b></strong></span><span class="mini-trend"><span></span><span></span><span></span><span></span><span></span></span></div>
+            <span class="hero-coordinate coordinate-one">10°46'34.2"N</span>
+            <span class="hero-coordinate coordinate-two">106°41'33.9"E</span>
+          </div>
+          <div class="hero-corner-label">YOUR HEALTH<br /><span>IN ONE PLACE</span></div>
+        </section>
+
+        <section class="metric-grid" aria-label="Tóm tắt sức khỏe">
+          <button class="metric-card metric-appointment" data-scroll-target="appointmentsSection">
+            <div class="metric-topline"><span class="metric-icon"><span class="icon" data-icon="calendar-check-2"></span></span><span class="metric-kicker">LỊCH HẸN TIẾP THEO</span><span class="icon metric-arrow" data-icon="arrow-up-right"></span></div>
+            <div class="metric-value date-value"><strong>28</strong><span>THÁNG 08<br /><b>10:30</b></span></div>
+            <p>BS. Nguyễn Minh Anh <span>·</span> Tim mạch</p>
+          </button>
+          <button class="metric-card metric-score" data-scroll-target="healthSnapshot">
+            <div class="metric-topline"><span class="metric-icon"><span class="icon" data-icon="heart-pulse"></span></span><span class="metric-kicker">HEALTH SCORE</span><span class="metric-trend">+4.8%</span></div>
+            <div class="metric-value"><strong>92</strong><span>/100</span></div>
+            <div class="metric-progress"><span style="width: 92%"></span></div>
+            <p>Xuất sắc · cập nhật 8 phút trước</p>
+          </button>
+          <button class="metric-card metric-records" data-view="records" data-title="Hồ sơ y tế">
+            <div class="metric-topline"><span class="metric-icon"><span class="icon" data-icon="files"></span></span><span class="metric-kicker">HỒ SƠ CỦA TÔI</span><span class="icon metric-arrow" data-icon="arrow-up-right"></span></div>
+            <div class="metric-value"><strong>24</strong><span>TÀI LIỆU<br /><b>đã lưu trữ</b></span></div>
+            <p>3 kết quả mới cần xem <span class="new-indicator"></span></p>
+          </button>
+          <button class="metric-card metric-care" data-view="support" data-title="Trung tâm hỗ trợ">
+            <div class="metric-topline"><span class="metric-icon"><span class="icon" data-icon="headset"></span></span><span class="metric-kicker">CARE CONCIERGE</span><span class="icon metric-arrow" data-icon="arrow-up-right"></span></div>
+            <div class="metric-value"><strong>24/7</strong><span>LUÔN<br /><b>có mặt</b></span></div>
+            <p>Phản hồi trung bình <strong>2 phút</strong></p>
+          </button>
+        </section>
+
+        <section class="content-section appointments-section" id="appointmentsSection">
+          <div class="section-heading">
+            <div><span class="eyebrow">YOUR CARE PLAN</span><h2>Lịch hẹn sắp tới</h2></div>
+            <button class="outline-button" data-view="appointments" data-title="Lịch hẹn của tôi">Mở lịch của tôi <span class="icon" data-icon="arrow-up-right"></span></button>
+          </div>
+          <div class="appointment-layout">
+            <article class="appointment-featured">
+              <div class="appointment-date-rail">
+                <span>THỨ SÁU</span><strong>28</strong><span>THÁNG 08</span>
+                <div class="date-rail-line"></div>
+                <span class="date-rail-time"><span class="icon" data-icon="clock-3"></span> 10:30</span>
+              </div>
+              <div class="appointment-main">
+                <div class="appointment-card-header"><div class="tag tag-teal"><span class="tag-dot"></span> ĐÃ XÁC NHẬN</div><button class="icon-button subtle-button" aria-label="Tùy chọn lịch hẹn"><span class="icon" data-icon="more-horizontal"></span></button></div>
+                <div class="doctor-summary">
+                  <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=180&q=85" alt="Bác sĩ Nguyễn Minh Anh" />
+                  <div><h3>Nguyễn Minh Anh, MD</h3><p>Chuyên khoa Tim mạch · Trưởng khoa</p><div class="doctor-rating"><span class="stars">★★★★★</span> <strong>4.9</strong> <span>(128 đánh giá)</span></div></div>
+                </div>
+                <div class="appointment-details"><span><span class="icon" data-icon="building-2"></span> Cơ sở Quận 1 · Tầng 08</span><span><span class="icon" data-icon="video"></span> Khám trực tiếp</span></div>
+                <div class="appointment-actions"><button class="primary-button small-button book-trigger"><span class="icon" data-icon="calendar-plus-2"></span> Đổi lịch hẹn</button><button class="text-button" data-toast="Đã sao chép liên kết tham gia lịch hẹn"><span class="icon" data-icon="copy"></span> Chia sẻ</button></div>
+              </div>
+            </article>
+            <div class="appointment-side-list">
+              <article class="compact-appointment">
+                <div class="compact-date"><strong>03</strong><span>SEP</span></div>
+                <div class="compact-info"><div class="compact-status"><span class="status-bar orange"></span> ĐANG CHỜ XÁC NHẬN</div><h3>Trần Khánh Vy, PhD</h3><p>Nội tiết học <span>·</span> 14:00</p></div>
+                <button class="icon-button compact-arrow" aria-label="Xem lịch hẹn"><span class="icon" data-icon="arrow-up-right"></span></button>
+              </article>
+              <article class="compact-appointment compact-add" data-action="book">
+                <div class="add-circle"><span class="icon" data-icon="plus"></span></div>
+                <div class="compact-info"><h3>Thêm lịch hẹn mới</h3><p>Chọn chuyên gia phù hợp với bạn</p></div>
+                <span class="icon compact-arrow" data-icon="arrow-up-right"></span>
+              </article>
+              <div class="care-reminder"><span class="reminder-icon"><span class="icon" data-icon="bell-ring"></span></span><p><strong>Nhắc nhẹ cho bạn</strong><span>Uống thuốc Vitamin D3 sau bữa tối.</span></p><button class="reminder-done" data-toast="Đã ghi nhận: bạn đã uống thuốc">Đã uống</button></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-section snapshot-section" id="healthSnapshot">
+          <div class="section-heading">
+            <div><span class="eyebrow">LIVE HEALTH DATA</span><h2>Nhịp sống của bạn</h2></div>
+            <div class="date-switcher"><button class="date-switch active" data-range="7 ngày">7 ngày</button><button class="date-switch" data-range="30 ngày">30 ngày</button><button class="date-switch" data-range="3 tháng">3 tháng</button></div>
+          </div>
+          <div class="snapshot-layout">
+            <article class="health-chart-card">
+              <div class="chart-header"><div><h3>Chỉ số vận động</h3><p>So sánh với mục tiêu hàng tuần</p></div><div class="chart-stat"><strong id="chartTotal">42.8</strong><span>km <i>+12.4%</i></span></div></div>
+              <div class="chart-legend"><span><i class="legend-dot legend-primary"></i>Tuần này</span><span><i class="legend-dot legend-muted"></i>Tuần trước</span><span class="goal-label"><span class="icon" data-icon="target"></span> Mục tiêu 50 km</span></div>
+              <div class="chart-wrap">
+                <div class="chart-y-labels"><span>12 km</span><span>9 km</span><span>6 km</span><span>3 km</span><span>0</span></div>
+                <svg class="activity-chart" viewBox="0 0 760 260" preserveAspectRatio="none" role="img" aria-label="Biểu đồ vận động trong 7 ngày">
+                  <defs><linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#65d6bf" stop-opacity=".34" /><stop offset="100%" stop-color="#65d6bf" stop-opacity="0" /></linearGradient><filter id="softGlow"><feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter></defs>
+                  <g class="chart-grid"><line x1="0" y1="12" x2="760" y2="12"></line><line x1="0" y1="70" x2="760" y2="70"></line><line x1="0" y1="128" x2="760" y2="128"></line><line x1="0" y1="186" x2="760" y2="186"></line><line x1="0" y1="244" x2="760" y2="244"></line></g>
+                  <path class="chart-previous" d="M0 191 C35 186 45 207 78 197 S125 164 158 179 S207 196 239 168 S286 161 318 186 S365 201 398 174 S444 150 478 163 S525 188 558 155 S605 168 638 138 S685 152 718 117 S745 120 760 105"></path>
+                  <path class="chart-area" d="M0 213 C32 207 45 175 78 187 S126 123 158 149 S205 182 239 121 S286 135 318 157 S366 190 398 111 S444 127 478 137 S526 151 558 92 S606 142 638 72 S685 101 718 47 S748 80 760 31 L760 244 L0 244 Z"></path>
+                  <path class="chart-current" d="M0 213 C32 207 45 175 78 187 S126 123 158 149 S205 182 239 121 S286 135 318 157 S366 190 398 111 S444 127 478 137 S526 151 558 92 S606 142 638 72 S685 101 718 47 S748 80 760 31"></path>
+                  <g class="chart-points"><circle cx="78" cy="187" r="5"></circle><circle cx="158" cy="149" r="5"></circle><circle cx="239" cy="121" r="5"></circle><circle cx="318" cy="157" r="5"></circle><circle cx="398" cy="111" r="5"></circle><circle cx="478" cy="137" r="5"></circle><circle cx="558" cy="92" r="5"></circle><circle cx="638" cy="72" r="5"></circle><circle cx="718" cy="47" r="5"></circle></g>
+                </svg>
+                <div class="chart-x-labels"><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span></div>
+              </div>
+            </article>
+            <article class="vitals-card">
+              <div class="vitals-header"><div><span class="eyebrow">TODAY · 08:42</span><h3>Vitals snapshot</h3></div><button class="icon-button subtle-button" aria-label="Thêm chỉ số"><span class="icon" data-icon="more-horizontal"></span></button></div>
+              <div class="vitals-grid">
+                <div class="vital-item vital-heart"><div class="vital-item-top"><span class="vital-symbol"><span class="icon" data-icon="heart-pulse"></span></span><span class="vital-arrow"><span class="icon" data-icon="arrow-up-right"></span></span></div><strong>72 <small>bpm</small></strong><p>Nhịp tim</p><span class="tiny-spark spark-heart"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+                <div class="vital-item vital-sleep"><div class="vital-item-top"><span class="vital-symbol"><span class="icon" data-icon="moon-star"></span></span><span class="vital-arrow"><span class="icon" data-icon="arrow-up-right"></span></span></div><strong>7<span class="decimal">h 42</span><small> phút</small></strong><p>Giấc ngủ</p><span class="tiny-spark spark-sleep"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+                <div class="vital-item vital-stress"><div class="vital-item-top"><span class="vital-symbol"><span class="icon" data-icon="waves"></span></span><span class="vital-arrow"><span class="icon" data-icon="arrow-up-right"></span></span></div><strong>Thấp</strong><p>Mức căng thẳng</p><div class="stress-scale"><span></span><span></span><span></span><span></span><span></span></div></div>
+                <div class="vital-item vital-water"><div class="vital-item-top"><span class="vital-symbol"><span class="icon" data-icon="droplets"></span></span><span class="vital-arrow"><span class="icon" data-icon="arrow-up-right"></span></span></div><strong>1.8 <small>lít</small></strong><p>Lượng nước</p><div class="water-progress"><span style="width:72%"></span></div></div>
+              </div>
+              <button class="full-width-link" data-view="wellness" data-title="Theo dõi sức khỏe">Mở trung tâm sức khỏe <span class="icon" data-icon="arrow-up-right"></span></button>
+            </article>
+          </div>
+        </section>
+
+        <section class="content-section specialties-section" id="specialtiesSection">
+          <div class="section-heading">
+            <div><span class="eyebrow">FIND YOUR SPECIALIST</span><h2>Khám phá chuyên khoa</h2></div>
+            <button class="text-button" data-view="doctors" data-title="Đội ngũ chuyên gia">Xem tất cả <span class="icon" data-icon="arrow-up-right"></span></button>
+          </div>
+          <div class="specialties-grid">
+            <button class="specialty-card specialty-cardiology" data-specialty="Tim mạch" data-action="book"><span class="specialty-index">01</span><span class="specialty-icon"><span class="icon" data-icon="heart-pulse"></span></span><span class="specialty-copy"><strong>Tim mạch</strong><small>18 chuyên gia</small></span><span class="specialty-arrow icon" data-icon="arrow-up-right"></span></button>
+            <button class="specialty-card specialty-neuro" data-specialty="Thần kinh" data-action="book"><span class="specialty-index">02</span><span class="specialty-icon"><span class="icon" data-icon="brain"></span></span><span class="specialty-copy"><strong>Thần kinh</strong><small>12 chuyên gia</small></span><span class="specialty-arrow icon" data-icon="arrow-up-right"></span></button>
+            <button class="specialty-card specialty-pediatric" data-specialty="Nhi khoa" data-action="book"><span class="specialty-index">03</span><span class="specialty-icon"><span class="icon" data-icon="baby"></span></span><span class="specialty-copy"><strong>Nhi khoa</strong><small>24 chuyên gia</small></span><span class="specialty-arrow icon" data-icon="arrow-up-right"></span></button>
+            <button class="specialty-card specialty-derma" data-specialty="Da liễu" data-action="book"><span class="specialty-index">04</span><span class="specialty-icon"><span class="icon" data-icon="scan-face"></span></span><span class="specialty-copy"><strong>Da liễu</strong><small>09 chuyên gia</small></span><span class="specialty-arrow icon" data-icon="arrow-up-right"></span></button>
+          </div>
+        </section>
+
+        <section class="content-section lower-grid" id="locationsSection">
+          <article class="facility-card">
+            <div class="facility-content"><span class="eyebrow">YOUR NEAREST FACILITY</span><h2>Medora<br /><em>Quận 1</em></h2><p><span class="icon" data-icon="map-pin"></span> 24 Lê Thánh Tôn, Bến Nghé, TP. Hồ Chí Minh</p><div class="facility-meta"><span><strong>07:00</strong><small>mở cửa hôm nay</small></span><span><strong>1.2 km</strong><small>từ vị trí của bạn</small></span></div><button class="primary-button small-button" data-toast="Đang mở chỉ đường đến Medora Quận 1"><span class="icon" data-icon="navigation"></span> Chỉ đường</button></div>
+            <div class="map-visual" aria-label="Bản đồ vị trí Medora Quận 1" role="img"><div class="map-noise"></div><div class="map-road road-a"></div><div class="map-road road-b"></div><div class="map-road road-c"></div><div class="map-block block-a"></div><div class="map-block block-b"></div><div class="map-block block-c"></div><div class="map-block block-d"></div><div class="map-pin-point"><span class="pin-ring"></span><span class="pin-core"><span class="icon" data-icon="cross"></span></span></div><span class="map-label">MEDORA Q1</span><div class="map-compass"><span>N</span><span class="icon" data-icon="navigation"></span></div><div class="map-scale">500 m</div></div>
+          </article>
+          <article class="care-team-card">
+            <div class="section-heading compact-heading"><div><span class="eyebrow">YOUR CARE CIRCLE</span><h2>Đội ngũ của bạn</h2></div><button class="icon-button subtle-button" aria-label="Xem thêm"><span class="icon" data-icon="more-horizontal"></span></button></div>
+            <p class="team-intro">Những người đang đồng hành cùng hành trình khỏe mạnh hơn của Linh.</p>
+            <div class="team-member"><img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=100&q=85" alt="Nguyễn Minh Anh" /><div><strong>Nguyễn Minh Anh</strong><span>Tim mạch · Bác sĩ chính</span></div><span class="online-state"><i></i> online</span></div>
+            <div class="team-member"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=100&q=85" alt="Trần Khánh Vy" /><div><strong>Trần Khánh Vy</strong><span>Nội tiết học · Chuyên gia</span></div><span class="online-state"><i></i> online</span></div>
+            <div class="team-member"><img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=100&q=85" alt="Lê Hoàng Mai" /><div><strong>Lê Hoàng Mai</strong><span>Điều dưỡng · Care manager</span></div><span class="online-state away"><i></i> 2h trước</span></div>
+            <button class="full-width-link" data-view="doctors" data-title="Đội ngũ chuyên gia">Quản lý đội ngũ chăm sóc <span class="icon" data-icon="arrow-up-right"></span></button>
+          </article>
+        </section>
+
+        <section class="content-section insight-section" id="insightSection">
+          <div class="insight-art"><div class="insight-orb orb-left"></div><div class="insight-orb orb-right"></div><span class="insight-label">FIELD NOTE / 06</span><span class="insight-coordinate">10°46'33" N · 106°41'35" E</span><div class="insight-lines"></div><span class="insight-stamp">WELL<br />BEING</span></div>
+          <div class="insight-copy"><span class="eyebrow">PERSONALIZED INSIGHT · MEDORA AI</span><h2>“Cơ thể thường<br /><em>biết trước bạn.</em>”</h2><p>Dữ liệu giấc ngủ của bạn đã ổn định hơn 18% trong 2 tuần qua. Đây là thời điểm tốt để duy trì nhịp vận động nhẹ vào buổi sáng.</p><button class="text-button" data-toast="Đã mở báo cáo sức khỏe cá nhân hóa">Đọc phân tích đầy đủ <span class="icon" data-icon="arrow-up-right"></span></button></div>
+          <div class="insight-metrics"><div><strong>+18%</strong><span>chất lượng<br />giấc ngủ</span></div><div><strong>08:10</strong><span>thời điểm<br />vận động tốt</span></div><div><strong>04</strong><span>tuần theo dõi<br />liên tục</span></div></div>
+        </section>
+
+        <footer class="main-footer"><div class="footer-brand"><span class="brand-mark small-mark"><span class="icon" data-icon="cross"></span></span><strong>medora</strong></div><span>© 2026 Medora Health System</span><div class="footer-links"><button data-toast="Chính sách riêng tư của Medora">Riêng tư</button><button data-toast="Trung tâm trợ giúp Medora">Trợ giúp</button><button data-toast="Đang chuyển sang trang trạng thái hệ thống">System status <i></i></button></div></footer>
+      </main>
+    </div>
+
+    <div class="modal-layer" id="bookingModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal></div>
+      <section class="booking-modal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+        <button class="modal-close icon-button" data-close-modal aria-label="Đóng"><span class="icon" data-icon="x"></span></button>
+        <div class="modal-header"><div class="modal-symbol"><span class="icon" data-icon="calendar-plus-2"></span></div><div><span class="eyebrow">NEW APPOINTMENT</span><h2 id="bookingTitle">Đặt lịch khám</h2><p>Chọn chuyên gia và thời gian phù hợp với bạn.</p></div></div>
+        <form id="bookingForm" class="booking-form">
+          <div class="form-row"><label>Chuyên khoa<select id="specialtySelect" required><option value="">Chọn chuyên khoa</option><option>Tim mạch</option><option>Thần kinh</option><option>Nhi khoa</option><option>Da liễu</option><option>Nội tiết học</option><option>Y học gia đình</option></select></label><label>Bác sĩ mong muốn<select id="doctorSelect" required><option value="">Chọn chuyên gia</option><option>Nguyễn Minh Anh, MD</option><option>Trần Khánh Vy, PhD</option><option>Phạm Hoàng Nam, MD</option><option>Chuyên gia bất kỳ</option></select></label></div>
+          <div class="form-row"><label>Ngày khám<input id="appointmentDate" type="date" required value="2026-08-28" /></label><label>Khung giờ<select required><option value="">Chọn giờ</option><option>08:00 – 09:00</option><option selected>10:30 – 11:30</option><option>13:30 – 14:30</option><option>15:00 – 16:00</option><option>17:30 – 18:30</option></select></label></div>
+          <label>Ghi chú cho phòng khám <span class="optional">không bắt buộc</span><textarea placeholder="Ví dụ: Tôi muốn trao đổi về kết quả xét nghiệm gần đây..."></textarea></label>
+          <div class="booking-policy"><span class="icon" data-icon="shield-check"></span><p>Thông tin của bạn được bảo mật theo tiêu chuẩn <strong>ISO 27001</strong> của Medora.</p></div>
+          <button class="primary-button form-submit" type="submit">Xác nhận lịch hẹn <span class="icon" data-icon="arrow-up-right"></span></button>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal-layer" id="profileModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal></div>
+      <section class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+        <button class="modal-close icon-button" data-close-modal aria-label="Đóng"><span class="icon" data-icon="x"></span></button>
+        <div class="profile-cover"></div>
+        <div class="profile-modal-body"><img class="profile-large" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=220&q=85" alt="Linh Nguyễn" /><span class="profile-verified"><span class="icon" data-icon="badge-check"></span></span><span class="eyebrow">PATIENT PROFILE</span><h2 id="profileTitle">Linh Nguyễn</h2><p class="profile-id">Mã hồ sơ #MD-20481 · Thành viên từ 2024</p><div class="profile-detail-grid"><div><span>Ngày sinh</span><strong>22.07.1996</strong></div><div><span>Nhóm máu</span><strong>O+</strong></div><div><span>Bảo hiểm</span><strong>Premium Care</strong></div><div><span>Liên hệ khẩn cấp</span><strong>Nguyễn Minh · 0909 24 08</strong></div></div><button class="primary-button form-submit" data-close-modal data-toast="Chức năng chỉnh sửa hồ sơ đang mở">Chỉnh sửa hồ sơ <span class="icon" data-icon="arrow-up-right"></span></button></div>
+      </section>
+    </div>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Homework 7</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bài 7 - Cập nhật dữ liệu ngay lập tức (Optimistic Updates)</h1>
+    <p class="note">Bấm nút Thích. Server phản hồi chậm (~2 giây) nhưng UI đổi màu xanh ngay lập tức (Optimistic). Bấm nút "Giả lập lỗi mạng" để xem hành vi Rollback khi API thất bại.</p>
+
+    <label class="toggle">
+      <input type="checkbox" id="simulate-error">
+      Giả lập lỗi mạng (API sẽ trả lỗi)
+    </label>
+
+    <div class="post-card">
+      <p>Bài viết mẫu: "Học RTK Query thật thú vị!"</p>
+      <button id="like-btn" class="like-btn">🤍 Thích (<span id="like-count">12</span>)</button>
+      <p id="like-status" class="status"></p>
+    </div>
+
+    <div class="analysis">
+      <h3>Phân tích (2 hướng)</h3>
+      <p><strong>Hướng 1 - Pessimistic:</strong> bật cờ isLoading, khóa nút Like lại, đợi API trả về (2 giây) rồi mới đổi màu xanh. An toàn tuyệt đối nhưng UX chậm, người dùng phải chờ.</p>
+      <p><strong>Hướng 2 - Optimistic:</strong> đổi màu xanh + tăng số Like ngay khi bấm (trước khi có response), dùng onQueryStarted của RTK Query. Nếu API trả lỗi, dispatch patch.undo() để Rollback về trạng thái ban đầu.</p>
+      <table>
+        <thead><tr><th>Tiêu chí</th><th>Pessimistic</th><th>Optimistic</th></tr></thead>
+        <tbody>
+          <tr><td>Độ khó triển khai</td><td>Thấp</td><td>Trung bình (cần xử lý rollback)</td></tr>
+          <tr><td>Trải nghiệm người dùng</td><td>Chờ 2 giây, cảm giác chậm</td><td>Phản hồi tức thì, mượt mà</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Lựa chọn: Hướng 2 - Optimistic Update</strong>, vì ưu tiên trải nghiệm UX mượt cho hành động Like, chấp nhận độ phức tạp code tăng nhẹ để đổi lấy cảm giác tức thì.</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

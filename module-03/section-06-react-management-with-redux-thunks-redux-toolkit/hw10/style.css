@@ -1,0 +1,171 @@
+body {
+  font-family: sans-serif;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 16px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: #374151;
+}
+
+.section-title {
+  margin-top: 20px;
+}
+
+.layout {
+  display: flex;
+  gap: 24px;
+}
+
+.col {
+  flex: 1;
+}
+
+.product-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #f9fafb;
+}
+
+.product-card .title {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.product-card .price {
+  font-weight: 600;
+  color: #059669;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.product-card button {
+  padding: 5px 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.product-card button:hover {
+  background: #2563eb;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  background: white;
+}
+
+.cart-item button {
+  padding: 3px 8px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+#cartTotal {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+input[type="text"] {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+#checkoutBtn {
+  width: 100%;
+  padding: 10px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#checkoutBtn:hover:not(:disabled) {
+  background: #15803d;
+}
+
+#checkoutBtn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+#orderResult {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 6px;
+  background: #d1fae5;
+  color: #065f46;
+  display: none;
+}
+
+#orderResult.show {
+  display: block;
+}
+
+.loading-overlay {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 12px;
+}
+
+#toastContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 200;
+}
+
+.toast {
+  padding: 12px 18px;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.9rem;
+  min-width: 220px;
+  background: #16a34a;
+}
+
+.toast.error {
+  background: #dc2626;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Homework 10</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bài 10 - Cỗ máy Quản lý luồng Checkout (Mini E-commerce)</h1>
+
+    <div class="analysis top">
+      <h3>Sơ đồ luồng dữ liệu (Data flow)</h3>
+      <p>(1) Danh sách sản phẩm được lấy từ Server qua RTK Query (mô phỏng). (2) Khi bấm "Thêm vào giỏ", dữ liệu được ghi vào cartSlice (Redux, Client State cục bộ). (3) Form địa chỉ giao hàng cũng là một shippingSlice (Client State) cục bộ, cập nhật theo mỗi lần gõ. (4) Khi bấm "Thanh toán", Component gộp dữ liệu từ cartSlice + shippingSlice thành 1 payload, gọi RTK Query Mutation createOrder(payload) gửi lên Server. (5) Nếu Server trả về thành công, dispatch action clearCart() để dọn sạch giỏ hàng nội bộ; nếu mạng lỗi/chậm, hiển thị thông báo lỗi và giữ nguyên giỏ hàng, không làm crash ứng dụng.</p>
+    </div>
+
+    <h2>1. Danh sách sản phẩm (Server State)</h2>
+    <div id="product-list" class="product-list"></div>
+
+    <h2>2. Giỏ hàng (Client State - cartSlice)</h2>
+    <ul id="cart-list"></ul>
+    <p>Tổng tiền: <strong id="cart-total">0 đ</strong></p>
+
+    <h2>3. Thông tin giao hàng (Client State - shippingSlice)</h2>
+    <div class="form-grid">
+      <input id="ship-name" type="text" placeholder="Họ và tên">
+      <input id="ship-phone" type="text" placeholder="Số điện thoại">
+      <input id="ship-address" type="text" placeholder="Địa chỉ giao hàng">
+    </div>
+
+    <label class="toggle">
+      <input type="checkbox" id="simulate-slow-network">
+      Giả lập mạng chậm / lỗi khi Thanh toán
+    </label>
+
+    <button id="btn-checkout">Thanh toán</button>
+    <p id="checkout-status" class="status"></p>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

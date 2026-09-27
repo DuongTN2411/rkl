@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Homework 5</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bài 5 - Đồng bộ Client State &amp; Server State (Filter/Search)</h1>
+    <p class="note">Nhập từ khóa tìm kiếm sản phẩm. Từ khóa được lưu vào searchSlice (Client State), sau đó hook đọc searchSlice này để gọi API lấy dữ liệu (Server State). Nếu nhập toàn khoảng trắng, hệ thống sẽ KHÔNG gọi API.</p>
+
+    <input id="search-input" type="text" placeholder="Tìm sản phẩm, ví dụ: Laptop">
+    <p>searchSlice hiện tại: "<span id="search-slice-value"></span>"</p>
+    <p id="api-status" class="status"></p>
+
+    <ul id="result-list"></ul>
+
+    <div class="analysis">
+      <h3>Báo cáo phân tích - Giải pháp nối dữ liệu</h3>
+      <p>1) Tạo một searchSlice (Client State) chỉ giữ 1 field "keyword", có action setKeyword. 2) Component input gọi dispatch(setKeyword(value)) mỗi khi người dùng gõ. 3) Hook của RTK Query (useGetProductsQuery) đọc keyword này qua useSelector, rồi dùng chính giá trị đó làm query param truyền vào endpoint getProducts(keyword). 4) Trước khi gọi API, hook luôn trim() keyword; nếu chuỗi rỗng sau khi trim, truyền skip: true (hoặc bỏ qua fetch) để không tốn tài nguyên gọi API vô ích.</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

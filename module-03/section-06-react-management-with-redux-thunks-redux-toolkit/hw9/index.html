@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homework 9</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <h1>Hệ Thống Mini Notification</h1>
+    <p class="desc">Middleware tự động bắt lỗi API và hiển thị Toast - không cần code trong Component</p>
+    <div class="controls">
+      <button id="fetchUsersBtn">Gọi API Users (thành công)</button>
+      <button id="fetch401Btn" class="danger">Gọi API (Lỗi 401)</button>
+      <button id="fetch500Btn" class="danger">Gọi API (Lỗi 500)</button>
+      <button id="fetchNetworkBtn" class="danger">Gọi API (Lỗi mạng)</button>
+    </div>
+    <div id="content"></div>
+  </div>
+  <div id="toastContainer"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/redux-toolkit/1.9.7/redux-toolkit.umd.min.js"></script>
+  <script>window.RTK = window['@reduxjs/toolkit'];</script>
+  <script src="script.js"></script>
+</body>
+</html>

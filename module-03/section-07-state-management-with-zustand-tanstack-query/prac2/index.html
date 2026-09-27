@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Practice 2</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bài 2 - Cập nhật giá Sản phẩm (mô phỏng TanStack Query)</h1>
+    <p class="note">Chọn sản phẩm, nhập giá mới rồi bấm "Cập nhật giá". Danh sách bên dưới sẽ tự làm mới (refetch) ngay sau khi Mutation thành công, không cần F5.</p>
+
+    <div class="form-row">
+      <select id="product-select"></select>
+      <input id="new-price" type="number" placeholder="Giá mới (VNĐ)">
+      <button id="btn-update">Cập nhật giá</button>
+    </div>
+    <p id="toast" class="toast hidden"></p>
+
+    <table id="product-table">
+      <thead>
+        <tr><th>ID</th><th>Tên sản phẩm</th><th>Giá</th><th>Cập nhật lúc</th></tr>
+      </thead>
+      <tbody id="product-tbody"></tbody>
+    </table>
+
+    <div class="analysis">
+      <h3>Phân tích</h3>
+      <p>Đoạn code lỗi chỉ gọi mutationFn rồi hiển thị toast, không hề báo cho query cache biết rằng dữ liệu "products" đã cũ. TanStack Query mặc định KHÔNG tự refetch một query đang cache trừ khi cache đó bị đánh dấu invalid (stale) hoặc window được focus lại.</p>
+      <p>Cách sửa: trong onSuccess của useMutation, gọi queryClient.invalidateQueries({queryKey: ['products']}) để đánh dấu cache 'products' là stale, buộc TanStack Query tự động refetch và UI cập nhật giá mới ngay lập tức.</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

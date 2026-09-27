@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homework 6</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <h1>Autocomplete Search</h1>
+    <p class="desc">Gõ từ khóa - API chỉ được gọi sau 500ms không gõ thêm</p>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Tìm sản phẩm..." />
+    </div>
+    <div id="apiCount">Số lần gọi API: <span id="counter">0</span></div>
+    <div id="suggestions"></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/redux-toolkit/1.9.7/redux-toolkit.umd.min.js"></script>
+  <script>window.RTK = window['@reduxjs/toolkit'];</script>
+  <script src="script.js"></script>
+</body>
+</html>
