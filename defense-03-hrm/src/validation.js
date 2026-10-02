@@ -1,14 +1,9 @@
-// validation.js
-// em viet may ham check form cho bai defense, code don gian thoi
-// copy regex tren mang ve xai
-
 export function isValidEmail(email) {
   if (!email) return false
   let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return re.test(email)
 }
 
-// check form login, co loi thi tra ve object, ko co loi thi tra ve {}
 export function validateLogin(data) {
   let errors = {}
 
@@ -27,7 +22,6 @@ export function validateLogin(data) {
   return errors
 }
 
-// check form nhan vien
 export function validateEmployee(data) {
   let errors = {}
 
@@ -44,7 +38,6 @@ export function validateEmployee(data) {
   if (!data.phone) {
     errors.phone = "Chua nhap sdt"
   } else {
-    // loc lay so thoi roi dem
     let so = data.phone.replace(/\D/g, "")
     if (so.length < 9 || so.length > 11) {
       errors.phone = "SDT phai 9-11 so"
@@ -54,7 +47,6 @@ export function validateEmployee(data) {
   return errors
 }
 
-// may ham nay de test cho de, lam giong reducer nhung viet don gian
 export function addEmployee(list, item) {
   let moi = list.concat([item])
   return moi

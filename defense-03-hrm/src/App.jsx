@@ -1,13 +1,9 @@
-// bai defense 03 - quan ly nhan su
-// em lam don gian thoi, dung nhung gi da hoc tren lop
 import { useState, useEffect } from "react"
 import { validateLogin, validateEmployee, addEmployee, updateEmployee, deleteEmployee } from "./validation.js"
 import "./styles.css"
 
-// tai khoan de demo, thay bao nho de san keo mang lag
 let accDemo = { email: "admin@hrm.vn", password: "123456", name: "Admin HR" }
 
-// data mau phong khi goi api loi
 let dataMau = [
   { id: 1, name: "Nguyen Van An", email: "an@hrm.vn", phone: "0901234567" },
   { id: 2, name: "Tran Thi Bich", email: "bich@hrm.vn", phone: "0912345678" },
@@ -30,7 +26,6 @@ function Header(props) {
   )
 }
 
-// form login
 function LoginForm(props) {
   const [email, setEmail] = useState("")
   const [matkhau, setMatkhau] = useState("")
@@ -39,14 +34,12 @@ function LoginForm(props) {
 
   async function gui(e) {
     e.preventDefault()
-    // check truoc khi goi api
     let l = validateLogin({ email: email, password: matkhau })
     setLoi(l)
     if (Object.keys(l).length > 0) return
 
     setDangLoad(true)
     try {
-      // goi cho co api thoi, chu yeu check acc demo o duoi
       let res = await fetch("https://jsonplaceholder.typicode.com/users?email=" + email)
       await res.json()
 
@@ -56,7 +49,6 @@ function LoginForm(props) {
         props.onNotify("Sai roi, dung thu admin@hrm.vn / 123456")
       }
     } catch (err) {
-      // rot mang thi van cho login demo
       if (email == accDemo.email && matkhau == accDemo.password) {
         props.onLogin({ name: accDemo.name, email: email }, "token-offline")
       } else {
@@ -87,7 +79,6 @@ function LoginForm(props) {
   )
 }
 
-// form them / sua
 function EmployeeForm(props) {
   const [ten, setTen] = useState(props.initial ? props.initial.name : "")
   const [mail, setMail] = useState(props.initial ? props.initial.email : "")
@@ -135,7 +126,7 @@ function EmployeeForm(props) {
 function App() {
   const [user, setUser] = useState(null)
   const [ds, setDs] = useState([])
-  const [trangthai, setTrangthai] = useState("idle") // idle, loading, error
+  const [trangthai, setTrangthai] = useState("idle")
   const [hienForm, setHienForm] = useState(false)
   const [dangSua, setDangSua] = useState(null)
   const [toast, setToast] = useState("")
@@ -145,7 +136,6 @@ function App() {
     setTimeout(() => setToast(""), 3000)
   }
 
-  // load lai user khi f5
   useEffect(() => {
     let luu = localStorage.getItem("hrm-user")
     if (luu) {
@@ -171,7 +161,6 @@ function App() {
     bao("Da dang xuat")
   }
 
-  // lay danh sach
   async function taiDs() {
     setTrangthai("loading")
     try {
@@ -192,10 +181,7 @@ function App() {
     if (user) taiDs()
   }, [user])
 
-  // luu khi them / sua
   async function khiLuu(data) {
-    // tu tao id moi = id lon nhat + 1, cho dep nhu nguoi lam
-    // (api fake ko tra id that nen minh tu nghi ra)
     let idMoi = 1
     for (let nv of ds) {
       if (nv.id >= idMoi) idMoi = nv.id + 1
@@ -222,7 +208,6 @@ function App() {
         bao("Them xong!")
       }
     } catch (err) {
-      // ko co mang thi luu local thoi
       if (dangSua) {
         setDs(updateEmployee(ds, dangSua.id, data))
       } else {
