@@ -1,0 +1,233 @@
+{
+  "info": {
+    "name": "Orders API",
+    "_postman_id": "2d6b1d1e-8f0a-4c52-a3b1-5e7a9c0d1f01",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Lấy đơn hàng paid, limit=3",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code là 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response đúng cấu trúc đã thiết kế\", () => {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('success', true);",
+              "  pm.expect(json.data).to.be.an('array');",
+              "  pm.expect(json.meta).to.have.property('total');",
+              "  pm.expect(json.data).to.have.lengthOf(3);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/users/2/orders?status=paid&limit=3",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "2",
+            "orders"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "paid"
+            },
+            {
+              "key": "limit",
+              "value": "3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "2. Lấy đơn hàng không truyền tham số",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code là 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response đúng cấu trúc đã thiết kế\", () => {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('success', true);",
+              "  pm.expect(json.data).to.be.an('array');",
+              "  pm.expect(json.meta).to.have.property('total');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/users/2/orders",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "2",
+            "orders"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Lấy đơn hàng pending của user 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code là 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response đúng cấu trúc đã thiết kế\", () => {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('success', true);",
+              "  pm.expect(json.data).to.be.an('array');",
+              "  pm.expect(json.meta).to.have.property('total');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/users/1/orders?status=pending",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "1",
+            "orders"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "pending"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Lấy đơn hàng của user 3, limit=2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code là 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response đúng cấu trúc đã thiết kế\", () => {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('success', true);",
+              "  pm.expect(json.data).to.be.an('array');",
+              "  pm.expect(json.meta).to.have.property('total');",
+              "  pm.expect(json.data.length).to.be.at.most(2);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/users/3/orders?limit=2",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "3",
+            "orders"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "2"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "5. userId không tồn tại (lỗi 404)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code là 404\", () => {",
+              "  pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Response đúng cấu trúc đã thiết kế\", () => {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('success', false);",
+              "  pm.expect(json.error).to.have.property('code', 'USER_NOT_FOUND');",
+              "  pm.expect(json.error).to.have.property('status', 404);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/v1/users/99/orders",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "99",
+            "orders"
+          ]
+        }
+      }
+    }
+  ]
+}

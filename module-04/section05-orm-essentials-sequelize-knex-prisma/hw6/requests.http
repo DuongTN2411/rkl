@@ -1,0 +1,7 @@
+GET http://localhost:3000/api/v1/products?page=2&limit=10&keyword=sach&sort=price_asc
+
+GET http://localhost:3000/api/v1/products?keyword=sach
+
+GET http://localhost:3000/api/v1/products?sort=price_desc
+
+GET http://localhost:3000/api/v1/products

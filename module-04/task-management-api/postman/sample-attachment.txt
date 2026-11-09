@@ -1,0 +1,1 @@
+Tệp mẫu dùng để kiểm thử chức năng tải tệp đính kèm trong Postman.

@@ -1,0 +1,18 @@
+{
+  "name": "prac3",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "migrate": "sequelize-cli db:migrate",
+    "seed": "sequelize-cli db:seed:all",
+    "undo": "sequelize-cli db:migrate:undo"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.9.7",
+    "sequelize": "^6.37.3"
+  }
+}

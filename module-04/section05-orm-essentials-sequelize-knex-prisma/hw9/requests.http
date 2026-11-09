@@ -1,0 +1,9 @@
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+
+{ "items": [ { "productId": 1, "qty": 2 }, { "productId": 5, "qty": 1 } ] }
+
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+
+{ "items": [ { "productId": 1, "qty": 2 }, { "productId": 5, "qty": 3 } ] }
