@@ -285,7 +285,6 @@ Lưu ý:
 
 - Collection dùng tài khoản seeder `owner@example.com` / `123456` và `member@example.com` / `123456`.
 - Request upload dùng field `file`; nếu Postman không tự tìm thấy đường dẫn, chọn tệp `postman/sample-attachment.txt` trong máy.
-- Nếu `PORT` trong `.env` khác `3000`, sửa biến `baseUrl` trong Postman hoặc truyền đè khi chạy Newman bằng `--env-var baseUrl=http://localhost:<PORT>/api/v1`.
 - Có thể chạy toàn bộ collection bằng Newman từ thư mục gốc dự án:
 
 ```bash
@@ -299,5 +298,4 @@ Sơ đồ quan hệ dữ liệu nằm tại [`docs/ERD.md`](docs/ERD.md).
 
 ## 10. Ghi chú
 
-- Các chức năng Quản trị viên, giao diện Front-end, thông báo thời gian thực và triển khai cloud nằm ngoài phạm vi phiên bản này.
-- Dự án ưu tiên cấu trúc rõ ràng và các kỹ thuật đã học: middleware, service, ORM, transaction, migration, seeder, upload file và xử lý lỗi tập trung.
+- Phiên bản này chỉ gồm backend API. Giao diện Front-end, quản trị viên, thông báo thời gian thực và triển khai cloud không nằm trong phạm vi.
